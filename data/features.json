@@ -1,17 +1,17 @@
 [
   {
-    "title": "Free Consultation",
-    "description": "New clients recieve an obligation free consultation.",
+    "title": "Comunicación",
+    "description": "Comunicación franca y abierta enfocada en el resultado.",
     "image": "images/features/noun_branding_1885335.svg"
   },
   {
-    "title": "Certified Accountants",
-    "description": "All members of our team are certified accountants.",
+    "title": "Ideas Probadas",
+    "description": "Todas nuestras iniciativas han sido probadas en campo.",
     "image": "images/features/noun_The Process_1885341.svg"
   },
   {
-    "title": "Tax Compliance",
-    "description": "We stay up to date on the latest changes to the tax code.",
+    "title": "Mejoramiento",
+    "description": "Mejoramiento que se ve en los resultados financieros.",
     "image": "images/features/noun_3d modeling_1885342.svg"
   }
 ]
