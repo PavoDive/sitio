@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+
+
+
+
+
+
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Long to Wide and Wide to Long Format Conversion - Giovanni Pavolini - Consultor</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="icon" href="/favicon.ico">
+
+  
+  
+  
+  <link rel="stylesheet" href="/css/style.min.cc247bd1c5f1fae8fe5a7e431ae1d1c929f17ed843d980eee15ff49f4b55235e.css">
+  
+
+  
+
+  <link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+
+
+</head>
+
+<body class='page page-default-single'>
+  
+
+
+
+
+
+
+  <div id="main-menu-mobile" class="main-menu-mobile">
+  <ul>
+    
+    
+    <li class="menu-item-servicios">
+      <a href="/servicios/">
+        <span>Servicios</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-equipo">
+      <a href="/equipo/">
+        <span>Equipo</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog">
+      <a href="/blog/">
+        <span>Blog</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-contacto">
+      <a href="/contacto/">
+        <span>Contacto</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-nosotros">
+      <a href="/nosotros/">
+        <span>Nosotros</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+  <div class="wrapper">
+    <div class='header'>
+  <div class="container">
+    <div class="logo">
+      <a href="/"><img alt="Giovanni Pavolini - Consultor" src="/images/logo.svg" /></a>
+    </div>
+    <div class="logo-mobile">
+      <a href="/"><img alt="Giovanni Pavolini - Consultor" src="/images/logo-mobile.svg" /></a>
+    </div>
+    <div id="main-menu" class="main-menu">
+  <ul>
+    
+    
+    <li class="menu-item-servicios">
+      <a href="/servicios/">
+        
+        <span>Servicios</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-equipo">
+      <a href="/equipo/">
+        
+        <span>Equipo</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog">
+      <a href="/blog/">
+        
+        <span>Blog</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-contacto">
+      <a href="/contacto/">
+        
+        <span>Contacto</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-nosotros">
+      <a href="/nosotros/">
+        
+        <span>Nosotros</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+    <button id="toggle-main-menu-mobile" class="hamburger hamburger--slider" type="button" aria-label="Mobile Menu">
+  <span class="hamburger-box">
+    <span class="hamburger-inner"></span>
+  </span>
+</button>
+  </div>
+</div>
+
+    
+<div class="container pb-6 pt-6 pt-md-10 pb-md-10">
+  <div class="row justify-content-start">
+    <div class="col-12 col-md-8">
+      <div class="service service-single">
+        <h1 class="title">Long to Wide and Wide to Long Format Conversion</h1>
+        <div class="content">
+
+
+<p><a href="/2019/07/21/conversión-de-formato-ancho-largo-y-viceversa">¡Mirá una versión en español aquí!</a></p>
+<p>One of the difficulties I find most often in Stack Overflow questions about R, an in general about data science, is the erroneous usage of wide formats for data analysis.</p>
+<p>In this post we’ll se some functions of the <code>data.table</code> package in <strong>R</strong> to convert from wide to long format and vice versa.</p>
+<div id="different-ways-to-store-the-same-data" class="section level2">
+<h2>Different Ways to Store the Same Data</h2>
+<p>There are two possible ways of storing tabulated data: in a “wide” format, and in a “long” format.</p>
+<div id="wide-format" class="section level3">
+<h3>Wide Format</h3>
+<p>Wide format is very common in spreadsheets, as it results easier to visualize for the user. An example of this format in a sales table would be:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">item</th>
+<th align="right">east</th>
+<th align="right">north</th>
+<th align="right">south</th>
+<th align="right">west</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">almond</td>
+<td align="right">13</td>
+<td align="right">11</td>
+<td align="right">9</td>
+<td align="right">14</td>
+</tr>
+<tr class="even">
+<td align="left">coffe</td>
+<td align="right">4</td>
+<td align="right">6</td>
+<td align="right">6</td>
+<td align="right">5</td>
+</tr>
+<tr class="odd">
+<td align="left">hot dogs</td>
+<td align="right">4</td>
+<td align="right">2</td>
+<td align="right">3</td>
+<td align="right">3</td>
+</tr>
+<tr class="even">
+<td align="left">salt</td>
+<td align="right">9</td>
+<td align="right">13</td>
+<td align="right">11</td>
+<td align="right">10</td>
+</tr>
+</tbody>
+</table>
+<p>In this table we see that there is a column of products and four columns with the sales of each one of them in each of four regions. This format is simpler to interpret by humans, but it is relatively “difficult” to use when we process the data in a computer.
+Think about it: if we wanted to plot the distribution of sales for each product, then we would have to provide four different plotting instructions, one for each product. Long formats spare us from such repetitive work.</p>
+</div>
+<div id="long-format" class="section level3">
+<h3>Long Format</h3>
+<p>In long format each variable occupies one column (that’s why it is called “tidy”). If in long format, our table would have a column with the name of each product, another one with the region and the last one with the value of the sale:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">item</th>
+<th align="left">region</th>
+<th align="right">value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">almond</td>
+<td align="left">east</td>
+<td align="right">13</td>
+</tr>
+<tr class="even">
+<td align="left">coffe</td>
+<td align="left">east</td>
+<td align="right">4</td>
+</tr>
+<tr class="odd">
+<td align="left">hot dogs</td>
+<td align="left">east</td>
+<td align="right">4</td>
+</tr>
+<tr class="even">
+<td align="left">salt</td>
+<td align="left">east</td>
+<td align="right">9</td>
+</tr>
+<tr class="odd">
+<td align="left">almond</td>
+<td align="left">north</td>
+<td align="right">11</td>
+</tr>
+<tr class="even">
+<td align="left">coffe</td>
+<td align="left">north</td>
+<td align="right">6</td>
+</tr>
+<tr class="odd">
+<td align="left">hot dogs</td>
+<td align="left">north</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="left">salt</td>
+<td align="left">north</td>
+<td align="right">13</td>
+</tr>
+<tr class="odd">
+<td align="left">almond</td>
+<td align="left">south</td>
+<td align="right">9</td>
+</tr>
+<tr class="even">
+<td align="left">coffe</td>
+<td align="left">south</td>
+<td align="right">6</td>
+</tr>
+<tr class="odd">
+<td align="left">hot dogs</td>
+<td align="left">south</td>
+<td align="right">3</td>
+</tr>
+<tr class="even">
+<td align="left">salt</td>
+<td align="left">south</td>
+<td align="right">11</td>
+</tr>
+<tr class="odd">
+<td align="left">almond</td>
+<td align="left">west</td>
+<td align="right">14</td>
+</tr>
+<tr class="even">
+<td align="left">coffe</td>
+<td align="left">west</td>
+<td align="right">5</td>
+</tr>
+<tr class="odd">
+<td align="left">hot dogs</td>
+<td align="left">west</td>
+<td align="right">3</td>
+</tr>
+<tr class="even">
+<td align="left">salt</td>
+<td align="left">west</td>
+<td align="right">10</td>
+</tr>
+</tbody>
+</table>
+<p>There we have the same 16 records, just they’re organized in only one column, and there’s an additional column indicating us to which region each sales corresponds. Obviously, each product doesn’t appear only once, like in the wide table, but four times.</p>
+</div>
+</div>
+<div id="format-comparisson" class="section level2">
+<h2>Format Comparisson</h2>
+<p>Having the data in a long table makes it easier to do some processing. Let’s see what we would have to do in order to obtain the plot of <em>all</em> items in one plot, or what is needed to calculate regional averages:</p>
+<div id="with-a-wide-table" class="section level3">
+<h3>With a Wide Table:</h3>
+<pre class="r"><code>library(ggplot2)
+
+p &lt;- ggplot(dfWide)+
+  geom_point(aes(x = names(dfWide)[2:5], y = t(dfWide[1,2:5]), color = dfWide[1,1]), position = &quot;jitter&quot;)+
+  geom_point(aes(x = names(dfWide)[2:5], y = t(dfWide[2,2:5]), color = dfWide[2, 1]), position = &quot;jitter&quot;)+
+  geom_point(aes(x = names(dfWide)[2:5], y = t(dfWide[3, 2:5]), color = dfWide[3,1]), position = &quot;jitter&quot;)+
+  geom_point(aes(x = names(dfWide)[2:5], y = t(dfWide[4, 2:5]), color = dfWide[4,1]), position = &quot;jitter&quot;)
+
+p</code></pre>
+<p><img src="/blog/2019-07-22-long-to-wide-and-wide-to-long-format-conversion_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>It’s pretty clear we need to make some cosmetic adjustments in the tiles:</p>
+<pre class="r"><code>p + labs(x = &quot;region&quot;, y = &quot;Sale&quot;, color = &quot;item&quot;)</code></pre>
+<p><img src="/blog/2019-07-22-long-to-wide-and-wide-to-long-format-conversion_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>In the case of regional averages, we could:</p>
+<pre class="r"><code>colMeans(dfWide[, 2:5])</code></pre>
+<pre><code>##  east north south  west 
+##  7.50  8.00  7.25  8.00</code></pre>
+</div>
+<div id="now-with-a-long-table" class="section level3">
+<h3>Now with a Long Table</h3>
+<p>Let’s see how to obtain the same plot:</p>
+<pre class="r"><code>p2 &lt;- ggplot(dfLong, aes(x = region, y = value, color = item))+
+  geom_point(position = &quot;jitter&quot;)
+
+p2</code></pre>
+<p><img src="/blog/2019-07-22-long-to-wide-and-wide-to-long-format-conversion_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>Not only the code is shorter, the cosmetics of the plot is already OK!</p>
+<p>(If you noticed the two plots aren’t identical, that’s due to the random <em>jitter</em>, values are actually identical).</p>
+<p>Now let’s see how to calculate the regional average:</p>
+<pre class="r"><code># Using base R
+tapply(dfLong$value, dfLong$region, mean)</code></pre>
+<pre><code>##  east north south  west 
+##  7.50  8.00  7.25  8.00</code></pre>
+<pre class="r"><code># with a friendlier syntaxis in data.table
+library(data.table)
+
+setDT(dfLong)[, mean(value), by = region]</code></pre>
+<pre><code>##    region   V1
+## 1:   east 7.50
+## 2:  north 8.00
+## 3:  south 7.25
+## 4:   west 8.00</code></pre>
+<p>With a long table, being a tidy format, we can obtain the maximum advantage of packages such as <code>data.table</code> or <code>dplyr</code>.</p>
+</div>
+</div>
+<div id="convert-from-wide-to-long-format-and-vice-versa" class="section level2">
+<h2>Convert from Wide to Long Format and Vice versa</h2>
+<p>To convert the format we will use functions <code>melt</code> and <code>dcast</code> of package <code>data.table</code>.</p>
+<div id="wide-to-long" class="section level3">
+<h3>Wide to Long</h3>
+<p>To do this conversion we use the function <code>melt</code>. This function takes the following arguments:</p>
+<ul>
+<li><code>data</code> is the object (class data.table) that we want to convert from wide to long,</li>
+<li><code>id.vars</code> are the vectors (coumns) in the table that we will leave <strong>un-melted</strong>. In our toy data that would be the column <code>item</code>, though there could be several variables in more complex tables. It is possible to use a vector of names (class character) or of integers that correspond to the column numbers.</li>
+<li><code>measure.vars</code> are the variables in which the measurements can be found. It could be a vector of names or integer indexes of the columns. In our case they are columns 2 to 5.</li>
+<li><code>variable.name</code> is the name that our variable column will take, it is, the name of the column that will hold “north”, “south”, “east” and “west” in our example table.</li>
+<li><code>value.name</code> is the name that the column with the values will take. It is “value” by default.</li>
+<li><code>variable.factor</code> is a logical flag indicating if we want the variable column as class factor (the default behavior) or if we simply want it as character.</li>
+</ul>
+<p>Let’s see how it works:</p>
+<pre class="r"><code>setDT(dfWide)
+
+dfLong_2 &lt;- melt(dfWide, id.vars = &quot;item&quot;, 
+                  variable.name = &quot;region&quot;, 
+                  value.name = &quot;value&quot;, 
+                  variable.factor = FALSE)
+
+kable(dfLong_2)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">item</th>
+<th align="left">region</th>
+<th align="right">value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">almond</td>
+<td align="left">east</td>
+<td align="right">13</td>
+</tr>
+<tr class="even">
+<td align="left">coffe</td>
+<td align="left">east</td>
+<td align="right">4</td>
+</tr>
+<tr class="odd">
+<td align="left">hot dogs</td>
+<td align="left">east</td>
+<td align="right">4</td>
+</tr>
+<tr class="even">
+<td align="left">salt</td>
+<td align="left">east</td>
+<td align="right">9</td>
+</tr>
+<tr class="odd">
+<td align="left">almond</td>
+<td align="left">north</td>
+<td align="right">11</td>
+</tr>
+<tr class="even">
+<td align="left">coffe</td>
+<td align="left">north</td>
+<td align="right">6</td>
+</tr>
+<tr class="odd">
+<td align="left">hot dogs</td>
+<td align="left">north</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="left">salt</td>
+<td align="left">north</td>
+<td align="right">13</td>
+</tr>
+<tr class="odd">
+<td align="left">almond</td>
+<td align="left">south</td>
+<td align="right">9</td>
+</tr>
+<tr class="even">
+<td align="left">coffe</td>
+<td align="left">south</td>
+<td align="right">6</td>
+</tr>
+<tr class="odd">
+<td align="left">hot dogs</td>
+<td align="left">south</td>
+<td align="right">3</td>
+</tr>
+<tr class="even">
+<td align="left">salt</td>
+<td align="left">south</td>
+<td align="right">11</td>
+</tr>
+<tr class="odd">
+<td align="left">almond</td>
+<td align="left">west</td>
+<td align="right">14</td>
+</tr>
+<tr class="even">
+<td align="left">coffe</td>
+<td align="left">west</td>
+<td align="right">5</td>
+</tr>
+<tr class="odd">
+<td align="left">hot dogs</td>
+<td align="left">west</td>
+<td align="right">3</td>
+</tr>
+<tr class="even">
+<td align="left">salt</td>
+<td align="left">west</td>
+<td align="right">10</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="long-to-wide" class="section level3">
+<h3>Long to Wide</h3>
+<p>For this task we use the function <code>dcast</code>. This function has a notation a little bit different, as it uses “formulas” to determine which variables to put where.</p>
+<ul>
+<li><code>data</code> is the table we want to convert,</li>
+<li><code>formula</code> is the way in which we are going to distribute the columns, look at the following examples. In general, a formula is of the forma <code>x ~ y</code>. <strong>The mnemonics I use is</strong>: <code>rows ~ columns</code>.</li>
+<li><code>fun.aggregate</code> is the function used to <em>consolidate</em> the data, in case there exists more than one record in the row - column intersection.</li>
+<li><code>value.var</code> is the name (or index) of the column in which the values lie. Usually <code>dcast</code> is very good guessing this parameter, but it’s a good idea to explicitly state it to avoid inconveniences and the warning message.</li>
+</ul>
+<pre class="r"><code>dfWide_2 &lt;- dcast(dfLong, 
+                   item ~ region, 
+                   value.var = &quot;value&quot;)
+
+kable(dfWide_2)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">item</th>
+<th align="right">east</th>
+<th align="right">north</th>
+<th align="right">south</th>
+<th align="right">west</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">almond</td>
+<td align="right">13</td>
+<td align="right">11</td>
+<td align="right">9</td>
+<td align="right">14</td>
+</tr>
+<tr class="even">
+<td align="left">coffe</td>
+<td align="right">4</td>
+<td align="right">6</td>
+<td align="right">6</td>
+<td align="right">5</td>
+</tr>
+<tr class="odd">
+<td align="left">hot dogs</td>
+<td align="right">4</td>
+<td align="right">2</td>
+<td align="right">3</td>
+<td align="right">3</td>
+</tr>
+<tr class="even">
+<td align="left">salt</td>
+<td align="right">9</td>
+<td align="right">13</td>
+<td align="right">11</td>
+<td align="right">10</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code># Inverting the formula
+dfWide_3 &lt;- dcast(dfLong, 
+                   region ~ item, 
+                   value.var = &quot;value&quot;)
+
+kable(dfWide_3)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">region</th>
+<th align="right">almond</th>
+<th align="right">coffe</th>
+<th align="right">hot dogs</th>
+<th align="right">salt</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">east</td>
+<td align="right">13</td>
+<td align="right">4</td>
+<td align="right">4</td>
+<td align="right">9</td>
+</tr>
+<tr class="even">
+<td align="left">north</td>
+<td align="right">11</td>
+<td align="right">6</td>
+<td align="right">2</td>
+<td align="right">13</td>
+</tr>
+<tr class="odd">
+<td align="left">south</td>
+<td align="right">9</td>
+<td align="right">6</td>
+<td align="right">3</td>
+<td align="right">11</td>
+</tr>
+<tr class="even">
+<td align="left">west</td>
+<td align="right">14</td>
+<td align="right">5</td>
+<td align="right">3</td>
+<td align="right">10</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="bottom-line" class="section level2">
+<h2>Bottom Line</h2>
+<p>Any time you have data to analize in the computer, try to have it in long format. It’s a lot easier to work with data formatted like this. To convert a wide table into a long one, use <code>data.table::melt</code>.</p>
+<p>Any time you have to generate data for human interpretation, consider formatting them into a wide table, that way they’re easier to understand. You can achieve that with <code>data.table::dcast</code>.</p>
+</div>
+</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  </div>
+
+  <div class="footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="footer-inner">
+          <h3 class="footer-title">Giovanni Pavolini - Consultor</h3>
+          <ul>
+            
+            
+            <li class="menu-item-home">
+              <a href="/">
+                Home
+              </a>
+            </li>
+            
+            <li class="menu-item-contacto">
+              <a href="/contacto/">
+                Contacto
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  <div class="sub-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="sub-footer-inner">
+          <ul>
+
+            <li><strong>Phone: </strong><span>&#43;57 300 402 8354</span></li>
+
+            <li><strong>Email: </strong><a href="mailto:giovanni@pavolini.net">
+                giovanni@pavolini.net</a></li>
+          </ul>
+          <a class="zerostatic" href="https://www.zerostatic.io">www.zerostatic.io</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/scripts.min.bf1e1f7ae8e03db5f012356e825843facdff51c0a559cb0d27fe2bbe1db405c2.js"></script>
+  
+
+  
+
+
+
+
+
+
+  
+  <link href="https://fonts.googleapis.com/css?family=DM+Serif+Display&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/bash.min.js"></script>
+  
+  <script>
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  
+  </script>
+  <script type="text/javascript"
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
+  
+</body>
+
+</html>

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Spanish on Giovanni Pavolini - Consultor</title>
+    <link>/categories/spanish/</link>
+    <description>Recent content in Spanish on Giovanni Pavolini - Consultor</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 03 Dec 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/categories/spanish/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Convertir xls a xlsx</title>
+      <link>/blog/convertir-xls-to-xlsx/</link>
+      <pubDate>Tue, 03 Dec 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/convertir-xls-to-xlsx/</guid>
+      <description>En este post compartiré un código que olvido (y uso) con frecuencia para convertir masivamente archivos de xls a xlsx. Esto lo utilizo cuando por ejemplo recibo de mis clientes archivos cuyos formatos son mezclados, xls y xlsx.
+Convertir simultáneamente varios archivos de xls a xlsx Hoy recibí cerca de 60 archivos de excel que debo analizar. Varios de ellos (unos 15) están en formato xls y los demás están como xlsx.</description>
+    </item>
+    
+    <item>
+      <title>Uniones en data.table: ¿es X[Y] o Y[X]?</title>
+      <link>/blog/uniones-en-data-table-es-x-y-o-y-x/</link>
+      <pubDate>Thu, 21 Nov 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/uniones-en-data-table-es-x-y-o-y-x/</guid>
+      <description>Este será un post muy corto, un recordatorio frecuentemente revisitado de la sintaxis de las uniones en data.table.
+Cuando hago uniones en data.table con frecuencia tengo que abrir una nueva sesión de R y correr el siguiente código:
+a &amp;lt;- data.table(x = 1:3, y = 2:4) b &amp;lt;- data.table(x = 2:5, z = 3:6) a[b, on = .(x)] ## x y z ## 1: 2 3 3 ## 2: 3 4 4 ## 3: 4 NA 5 ## 4: 5 NA 6 con el fin de recordar si la tabla de búsqueda era a y no b.</description>
+    </item>
+    
+    <item>
+      <title>Estructura de Gobierno</title>
+      <link>/blog/estructura-de-gobierno/</link>
+      <pubDate>Tue, 12 Nov 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/estructura-de-gobierno/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Usando dcast y setnames **dentro** de una data.table</title>
+      <link>/blog/usando-dcast-y-setnames-dentro-de-una-data-table/</link>
+      <pubDate>Tue, 05 Nov 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/usando-dcast-y-setnames-dentro-de-una-data-table/</guid>
+      <description>Yo he dicho antes que una de las mejores cosas de data.table es que J acepta expresiones y no sólo funciones. Eso ofrece mucha flexibilidad respecto de lo que uno puede lograr con su código.
+Tmabién, el hecho de que .SD sea una data.table permite usar dentro de una data.table algunas funciones que aparentemente deberían usarse fuera de ella.
+Vea por ejemplo dcast, la función usada para convertir una data.</description>
+    </item>
+    
+    <item>
+      <title>Calculando comisión de ventas - non-equi Joins</title>
+      <link>/blog/calculando-comisi%C3%B3n-de-ventas-non-equi-joins/</link>
+      <pubDate>Tue, 10 Sep 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/calculando-comisi%C3%B3n-de-ventas-non-equi-joins/</guid>
+      <description>Con frecuencia encontramos el problema de enlazar dos tablas no por valores iguales (lo que haríamos en Excel con un “BUSCARV” o “VLOOKUP”), sino identificando cuando un valor en una de las tablas cae en un rango de valores en la otra tabla. A este tipo de enlace entre tablas (join) se le llama non-equi joins, o uniones de desigualdad.
+Analizando un caso práctico El problema Imaginemos que hay un grupo de vendedores que en el mes pasado tuvieron una venta, en millones, representada en la siguiente tabla:</description>
+    </item>
+    
+    <item>
+      <title>Calculando Inventarios de Seguridad y puntos de reorden con R y data.table</title>
+      <link>/blog/calculando-inventarios-seguridad-punto-reorden-r/</link>
+      <pubDate>Fri, 09 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/calculando-inventarios-seguridad-punto-reorden-r/</guid>
+      <description>En este post quiero mostrarles una forma de analizar sus datos de ventas y de estimar los inventarios de seguridad adecuados para esas referencias, así como el punto de reorden óptimo para ellas.
+ El nivel de inventario refleja la capacidad o incapacidad de los administradores de controlar el sistema.
+Edgar Jaramillo.
+ Es común en las empresas calcular los inventarios en días de venta. Esto ocurre, en la mayoría de las ocasiones, como una acción reactiva, es decir, las coberturas de inventario son accidentes que ocurren y no decisiones planeadas.</description>
+    </item>
+    
+    <item>
+      <title>Estimando Errores de Pronóstico</title>
+      <link>/blog/estimando-errores-de-pron%C3%B3stico/</link>
+      <pubDate>Wed, 24 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/estimando-errores-de-pron%C3%B3stico/</guid>
+      <description>Hay diferentes formas de medir el error en el pronóstico, y diferentes formas de agregarlo.
+Cálculo del error de pronóstico Consideremos un producto con un valor pronosticado de venta de 60 unidades para marzo, y una venta real de 51 unidades durante el mismo mes.
+MAD: Mean Absolute Deviation La desviación absoluta promedio se calcula así:
+\[ MAD = \frac{1}{n}\sum_p{\left|y_a-y_f\right|} \]
+donde \(n\) es el número de observaciones sobre las cuales queremos calcular nuestro error de pronóstico (cuando se pronosticaron más de un periodo), \(p\) se refiere a los periodos, \(y_a\) es el valor real de venta, y \(y_f\) fue el valor pronosticado.</description>
+    </item>
+    
+    <item>
+      <title>Conversión de formato Ancho a Largo y viceversa</title>
+      <link>/blog/conversi%C3%B3n-de-formato-ancho-largo-y-viceversa/</link>
+      <pubDate>Sun, 21 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/conversi%C3%B3n-de-formato-ancho-largo-y-viceversa/</guid>
+      <description>See an English version here!
+Uno de las dificultades que con frecuencia encuentro en preguntas en Stack Overflow sobre R, y en general sobre ciencia de datos es la errónea utilización de formatos anchos de datos para análisis de datos.
+En este post veremos algunas funciones del paquete data.table en R para convertir de formato ancho a largo y viceversa.
+Diferentes Formas de Almacenar los Mismos Datos Hay dos posibles formas de almacenar información tabulada: en formato “ancho” y en formato “largo”.</description>
+    </item>
+    
+    <item>
+      <title>RStudio&#39;s rename in scope</title>
+      <link>/blog/rstudio-s-rename-in-scope/</link>
+      <pubDate>Fri, 12 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/rstudio-s-rename-in-scope/</guid>
+      <description>Una de las funcionalidades que encuentro más prácticas de RStudio es la función Code &amp;gt;&amp;gt; Rename in Scope, salvajemente traducida (¡!) como &amp;ldquo;renombrar en alcance&amp;rdquo;.
+Esta función sirve para aquellos casos es los que se desea cambiar el nombre de una variable que está presente en varias líneas del código por un nombre nuevo (quizá como resultado de reusar el código). Aunque esto se puede lograr con un simple buscar / reemplazar (en algunos casos con regex), existe el riesgo de cambiar el nombre de otras variables (por ejemplo al actualizar dt a ventasMes terminar cambiando dt1 a ventasMes1).</description>
+    </item>
+    
+    <item>
+      <title>Alguien tiene que hacerse cargo de lo técnico</title>
+      <link>/blog/alguien-tiene-que-hacerse-cargo-de-lo-t%C3%A9cnico/</link>
+      <pubDate>Wed, 10 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/alguien-tiene-que-hacerse-cargo-de-lo-t%C3%A9cnico/</guid>
+      <description>Faltan sólo 10 días para celebrar 50 años de uno de los acontecimientos tecnológicos más relevantes en la historia de la humanidad: el ser humano pisó la luna. Pueden considerarse un sinnúmero de hitos tecnológicos en la historia de la humanidad, pero haber pisado la luna merecerá siempre un lugar destacado.
+La década que vió por televisión ese &amp;ldquo;pequeño paso para el hombre&amp;rdquo; fue también una década que vio grandes desarrollos técnicos y tecnológicos en el mundo, y en particular en nuestros países.</description>
+    </item>
+    
+    <item>
+      <title>Wiki data.table en español</title>
+      <link>/blog/wiki-data-table-en-espa%C3%B1ol/</link>
+      <pubDate>Wed, 10 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/wiki-data-table-en-espa%C3%B1ol/</guid>
+      <description>Versión libre al español, adaptada de https://github.com/Rdatatable/data.table/wiki en 2019-07-10
+      
+
+ Lin/Mac:  Win:  Extra:  Últimas noticias de dev: Noticias Nuevas presentaciones en 2019: click Eventos en el menú lateral.   data.table es uno de los 13,000 paquetes de extensión para el lenguage de programación R que es muy popular en estos campos. Provee una versión de alto desempeño del data.</description>
+    </item>
+    
+    <item>
+      <title>Analizando datos con data.table</title>
+      <link>/blog/analizando-datos-con-data-table/</link>
+      <pubDate>Tue, 09 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/analizando-datos-con-data-table/</guid>
+      <description>R es un software muy útil para analizar datos. En R hay varios paquetes o librerías que se utilizan para sacarle aún más provecho a las muchas funcionalidades de R.
+Uno de esos paquetes es data.table. Éste brinda unas extensiones a la sintaxis natural de R y mucha velocidad y flexibilidad, especialmente en procesos en los que se requiere agrupar por variables y hacer análisis segmentados.
+Instalando data.table Para instalar data.</description>
+    </item>
+    
+    <item>
+      <title>Configurando un Sitio con blogdown, RStudio, github y netlify</title>
+      <link>/blog/configurando-un-sitio-con-blogdown-rstudio-github-y-netlify/</link>
+      <pubDate>Tue, 09 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/configurando-un-sitio-con-blogdown-rstudio-github-y-netlify/</guid>
+      <description>Tener un sitio web es una experiencia interesante. El paquete blogdown lo hace mucho más fácil, especialmente para quienes comparten en sus blogs información sobre análisis de datos, sobre programación o sobre cualquier ciencia que requiera uso de código o de fórmulas matemáticas.
+Esta entrada (¡nuesta primera entrada!) te muestra como configurar tu sitio web utilizando las herramientas de R, RStudio, blogdown, github y netlify.
+Descargá lo que necesitás Para poder hacer esto vas a necesitar:</description>
+    </item>
+    
+  </channel>
+</rss>

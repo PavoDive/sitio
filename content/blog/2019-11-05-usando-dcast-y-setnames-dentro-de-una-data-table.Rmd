@@ -1,0 +1,152 @@
+---
+title: Usando dcast y setnames **dentro** de una data.table
+author: Giovanni Pavolini
+date: '2019-11-05'
+slug: usando-dcast-y-setnames-dentro-de-una-data-table
+categories:
+  - Spanish
+tags:
+  - data.table
+---
+
+Yo he dicho antes que una de las mejores cosas de `data.table` es que **J** acepta expresiones y no sólo funciones. Eso ofrece mucha flexibilidad respecto de lo que uno puede lograr con su código.
+
+
+Tmabién, el hecho de que `.SD` sea una data.table permite usar **dentro de una data.table** algunas funciones que aparentemente deberían usarse fuera de ella.
+
+Vea por ejemplo `dcast`, la función usada para convertir una data.table de larga a ancha. Está hecha para ser usada **sobre** una data.table, no **dentro** de ella, ¿cierto?
+
+¿Y qué tal `setnames`? ¡Si está diseñada para cambiar los nombres de una data.table, entonces definitivamente debe ser usada fuera de una!
+
+Bueno, ¡no tanto! Ambas funciones pueden ser usadas para lograr algunas cosas interesantes **dentro** de una data.table. Yo replicaré un caso de uso que me encontré ayer que ilustrará como usar ese tipo de funciones dentro de una data.table.
+
+
+## Analizando ventas
+Imagine que usted tiene un set de datos con las transacciones realizadas por un equipo de ventas. La table tiene la fecha de la transacción, la cantidad e item cubiertos en la transacción y el nombre de la persona de ventas responsable por ella. Ahora, la cantidad puede ser negativa, y en ese caso eso significa que es una _devolución_. Nosotros queremos calcular el porcentaje de devoluciones de cada persona de ventas.
+
+
+### Construyendo algunos datos de Ejemplo
+Construyamos los datos de ejemplo:
+
+```{r}
+library(data.table)
+
+set.seed(1)
+
+fechas <- seq(as.Date("2019-01-01"), 
+             as.Date("2019-10-31"), 
+             by = "1 day")
+
+vendedores <- c("Jose", "Maria", 
+               "Pedro", "Roberto", 
+               "Alicia", "Juan", "Susana")
+
+items <- data.table(item = LETTERS[1:20], 
+                    precio = sample(1:20))
+
+ventas <- data.table(fecha = sample(fechas, 200, TRUE), 
+                    cant = sample(-20:100, 200, TRUE), 
+                    item = sample(LETTERS[1:20], 200, TRUE), 
+                    vendedor = sample(vendedores, 200, TRUE), 
+                    key = "fecha")
+
+ventas[items, pesos := cant * precio, on = .(item)]
+
+ventas
+```
+
+### Generando la Lógica
+Hay varias formas de calcular el porcentaje de devoluciones de cada vendedor, pero ya que esto es sólo una excusa para mostar una capacidad chévere de `data.table`, les propondré una lógica que podría no ser la óptima. Usaremos la siguiente receta:
+
+1. Encontrar cuales transacciones son devoluciones y cuales no.
+2. Agrupar por vendedor **y por** el tipo de transacción (devolución o no).
+3. Sumar el valor en pesos de las transacciones y finalmente
+4. Calcular el cociente de devoluciones a ventas y multiplicarlo por 100 para tener el porcentaje.
+
+Idealmente terminaremos con algo como esto:
+
+
+```{r, echo = FALSE}
+knitr::kable(data.frame("Juan", 
+                        20, 100, 
+                        "20 / 100 = 20%"), 
+             col.names = c("Vendedor", "Devoluciones", 
+                           "Ventas", "Devoluciones %"))
+```
+
+### Haciendo que suceda
+Encontrar qué transacciones son devoluciones es fácil: nos dijeron que son aquellas con cantidades negativas. Las podríamos marcar como devoluciones, o podríamos ir directo con esa validación en la parte `by = ` de la data.table. Vamos a usar la segunda opción:
+
+
+```{r}
+ventas[, sum(pesos), by = .(devolucion = cant < 0)]
+```
+
+Este resultado tiene el problema de no integrar al vendedor y también de tener pesos negativos, así que vamos a arreglarlos:
+
+```{r}
+ventas[, abs(sum(pesos)), 
+      by = .(vendedor, 
+             devolucion = cant < 0)]
+```
+
+Ahora, esto es mucho mejor, _pero es una tabla larga_. Podríamos avanzar de aquí asignando el comando previo a una nueva data.table, haciéndole `dcast` y luego calculando el porcentaje. **Pero en realidad lo podemos hacer dentro de la data.table**:
+
+
+```{r}
+ventas[, abs(sum(pesos)), 
+      by = .(vendedor, 
+             devolucion = cant < 0)][, 
+                                dcast(.SD, 
+                                      vendedor ~ devolucion, 
+                                      fill = 0, 
+                                      value.var = "V1")]
+```
+
+Wow! Eso definitivamente se parece a la tabla que queríamos. Veamos qué pasó en el comando encadenado:
+
++ `dcast(.SD, vendedor ~ devolucion, fill = 0, value.var = "V1")`
+    + `.SD` es una data.table. De hecho, es **nuestra**ote que el _scope_  de la data.table permanece como es habitual: reconoce los nombres en los datos.
+    + `fill = 0` es simplemente derivado de la naturaleza del caso a la mano: si un vendedor no tuvo devoluciones (o ventas), eso significa que sus devoluciones (o ventas) fueron cero, no "no disponible".
+    + y `value.var` es algo que uso principalmente para quitarme el mensaje 🤷.
+    
+Podríamos avanzar desde aquí, trabajando con  `FALSE` y `TRUE` como nombres de columnas (ellos son nombres válidos en tanto que se usen los back ticks cuando se llaman), pero eso es en realidad engorroso. Así que, ¿qué tal renombrar las columnas?
+
+Por supuesto, `setnames` viene a la mente, pero esa función es frecuentemente usada _fuera_ de una data.table, ¿o no?
+
+Veamos:
+
+```{r}
+ventas[, abs(sum(pesos)), 
+      by = .(vendedor, 
+             devolucion = cant < 0)][, 
+                                dcast(.SD, 
+                                      vendedor ~ devolucion, 
+                                      fill = 0, 
+                                      value.var = "V1")][,
+                                                         setnames(.SD, 
+                                                                  2:3, 
+                                                                  c("ventas", "devoluciones"))]
+```
+
+Ahora es simplemente usar el operador de asignación `:=` para definir el porcentaje:
+
+```{r}
+ventas[, abs(sum(pesos)), 
+      by = .(vendedor, 
+             devolucion = cant < 0)][, 
+                                dcast(.SD, 
+                                      vendedor ~ devolucion, 
+                                      fill = 0, 
+                                      value.var = "V1")][,
+                                                         setnames(.SD, 
+                                                                  2:3, 
+                                                                  c("ventas", "devoluciones"))][,
+                                                                                          porcentaje := 100 * devoluciones / ventas][order(-porcentaje)]
+```
+
+¡Eso es exactamente lo que esperábamos!
+
+## Línea de cierre
+Es posible usar funciones dentro de una data.table, aún si ellas aparentemente fueron pensadas para ser usadas fuera de ella. Las claves para lograrlo son mantener en mente que `.SD` es en sí misma una data.table que guarda el resultado del último comando encadenado y también que **J** (y by =) aceptan no sólo funciones, sino expresiones.
+

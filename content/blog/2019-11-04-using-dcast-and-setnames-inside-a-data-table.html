@@ -1,0 +1,191 @@
+---
+title: Using dcast and setnames **inside** a data.table
+author: Giovanni Pavolini
+date: '2019-11-04'
+slug: using-dcast-and-setnames-inside-a-data-table
+categories:
+  - English
+tags:
+  - data.table
+  - R
+---
+
+
+
+<p>I’ve said before that one of the best things of <code>data.table</code> is that <strong>J</strong> takes in expressions and not only functions. That offers so much flexibility in what you can achieve with your code.</p>
+<p>Also, the fact that <code>.SD</code> is a data.table allows you to use <strong>inside a data.table</strong> some functions that apparently should be used outside of it.</p>
+<p>Take for example <code>dcast</code>, the function used to reshape a data.table from long to wide. It’s made to be used <strong>on</strong> data.tables, not <strong>inside</strong> of them, right?</p>
+<p>How about <code>setnames</code>? If it’s intended to change the names of a data.table, it definitely has to be used outside of one!</p>
+<p>Well, not quite! Both functions can be used to achieve some interesting things <strong>inside</strong> a data.table. I’ll replicate a use-case I found yesterday that will ilustrate how to use that kind of functions inside a data.table.</p>
+<div id="analyzing-sales" class="section level2">
+<h2>Analyzing Sales</h2>
+<p>Imagine you have a data set with the transactions made by a team of salespeople. The data has the date of the transaction, the quantity and item covered in the transaction and the name of the sales person responsible for it. Now, the quantity could be negative, and in that case it means it is a <em>return</em>. We want to calculate the percentage of returns for each sales person.</p>
+<div id="building-some-mock-data" class="section level3">
+<h3>Building some mock data</h3>
+<p>Let’s build the mock data:</p>
+<pre class="r"><code>library(data.table)
+
+set.seed(1)
+
+dates &lt;- seq(as.Date(&quot;2019-01-01&quot;), 
+             as.Date(&quot;2019-10-31&quot;), 
+             by = &quot;1 day&quot;)
+
+salesTeam &lt;- c(&quot;John&quot;, &quot;Jane&quot;, 
+               &quot;Peter&quot;, &quot;Bob&quot;, 
+               &quot;Sue&quot;, &quot;Jack&quot;, &quot;Meryl&quot;)
+
+items &lt;- data.table(item = LETTERS[1:20], 
+                    price = sample(1:20))
+
+sales &lt;- data.table(date = sample(dates, 200, TRUE), 
+                    qty = sample(-20:100, 200, TRUE), 
+                    item = sample(LETTERS[1:20], 200, TRUE), 
+                    salesPerson = sample(salesTeam, 200, TRUE), 
+                    key = &quot;date&quot;)
+
+sales[items, dollars := qty * price, on = .(item)]
+
+sales</code></pre>
+<pre><code>##            date qty item salesPerson dollars
+##   1: 2019-01-01  35    C         Sue      35
+##   2: 2019-01-13  22    B        Jack     154
+##   3: 2019-01-14 -18    T        John    -144
+##   4: 2019-01-14  70    A        Jane     280
+##   5: 2019-01-15 -15    T        John    -120
+##  ---                                        
+## 196: 2019-10-27  32    H         Bob     544
+## 197: 2019-10-27  -1    A         Bob      -4
+## 198: 2019-10-31  92    P        Jack    1380
+## 199: 2019-10-31  72    O        Jane     432
+## 200: 2019-10-31  43    H       Peter     731</code></pre>
+</div>
+<div id="generating-the-logic" class="section level3">
+<h3>Generating the Logic</h3>
+<p>There are several ways to calculate the percentage of returns of each sales person, but since this is just an excuse to show a nice feature of <code>data.table</code>, I’ll propose a logic that may not be the optimal. We’ll use the following recipe:</p>
+<ol style="list-style-type: decimal">
+<li>Find which transactions are returns and which are not.</li>
+<li>Group by sales person <strong>and</strong> by wether the transaction is a return or not.</li>
+<li>Sum the dollar value of those transactions, and finally</li>
+<li>Calculate the ratio of returns to sales and multiply it by 100, so we have a percentage.</li>
+</ol>
+<p>Ideally we’ll end up with something like this table:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Sales Person</th>
+<th align="right">Returns</th>
+<th align="right">Sales</th>
+<th align="left">Return %</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Joe</td>
+<td align="right">20</td>
+<td align="right">100</td>
+<td align="left">20 / 100 = 20%</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="making-it-happen" class="section level3">
+<h3>Making it happen</h3>
+<p>Finding wich transactions are returns is easy: we’ve been told they have negative quantities. We could mark them as returns, or we can go right away with that in the <code>by =</code> part of the data.table. We’ll use the second option:</p>
+<pre class="r"><code>sales[, sum(dollars), by = .(return = qty &lt; 0)]</code></pre>
+<pre><code>##    return    V1
+## 1:  FALSE 97101
+## 2:   TRUE -3204</code></pre>
+<p>That result has the problem of not integrating the sales person and also having a negative dollar, so let’s fix it:</p>
+<pre class="r"><code>sales[, abs(sum(dollars)), 
+      by = .(salesPerson, 
+             return = qty &lt; 0)]</code></pre>
+<pre><code>##     salesPerson return    V1
+##  1:         Sue  FALSE 12534
+##  2:        Jack  FALSE 20812
+##  3:        John   TRUE   818
+##  4:        Jane  FALSE 15706
+##  5:         Bob  FALSE 15604
+##  6:       Meryl   TRUE   595
+##  7:         Sue   TRUE   643
+##  8:       Peter  FALSE 13118
+##  9:        John  FALSE 10515
+## 10:       Peter   TRUE   190
+## 11:         Bob   TRUE    32
+## 12:       Meryl  FALSE  8812
+## 13:        Jack   TRUE   652
+## 14:        Jane   TRUE   274</code></pre>
+<p>Now, this is much better, <em>but it is a long table</em>. We could go from here assigning the previous statement into a new data.table, <code>dcast</code>ing it and then calculating the percentage. <strong>But we can actually do it inside the data.table</strong>:</p>
+<pre class="r"><code>sales[, abs(sum(dollars)), 
+      by = .(salesPerson, 
+             return = qty &lt; 0)][, 
+                                dcast(.SD, 
+                                      salesPerson ~ return, 
+                                      fill = 0, 
+                                      value.var = &quot;V1&quot;)]</code></pre>
+<pre><code>##    salesPerson FALSE TRUE
+## 1:         Bob 15604   32
+## 2:        Jack 20812  652
+## 3:        Jane 15706  274
+## 4:        John 10515  818
+## 5:       Meryl  8812  595
+## 6:       Peter 13118  190
+## 7:         Sue 12534  643</code></pre>
+<p>Wow! that definitely looks like the table we wanted. Let’s look what happened in the chained command:</p>
+<ul>
+<li><code>dcast(.SD, salesPerson ~ return, fill = 0, value.var = &quot;V1&quot;)</code>
+<ul>
+<li><code>.SD</code> is a data.table. Indeed, it is <strong>our</strong> data.table from the previous step. So working on it we’re really working on the result of the previous statement.</li>
+<li><code>salesPerson ~ return</code> is just the formula notation for <code>dcast</code>. Notice that the data.table scope remains as usual: it recognizes the names of columns in the data.</li>
+<li><code>fill = 0</code> is just derived from the nature of the case at hand: if a sales person didn’t have returns (or sales) that means their returns (or sales) were zero, not unavailable.</li>
+<li>and <code>value.var</code> is something I use mostly to keep out the message 🤷.</li>
+</ul></li>
+</ul>
+<p>We could go from here, working with <code>FALSE</code> and <code>TRUE</code> as column names (they’re valid column names as long as you use back ticks when you call them), but that’s really cumbersome. So, how about renaming those columns?</p>
+<p>Of course, <code>setnames</code> comes to mind, but that’s often used <em>outside</em> of a data.table, or is it not?</p>
+<p>Let’s see:</p>
+<pre class="r"><code>sales[, abs(sum(dollars)), 
+      by = .(salesPerson, 
+             return = qty &lt; 0)][, 
+                                dcast(.SD, 
+                                      salesPerson ~ return, 
+                                      fill = 0, 
+                                      value.var = &quot;V1&quot;)][,
+                                                         setnames(.SD, 
+                                                                  2:3, 
+                                                                  c(&quot;sales&quot;, &quot;returns&quot;))]</code></pre>
+<pre><code>##    salesPerson sales returns
+## 1:         Bob 15604      32
+## 2:        Jack 20812     652
+## 3:        Jane 15706     274
+## 4:        John 10515     818
+## 5:       Meryl  8812     595
+## 6:       Peter 13118     190
+## 7:         Sue 12534     643</code></pre>
+<p>Now of course it’s just matter of using the <code>:=</code> assign operator to define the percentage:</p>
+<pre class="r"><code>sales[, abs(sum(dollars)), 
+      by = .(salesPerson, 
+             return = qty &lt; 0)][, 
+                                dcast(.SD, 
+                                      salesPerson ~ return, 
+                                      fill = 0, 
+                                      value.var = &quot;V1&quot;)][,
+                                                         setnames(.SD, 
+                                                                  2:3, 
+                                                                  c(&quot;sales&quot;, &quot;returns&quot;))][,
+                                                                                          percent := 100 * returns / sales][order(-percent)]</code></pre>
+<pre><code>##    salesPerson sales returns   percent
+## 1:        John 10515     818 7.7793628
+## 2:       Meryl  8812     595 6.7521562
+## 3:         Sue 12534     643 5.1300463
+## 4:        Jack 20812     652 3.1328080
+## 5:        Jane 15706     274 1.7445562
+## 6:       Peter 13118     190 1.4483915
+## 7:         Bob 15604      32 0.2050756</code></pre>
+<p>That is exactly what we expected!</p>
+</div>
+</div>
+<div id="bottom-line" class="section level2">
+<h2>Bottom line</h2>
+<p>It is possible to use functions inside a data.table, even if they apparently were intended to be used outside of it. The key to achieve it is to keep in mind that <code>.SD</code> is itself a data.table that holds the result of the last chained command and also that <strong>J</strong> (and by) accept not only functions, but expressions.</p>
+</div>

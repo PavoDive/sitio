@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+
+
+
+
+
+
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Configurando un Sitio con blogdown, RStudio, github y netlify - Giovanni Pavolini - Consultor</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="icon" href="/favicon.ico">
+
+  
+  
+  
+  <link rel="stylesheet" href="/css/style.min.cc247bd1c5f1fae8fe5a7e431ae1d1c929f17ed843d980eee15ff49f4b55235e.css">
+  
+
+  
+
+  <link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+
+
+</head>
+
+<body class='page page-default-single'>
+  
+
+
+
+
+
+
+  <div id="main-menu-mobile" class="main-menu-mobile">
+  <ul>
+    
+    
+    <li class="menu-item-servicios">
+      <a href="/servicios/">
+        <span>Servicios</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-equipo">
+      <a href="/equipo/">
+        <span>Equipo</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog">
+      <a href="/blog/">
+        <span>Blog</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-contacto">
+      <a href="/contacto/">
+        <span>Contacto</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-nosotros">
+      <a href="/nosotros/">
+        <span>Nosotros</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+  <div class="wrapper">
+    <div class='header'>
+  <div class="container">
+    <div class="logo">
+      <a href="/"><img alt="Giovanni Pavolini - Consultor" src="/images/logo.svg" /></a>
+    </div>
+    <div class="logo-mobile">
+      <a href="/"><img alt="Giovanni Pavolini - Consultor" src="/images/logo-mobile.svg" /></a>
+    </div>
+    <div id="main-menu" class="main-menu">
+  <ul>
+    
+    
+    <li class="menu-item-servicios">
+      <a href="/servicios/">
+        
+        <span>Servicios</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-equipo">
+      <a href="/equipo/">
+        
+        <span>Equipo</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog">
+      <a href="/blog/">
+        
+        <span>Blog</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-contacto">
+      <a href="/contacto/">
+        
+        <span>Contacto</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-nosotros">
+      <a href="/nosotros/">
+        
+        <span>Nosotros</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+    <button id="toggle-main-menu-mobile" class="hamburger hamburger--slider" type="button" aria-label="Mobile Menu">
+  <span class="hamburger-box">
+    <span class="hamburger-inner"></span>
+  </span>
+</button>
+  </div>
+</div>
+
+    
+<div class="container pb-6 pt-6 pt-md-10 pb-md-10">
+  <div class="row justify-content-start">
+    <div class="col-12 col-md-8">
+      <div class="service service-single">
+        <h1 class="title">Configurando un Sitio con blogdown, RStudio, github y netlify</h1>
+        <div class="content">
+
+
+<p>Tener un sitio web es una experiencia interesante. El paquete <code>blogdown</code> lo hace mucho más fácil, especialmente para quienes comparten en sus blogs información sobre análisis de datos, sobre programación o sobre cualquier ciencia que requiera uso de código o de fórmulas matemáticas.</p>
+<p>Esta entrada (¡nuesta primera entrada!) te muestra como configurar tu sitio web utilizando las herramientas de R, RStudio, blogdown, github y netlify.</p>
+<div id="descargá-lo-que-necesitás" class="section level2">
+<h2>Descargá lo que necesitás</h2>
+<p>Para poder hacer esto vas a necesitar:</p>
+<ul>
+<li>Tener instalado <a href="https://cloud.r-project.org/">R</a></li>
+<li>Tener instalado <a href="https://www.rstudio.com/products/rstudio/download/">RStudio</a></li>
+<li>Tener una cuenta de <a href="https://github.com/join">GitHub</a></li>
+<li>Tener instalado Git. Por ahora instrucciones en <a href="https://support.rstudio.com/hc/en-us/articles/200532077-Version-Control-with-Git-and-SVN">inglés.</a></li>
+</ul>
+</div>
+<div id="instalá-blogdown" class="section level2">
+<h2>Instalá <code>blogdown</code></h2>
+<p>La instalación de <code>blogdown</code> es bastante simple. Una vez en la ventana de comando de R o RStudio, simplemente:</p>
+<pre class="r"><code>install.packages(&quot;blogdown&quot;)</code></pre>
+<p>Si querés leer sobre <code>blogdown</code>, la fuente obligada es su creador, Xie Yihui, en <a href="https://bookdown.org/yihui/blogdown/" class="uri">https://bookdown.org/yihui/blogdown/</a>.</p>
+</div>
+<div id="creá-un-sitio-que-se-sincronice-automáticamente" class="section level2">
+<h2>Creá un sitio que se sincronice automáticamente</h2>
+<p>Para crear un sitio que se sincronice automáticamente (que fue la idea desde el principio), el flujo es aproximadamente el siguiente:</p>
+<ol style="list-style-type: decimal">
+<li>Creás un repositorio en github</li>
+<li>Creás un nuevo proyecto en RStudio que haga control de versión con github. Exacto: son el mismo proyecto.</li>
+<li>Creás el sitio web en RStudio con <code>blogdown</code>.</li>
+<li>Sincronizás el sitio que está en github (que ahora está actualizado con el que tenés local) con netlify.</li>
+</ol>
+<div id="creando-el-repositorio-en-github" class="section level3">
+<h3>Creando el repositorio en github</h3>
+<p>Para crear el repositorio en github, simplemente dale “nuevo repositorio”. Podés escoger el nombre que te parezca conveniente (ojalá que haga sentido). Para crearlo, tené en cuenta lo siguiente:</p>
+<ul>
+<li>Que sea público.</li>
+<li>Cheaqueá la casilla “inicializar este repositorio con un README”.</li>
+<li>Dejar las opciones <code>.gitignore</code> y <code>license</code> en ninguna (none).</li>
+</ul>
+<p>Esto crea un repositorio vacío, que luego podemos sincronizar con RStudio.</p>
+<p>Copiá la URL del nuevo repositorio, porque la vas a necesitar en el paso siguiente.</p>
+</div>
+<div id="crear-un-proyecto-en-rstudio-que-haga-control-de-versión-con-github" class="section level3">
+<h3>Crear un proyecto en RStudio que haga control de versión con GitHub</h3>
+<p>Cuando ya Git está configurado esto es sencillo, en una próxima entrada espero detallar el proceso de configuración de Git. Por lo pronto, en la esquina superior derecha hacer click en “nuevo proyecto” y luego “Version Control”.</p>
+<p><img src="/post/blogdownGithub/controlVersionProject.png" /></p>
+<p>El cuadro de diálogo te pedirá que insertés la URL del repositorio, que es exactamente la que copiaste en Github.</p>
+</div>
+<div id="creá-el-sitio-de-prueba-con-blogdown" class="section level3">
+<h3>Creá el sitio de prueba con blogdown</h3>
+<p>Ahora sí, en RStudio vas a crear el sitio de prueba:</p>
+<pre class="r"><code>library(blogdown)
+
+new_site()</code></pre>
+<p>Este sitio tiene varios archivos y directorios, vamos a entender un poco:</p>
+<ul>
+<li>Hay un directorio <code>content</code>. Ahí están los archivos .Rmd en los que hacés los contenidos.</li>
+<li>Hay un directorio <code>public</code>. Ahí va lo que está listo para publicación. <strong>Este directorio no necesitás tocarlo, se actualiza automáticamente</strong>.</li>
+<li>Hay un directorio <code>static</code>. Ahí podés poner las imágenes que vas a incluir en tu blog.</li>
+<li>Hay un archivo <code>config.toml</code>. Editá los enlaces a tus redes sociales (vienen twitter y github por defecto, pero podés añadir más siguiendo la línea, o retirar alguna), tu nombre y lo demás que tenga sentido.</li>
+</ul>
+</div>
+<div id="sincronizá-lo-que-hiciste-con-github" class="section level3">
+<h3>Sincronizá lo que hiciste con GitHub</h3>
+<p>Para eso:</p>
+<ul>
+<li>Tocá la pestaña <code>Git</code> (también desde <code>Herramientas &gt;&gt; Version control</code>), seleccioná todos los archivos y dale “commit” y lugo “push”.</li>
+<li>Te pide usuario y password, y los archivos son enviados a Github.</li>
+</ul>
+</div>
+<div id="sincronizá-lo-que-tenés-en-github-con-netlify." class="section level3">
+<h3>Sincronizá lo que tenés en Github con Netlify.</h3>
+<ul>
+<li>Andá a <a href="https://netlify.com">Netlify</a> y abrí una cuenta. Aprovechá para decir que querés asociarla a la existente de GitHub.</li>
+<li>Luego dale “New site from Git” y seleccioná la opción “Continuos deployment from GitHub”.</li>
+<li>Netlify te permite seleccionar qué repositorio querés enlazar, y entonces ya sabés que es el que has venido trabajando. <strong>Dos cosas clave aquí</strong>:
+<ul>
+<li>El “build command” debe ser el que normalmente está por defecto: <code>hugo</code>.</li>
+<li>El “publish directory” debe ser <code>public</code>.</li>
+</ul></li>
+<li>Dale click a “deploy site”. Esto debe tomar algunos segundos y luego te dará una confirmación.</li>
+<li>Dale una mirada al sitio y no te asustés, luego vas a poder ajustar todo.</li>
+</ul>
+</div>
+</div>
+<div id="haciendo-algunos-ajustes-menores" class="section level2">
+<h2>Haciendo algunos ajustes menores</h2>
+<p>Probablemente el nombre del sitio que te asignó netlify es terrible… lo bueno es que podés cambiarlo.</p>
+<ul>
+<li>Dale click a “overview”, y luego a “site settings”.</li>
+<li>En “site information” podés darle “change site name” e introducir un nuevo subdominio (mi subdominio es el <code>gpavolini</code> que va antes de <code>netlify.com</code>). Ahora está menos espantoso, ¿cierto?</li>
+<li>Ya que hiciste esto, necesitás actualizar una cosa en el archivo <code>config.toml</code> (lo hacés en RStudio).
+<ul>
+<li>Debés ajustar el valor del <code>baseurl</code> de manera similar a esta: <code>baseurl = &quot;https://gpavolini.netlify.com&quot;</code>, obviamente poniendo tu subdominio.</li>
+</ul></li>
+</ul>
+</div>
+<div id="ingresando-y-actualizando-contenidos" class="section level2">
+<h2>Ingresando y actualizando contenidos</h2>
+<div id="ingresando-entradas-de-blog" class="section level3">
+<h3>Ingresando entradas de blog</h3>
+<p>En la barra de menú de RStudio hay un pequeño botón que dice “addins”. De ahí podés seleccionar la opción “New post” para hacer una nueva entrada. Una vez estés satisfecho con tus nuevas entradas, podés ir al directorio <code>content</code> y borrar las entradas de ejemplo que están allí.</p>
+</div>
+<div id="actualizando-tu-blog" class="section level3">
+<h3>Actualizando tu blog</h3>
+<p>Cada vez que escribás un blog, debés seguir estos sencillos pasos para que quede actualizado:</p>
+<ul>
+<li>Actualizar el sitio, lo podés hacer con el addin <code>serve_site</code> con la función <code>serve_site()</code> directamente en la ventana de comando. Una vez esté eso listo, entonces solo falta</li>
+<li>Sincronizar con GitHub, con el jeugo de acciones <code>commit</code> y <code>push</code>.</li>
+</ul>
+</div>
+</div>
+</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  </div>
+
+  <div class="footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="footer-inner">
+          <h3 class="footer-title">Giovanni Pavolini - Consultor</h3>
+          <ul>
+            
+            
+            <li class="menu-item-home">
+              <a href="/">
+                Home
+              </a>
+            </li>
+            
+            <li class="menu-item-contacto">
+              <a href="/contacto/">
+                Contacto
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  <div class="sub-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="sub-footer-inner">
+          <ul>
+
+            <li><strong>Phone: </strong><span>&#43;57 300 402 8354</span></li>
+
+            <li><strong>Email: </strong><a href="mailto:giovanni@pavolini.net">
+                giovanni@pavolini.net</a></li>
+          </ul>
+          <a class="zerostatic" href="https://www.zerostatic.io">www.zerostatic.io</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/scripts.min.bf1e1f7ae8e03db5f012356e825843facdff51c0a559cb0d27fe2bbe1db405c2.js"></script>
+  
+
+  
+
+
+
+
+
+
+  
+  <link href="https://fonts.googleapis.com/css?family=DM+Serif+Display&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/bash.min.js"></script>
+  
+  <script>
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  
+  </script>
+  <script type="text/javascript"
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
+  
+</body>
+
+</html>

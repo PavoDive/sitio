@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ggplot on Giovanni Pavolini - Consultor</title>
+    <link>/tags/ggplot/</link>
+    <description>Recent content in ggplot on Giovanni Pavolini - Consultor</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 22 Jul 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/ggplot/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Long to Wide and Wide to Long Format Conversion</title>
+      <link>/blog/long-to-wide-and-wide-to-long-format-conversion/</link>
+      <pubDate>Mon, 22 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/long-to-wide-and-wide-to-long-format-conversion/</guid>
+      <description>¡Mirá una versión en español aquí!
+One of the difficulties I find most often in Stack Overflow questions about R, an in general about data science, is the erroneous usage of wide formats for data analysis.
+In this post we’ll se some functions of the data.table package in R to convert from wide to long format and vice versa.
+Different Ways to Store the Same Data There are two possible ways of storing tabulated data: in a “wide” format, and in a “long” format.</description>
+    </item>
+    
+    <item>
+      <title>Conversión de formato Ancho a Largo y viceversa</title>
+      <link>/blog/conversi%C3%B3n-de-formato-ancho-largo-y-viceversa/</link>
+      <pubDate>Sun, 21 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/conversi%C3%B3n-de-formato-ancho-largo-y-viceversa/</guid>
+      <description>See an English version here!
+Uno de las dificultades que con frecuencia encuentro en preguntas en Stack Overflow sobre R, y en general sobre ciencia de datos es la errónea utilización de formatos anchos de datos para análisis de datos.
+En este post veremos algunas funciones del paquete data.table en R para convertir de formato ancho a largo y viceversa.
+Diferentes Formas de Almacenar los Mismos Datos Hay dos posibles formas de almacenar información tabulada: en formato “ancho” y en formato “largo”.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>productividad on Giovanni Pavolini - Consultor</title>
+    <link>/tags/productividad/</link>
+    <description>Recent content in productividad on Giovanni Pavolini - Consultor</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 10 Sep 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/productividad/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Calculando comisión de ventas - non-equi Joins</title>
+      <link>/blog/calculando-comisi%C3%B3n-de-ventas-non-equi-joins/</link>
+      <pubDate>Tue, 10 Sep 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/calculando-comisi%C3%B3n-de-ventas-non-equi-joins/</guid>
+      <description>Con frecuencia encontramos el problema de enlazar dos tablas no por valores iguales (lo que haríamos en Excel con un “BUSCARV” o “VLOOKUP”), sino identificando cuando un valor en una de las tablas cae en un rango de valores en la otra tabla. A este tipo de enlace entre tablas (join) se le llama non-equi joins, o uniones de desigualdad.
+Analizando un caso práctico El problema Imaginemos que hay un grupo de vendedores que en el mes pasado tuvieron una venta, en millones, representada en la siguiente tabla:</description>
+    </item>
+    
+    <item>
+      <title>Calculando Inventarios de Seguridad y puntos de reorden con R y data.table</title>
+      <link>/blog/calculando-inventarios-seguridad-punto-reorden-r/</link>
+      <pubDate>Fri, 09 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/calculando-inventarios-seguridad-punto-reorden-r/</guid>
+      <description>En este post quiero mostrarles una forma de analizar sus datos de ventas y de estimar los inventarios de seguridad adecuados para esas referencias, así como el punto de reorden óptimo para ellas.
+ El nivel de inventario refleja la capacidad o incapacidad de los administradores de controlar el sistema.
+Edgar Jaramillo.
+ Es común en las empresas calcular los inventarios en días de venta. Esto ocurre, en la mayoría de las ocasiones, como una acción reactiva, es decir, las coberturas de inventario son accidentes que ocurren y no decisiones planeadas.</description>
+    </item>
+    
+    <item>
+      <title>Alguien tiene que hacerse cargo de lo técnico</title>
+      <link>/blog/alguien-tiene-que-hacerse-cargo-de-lo-t%C3%A9cnico/</link>
+      <pubDate>Wed, 10 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/alguien-tiene-que-hacerse-cargo-de-lo-t%C3%A9cnico/</guid>
+      <description>Faltan sólo 10 días para celebrar 50 años de uno de los acontecimientos tecnológicos más relevantes en la historia de la humanidad: el ser humano pisó la luna. Pueden considerarse un sinnúmero de hitos tecnológicos en la historia de la humanidad, pero haber pisado la luna merecerá siempre un lugar destacado.
+La década que vió por televisión ese &amp;ldquo;pequeño paso para el hombre&amp;rdquo; fue también una década que vio grandes desarrollos técnicos y tecnológicos en el mundo, y en particular en nuestros países.</description>
+    </item>
+    
+  </channel>
+</rss>

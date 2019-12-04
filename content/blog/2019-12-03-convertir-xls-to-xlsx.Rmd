@@ -1,0 +1,32 @@
+---
+title: Convertir xls a xlsx
+author: Giovanni Pavolini
+date: '2019-12-03'
+slug: convertir-xls-to-xlsx
+categories:
+  - Spanish
+tags:
+  - linux
+---
+
+En este post compartiré un código que olvido (y uso) con frecuencia para convertir masivamente archivos de xls a xlsx. Esto lo utilizo cuando por ejemplo recibo de mis clientes archivos cuyos formatos son mezclados, xls y xlsx.
+
+## Convertir simultáneamente varios archivos de xls a xlsx
+
+Hoy recibí cerca de 60 archivos de excel que debo analizar. Varios de ellos (unos 15) están en formato xls y los demás están como xlsx. Aunque en R puedo cargar ambos tipos de archivos, para simplificar mi vida (y reducir la memoria utilizada), me conviene convertir masivamente los xls a xlsx.
+
+El cambio no es trivial: no es un cambio simple de nombre. Es necesario **convertir** el archivo.
+
+```{bash}
+for i in *.xls
+    do soffice --headless --convert-to xlsx "$i" 
+done
+```
+
+El comando que hace la magia dentro del loop es el comando `soffice` que es nada más que LibreOffice que es arrancado sin GUI (`headless`) y al que se le pide convertir a xlsx con ```convert-to``` y finalmente damos el mismo nombre de archivo (sólo se diferenciarán por la extensión).
+
+## Extensibilidad
+
+El método sirve para hacer cualquier conversión entre formatos compatibles que maneje LibreOffice, tales como doc --> docx, ppt --> pptx, docx --> odt, etc.
+
+Espero que sea de utilidad!

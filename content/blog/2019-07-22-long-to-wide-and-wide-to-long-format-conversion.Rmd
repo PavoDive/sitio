@@ -1,0 +1,179 @@
+---
+title: Long to Wide and Wide to Long Format Conversion
+author: Giovanni Pavolini
+date: '2019-07-22'
+slug: long-to-wide-and-wide-to-long-format-conversion
+categories:
+  - English
+tags:
+  - data.table
+  - R
+  - ggplot
+---
+
+[¡Mirá una versión en español aquí!](/2019/07/21/conversión-de-formato-ancho-largo-y-viceversa)
+
+One of the difficulties I find most often in Stack Overflow questions about R, an in general about data science, is the erroneous usage of wide formats for data analysis.
+
+In this post we'll se some functions of the `data.table` package in **R** to convert from wide to long format and vice versa.
+
+
+## Different Ways to Store the Same Data
+
+There are two possible ways of storing tabulated data: in a "wide" format, and in a "long" format.
+
+### Wide Format
+
+Wide format is very common in spreadsheets, as it results easier to visualize for the user. An example of this format in a sales table would be:
+
+```{r, echo=FALSE, include=FALSE}
+library(knitr)
+dfWide <- data.frame(item = c("almond", "coffe", "hot dogs", "salt"), 
+                     east = c(13, 4, 4, 9), 
+                     north = c(11, 6, 2, 13), 
+                     south = c(9, 6, 3, 11), 
+                     west = c(14, 5, 3, 10), 
+                     stringsAsFactors = FALSE)
+```
+
+```{r, echo=FALSE}
+kable(dfWide)
+```
+
+In this table we see that there is a column of products and four columns with the sales of each one of them in each of four regions. This format is simpler to interpret by humans, but it is relatively "difficult" to use when we process the data in a computer.
+Think about it: if we wanted to plot the distribution of sales for each product, then we would have to provide four different plotting instructions, one for each product. Long formats spare us from such repetitive work.
+
+### Long Format
+
+In long format each variable occupies one column (that's why it is called "tidy"). If in long format, our table would have a column with the name of each product, another one with the region and the last one with the value of the sale:
+
+```{r, echo = FALSE, include = FALSE}
+library(data.table)
+dfLong <- melt(dfWide, id.vars = "item", value.name = "value", variable.name = "region", variable.factor = FALSE)
+```
+
+
+```{r, echo = FALSE}
+kable(dfLong)
+
+```
+
+There we have the same 16 records, just they're organized in only one column, and there's an additional column indicating us to which region each sales corresponds. Obviously, each product doesn't appear only once, like in the wide table, but four times.
+
+## Format Comparisson
+
+Having the data in a long table makes it easier to do some processing. Let's see what we would have to do in order to obtain the plot of *all* items in one plot, or what is needed to calculate regional averages:
+
+### With a Wide Table:
+
+```{r}
+library(ggplot2)
+
+p <- ggplot(dfWide)+
+  geom_point(aes(x = names(dfWide)[2:5], y = t(dfWide[1,2:5]), color = dfWide[1,1]), position = "jitter")+
+  geom_point(aes(x = names(dfWide)[2:5], y = t(dfWide[2,2:5]), color = dfWide[2, 1]), position = "jitter")+
+  geom_point(aes(x = names(dfWide)[2:5], y = t(dfWide[3, 2:5]), color = dfWide[3,1]), position = "jitter")+
+  geom_point(aes(x = names(dfWide)[2:5], y = t(dfWide[4, 2:5]), color = dfWide[4,1]), position = "jitter")
+
+p
+```
+
+It's pretty clear we need to make some cosmetic adjustments in the tiles:
+
+```{r}
+p + labs(x = "region", y = "Sale", color = "item")
+```
+
+In the case of regional averages, we could:
+
+```{r}
+colMeans(dfWide[, 2:5])
+```
+
+### Now with a Long Table
+
+Let's see how to obtain the same plot:
+
+```{r}
+p2 <- ggplot(dfLong, aes(x = region, y = value, color = item))+
+  geom_point(position = "jitter")
+
+p2
+```
+
+Not only the code is shorter, the cosmetics of the plot is already OK!
+
+(If you noticed the two plots aren't identical, that's due to the random _jitter_, values are actually identical).
+
+Now let's see how to calculate the regional average:
+
+```{r}
+# Using base R
+tapply(dfLong$value, dfLong$region, mean)
+
+# with a friendlier syntaxis in data.table
+library(data.table)
+
+setDT(dfLong)[, mean(value), by = region]
+
+```
+
+With a long table, being a tidy format, we can obtain the maximum advantage of packages such as `data.table` or `dplyr`.
+
+## Convert from Wide to Long Format and Vice versa
+
+To convert the format we will use functions `melt` and `dcast` of package `data.table`.
+
+### Wide to Long
+
+To do this conversion we use the function `melt`. This function takes the following arguments:
+
++ `data` is the object (class data.table) that we want to convert from wide to long,
++ `id.vars` are the vectors (coumns) in the table that we will leave **un-melted**. In our toy data that would be the column `item`, though there could be several variables in more complex tables. It is possible to use a vector of names (class character) or of integers that correspond to the column numbers.
++ `measure.vars` are the variables in which the measurements can be found. It could be a vector of names or integer indexes of the columns. In our case they are columns 2 to 5.
++ `variable.name` is the name that our variable column will take, it is, the name of the column that will hold "north", "south", "east" and "west" in our example table.
++ `value.name` is the name that the column with the values will take. It is "value" by default.
++ `variable.factor` is a logical flag indicating if we want the variable column as class factor (the default behavior) or if we simply want it as character.
+
+Let's see how it works:
+
+```{r}
+setDT(dfWide)
+
+dfLong_2 <- melt(dfWide, id.vars = "item", 
+                  variable.name = "region", 
+                  value.name = "value", 
+                  variable.factor = FALSE)
+
+kable(dfLong_2)
+```
+
+### Long to Wide
+
+For this task we use the function `dcast`. This function has a notation a little bit different, as it uses "formulas" to determine which variables to put where.
+
++ `data` is the table we want to convert,
++ `formula` is the way in which we are going to distribute the columns, look at the following examples. In general, a formula is of the forma `x ~ y`. **The mnemonics I use is**: `rows ~ columns`.
++ `fun.aggregate` is the function used to _consolidate_ the data, in case there exists more than one record in the row - column intersection.
++ `value.var` is the name (or index) of the column in which the values lie. Usually `dcast` is very good guessing this parameter, but it's a good idea to explicitly state it to avoid inconveniences and the warning message.
+
+```{r}
+dfWide_2 <- dcast(dfLong, 
+                   item ~ region, 
+                   value.var = "value")
+
+kable(dfWide_2)
+
+# Inverting the formula
+dfWide_3 <- dcast(dfLong, 
+                   region ~ item, 
+                   value.var = "value")
+
+kable(dfWide_3)
+```
+
+## Bottom Line
+
+Any time you have data to analize in the computer, try to have it in long format. It's a lot easier to work with data formatted like this. To convert a wide table into a long one, use `data.table::melt`.
+
+Any time you have to generate data for human interpretation, consider formatting them into a wide table, that way they're easier to understand. You can achieve that with `data.table::dcast`.

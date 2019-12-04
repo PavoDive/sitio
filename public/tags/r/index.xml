@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>R on Giovanni Pavolini - Consultor</title>
+    <link>/tags/r/</link>
+    <description>Recent content in R on Giovanni Pavolini - Consultor</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 04 Nov 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/r/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Using dcast and setnames **inside** a data.table</title>
+      <link>/blog/using-dcast-and-setnames-inside-a-data-table/</link>
+      <pubDate>Mon, 04 Nov 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/using-dcast-and-setnames-inside-a-data-table/</guid>
+      <description>I’ve said before that one of the best things of data.table is that J takes in expressions and not only functions. That offers so much flexibility in what you can achieve with your code.
+Also, the fact that .SD is a data.table allows you to use inside a data.table some functions that apparently should be used outside of it.
+Take for example dcast, the function used to reshape a data.</description>
+    </item>
+    
+    <item>
+      <title>Calculando comisión de ventas - non-equi Joins</title>
+      <link>/blog/calculando-comisi%C3%B3n-de-ventas-non-equi-joins/</link>
+      <pubDate>Tue, 10 Sep 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/calculando-comisi%C3%B3n-de-ventas-non-equi-joins/</guid>
+      <description>Con frecuencia encontramos el problema de enlazar dos tablas no por valores iguales (lo que haríamos en Excel con un “BUSCARV” o “VLOOKUP”), sino identificando cuando un valor en una de las tablas cae en un rango de valores en la otra tabla. A este tipo de enlace entre tablas (join) se le llama non-equi joins, o uniones de desigualdad.
+Analizando un caso práctico El problema Imaginemos que hay un grupo de vendedores que en el mes pasado tuvieron una venta, en millones, representada en la siguiente tabla:</description>
+    </item>
+    
+    <item>
+      <title>Calculando Inventarios de Seguridad y puntos de reorden con R y data.table</title>
+      <link>/blog/calculando-inventarios-seguridad-punto-reorden-r/</link>
+      <pubDate>Fri, 09 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/calculando-inventarios-seguridad-punto-reorden-r/</guid>
+      <description>En este post quiero mostrarles una forma de analizar sus datos de ventas y de estimar los inventarios de seguridad adecuados para esas referencias, así como el punto de reorden óptimo para ellas.
+ El nivel de inventario refleja la capacidad o incapacidad de los administradores de controlar el sistema.
+Edgar Jaramillo.
+ Es común en las empresas calcular los inventarios en días de venta. Esto ocurre, en la mayoría de las ocasiones, como una acción reactiva, es decir, las coberturas de inventario son accidentes que ocurren y no decisiones planeadas.</description>
+    </item>
+    
+    <item>
+      <title>Long to Wide and Wide to Long Format Conversion</title>
+      <link>/blog/long-to-wide-and-wide-to-long-format-conversion/</link>
+      <pubDate>Mon, 22 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/long-to-wide-and-wide-to-long-format-conversion/</guid>
+      <description>¡Mirá una versión en español aquí!
+One of the difficulties I find most often in Stack Overflow questions about R, an in general about data science, is the erroneous usage of wide formats for data analysis.
+In this post we’ll se some functions of the data.table package in R to convert from wide to long format and vice versa.
+Different Ways to Store the Same Data There are two possible ways of storing tabulated data: in a “wide” format, and in a “long” format.</description>
+    </item>
+    
+    <item>
+      <title>Conversión de formato Ancho a Largo y viceversa</title>
+      <link>/blog/conversi%C3%B3n-de-formato-ancho-largo-y-viceversa/</link>
+      <pubDate>Sun, 21 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/conversi%C3%B3n-de-formato-ancho-largo-y-viceversa/</guid>
+      <description>See an English version here!
+Uno de las dificultades que con frecuencia encuentro en preguntas en Stack Overflow sobre R, y en general sobre ciencia de datos es la errónea utilización de formatos anchos de datos para análisis de datos.
+En este post veremos algunas funciones del paquete data.table en R para convertir de formato ancho a largo y viceversa.
+Diferentes Formas de Almacenar los Mismos Datos Hay dos posibles formas de almacenar información tabulada: en formato “ancho” y en formato “largo”.</description>
+    </item>
+    
+    <item>
+      <title>data.table&#39;s `cube` function</title>
+      <link>/blog/data-table-s-cube-function/</link>
+      <pubDate>Fri, 19 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/data-table-s-cube-function/</guid>
+      <description>Recently I learned there’s a cube function in data.table, thanks to Dan Wilson:
+Just came across data.table::cube() which aggregates and includes a total. I don’t know how I’ve never known about this function before #datatable #rstats
+e.g. cube(mtcars,
+.(mean_disp = mean(disp)),
+by = c(“cyl”)) — Dan Wilson (@danwwilson) July 18, 2019   Perhaps I should allocate a time to just do [packageName]:: and keep hitting TAB in RStudio to learn about the many nice functions the packages I use often have, and I don’t know.</description>
+    </item>
+    
+    <item>
+      <title>RStudio&#39;s rename in scope</title>
+      <link>/blog/rstudio-s-rename-in-scope/</link>
+      <pubDate>Fri, 12 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/rstudio-s-rename-in-scope/</guid>
+      <description>Una de las funcionalidades que encuentro más prácticas de RStudio es la función Code &amp;gt;&amp;gt; Rename in Scope, salvajemente traducida (¡!) como &amp;ldquo;renombrar en alcance&amp;rdquo;.
+Esta función sirve para aquellos casos es los que se desea cambiar el nombre de una variable que está presente en varias líneas del código por un nombre nuevo (quizá como resultado de reusar el código). Aunque esto se puede lograr con un simple buscar / reemplazar (en algunos casos con regex), existe el riesgo de cambiar el nombre de otras variables (por ejemplo al actualizar dt a ventasMes terminar cambiando dt1 a ventasMes1).</description>
+    </item>
+    
+    <item>
+      <title>Wiki data.table en español</title>
+      <link>/blog/wiki-data-table-en-espa%C3%B1ol/</link>
+      <pubDate>Wed, 10 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/wiki-data-table-en-espa%C3%B1ol/</guid>
+      <description>Versión libre al español, adaptada de https://github.com/Rdatatable/data.table/wiki en 2019-07-10
+      
+
+ Lin/Mac:  Win:  Extra:  Últimas noticias de dev: Noticias Nuevas presentaciones en 2019: click Eventos en el menú lateral.   data.table es uno de los 13,000 paquetes de extensión para el lenguage de programación R que es muy popular en estos campos. Provee una versión de alto desempeño del data.</description>
+    </item>
+    
+    <item>
+      <title>Analizando datos con data.table</title>
+      <link>/blog/analizando-datos-con-data-table/</link>
+      <pubDate>Tue, 09 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/analizando-datos-con-data-table/</guid>
+      <description>R es un software muy útil para analizar datos. En R hay varios paquetes o librerías que se utilizan para sacarle aún más provecho a las muchas funcionalidades de R.
+Uno de esos paquetes es data.table. Éste brinda unas extensiones a la sintaxis natural de R y mucha velocidad y flexibilidad, especialmente en procesos en los que se requiere agrupar por variables y hacer análisis segmentados.
+Instalando data.table Para instalar data.</description>
+    </item>
+    
+    <item>
+      <title>Configurando un Sitio con blogdown, RStudio, github y netlify</title>
+      <link>/blog/configurando-un-sitio-con-blogdown-rstudio-github-y-netlify/</link>
+      <pubDate>Tue, 09 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/configurando-un-sitio-con-blogdown-rstudio-github-y-netlify/</guid>
+      <description>Tener un sitio web es una experiencia interesante. El paquete blogdown lo hace mucho más fácil, especialmente para quienes comparten en sus blogs información sobre análisis de datos, sobre programación o sobre cualquier ciencia que requiera uso de código o de fórmulas matemáticas.
+Esta entrada (¡nuesta primera entrada!) te muestra como configurar tu sitio web utilizando las herramientas de R, RStudio, blogdown, github y netlify.
+Descargá lo que necesitás Para poder hacer esto vas a necesitar:</description>
+    </item>
+    
+  </channel>
+</rss>

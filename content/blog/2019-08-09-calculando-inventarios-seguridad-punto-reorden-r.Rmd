@@ -1,0 +1,251 @@
+---
+title: Calculando Inventarios de Seguridad y puntos de reorden con R y data.table
+author: Giovanni Pavolini
+date: '2019-08-09'
+slug: calculando-inventarios-seguridad-punto-reorden-r
+categories:
+  - Spanish
+tags:
+  - data.table
+  - R
+  - Productividad
+---
+
+En este post quiero mostrarles una forma de analizar sus datos de ventas y de estimar los inventarios de seguridad adecuados para esas referencias, así como el punto de reorden óptimo para ellas.
+
+> _El nivel de inventario refleja la capacidad o incapacidad de los administradores de controlar el sistema._<br>
+> _Edgar Jaramillo._
+
+Es común en las empresas calcular los inventarios en días de venta. Esto ocurre, en la mayoría de las ocasiones, como una acción **reactiva**, es decir, las coberturas de inventario son _accidentes que ocurren y no decisiones planeadas_. Sobra decir que esto está mal, y que nuestros niveles de inventario deberían responder -como todo lo demás en la empresa- a una decisión planeada. En un post futuro miraremos los inventarios desde el punto de vista de su afectación sobre la productividad de capital de trabajo y consecuentemente sobre la palanca de crecimiento; por ahora baste decir que los inventarios son el banco más cercano y más barato que tenemos en todas las empresas.
+
+
+## Todo parte de la Venta
+
+El cálculo de inventarios parte de los históricos de venta y de los pronósticos que podemos derivar de ellos. En este post vamos a mantener las cosas simples, dejando la actividad de pronosticar para un post futuro.
+
+### Creemos datos ficticios de venta
+
+```{r, echo = TRUE, warning= FALSE, message = FALSE}
+# Carguemos los paquetes que vamos a utilizar
+library(data.table)
+library(lubridate)
+
+# Hagamos que el ejercicio sea repetible, 
+#   que los aleatorios sean los mismos
+set.seed(1)
+
+# Creemos dos años de fechas y 
+#    130 referencias de las cuales escoger
+fechas <- seq(ymd("2017-01-01"), 
+              ymd("2019-02-28"), 
+              by = "1 day")
+referencias <- setDT(expand.grid(LETTERS, 
+                                 1:5, 
+                                 stringsAsFactors = FALSE))[
+                                   , paste0(Var1, Var2)]
+
+# creemos un vector de probabilidades que asigna 
+#    10% de chance a venta de 0 unidades, 
+#    20% de chance de venta de 1 o 2 unidades, 
+#    10% de venta de 3 y venta uniforme para 4 hasta 19 unidades
+probabilidades <- c(0.1, 
+                    0.2, 
+                    0.2, 
+                    0.1, 
+                    rep(0.4 / 16, 16))
+
+# y ahora sí, armemos una tabla de ventas con fecha, referencia y cantidad:
+ventas <- data.table(fecha = sample(fechas, size = 2000, replace = TRUE), 
+                     item = sample(referencias, 2000, TRUE), 
+                     cantidad = sample(0:19, 2000, TRUE, prob = probabilidades), 
+                     key = "fecha")
+
+```
+
+Es bueno **siempre** dar una exploración de los datos, para ver que todo está en orden:
+
+```{r}
+# Revisión general
+ventas
+
+# Veamos como quedaron los meses y los items
+ventas[, .N, 
+       by = .(fecha = floor_date(fecha, "month"))]
+
+ventas[, .N, by = item][order(-N)]
+```
+
+Como era de esperar, tenemos "transacciones" más o menos balanceadas en cada mes, y una distribución un poco más dispareja en las referencias, con algunas que fueron vendidas más de 20 veces y otras menos de 10.
+
+### Totalicemos la venta
+
+Ya que tenemos datos ficticios de venta, totalicemos por mes y por item:
+
+```{r}
+ventasResumen <- ventas[, 
+                        .(cantidad = sum(cantidad)), 
+                        by = .(fecha = floor_date(fecha, "month"), 
+                               item)]
+```
+
+Es importante tener en cuenta el significado de los datos **que no aparecen en este resumen de los datos**. Veamos el caso de la referencia `O1`, una de las que menos transacciones tenía:
+
+```{r}
+ventasResumen[item == "O1",]
+
+```
+
+### Limpieza de Datos
+
+Observamos que hay meses de los que no se tiene registro. ¡Pero estos meses no son `NA`! En los meses en los que no tenemos registro, la venta fue de cero unidades. Por favor tené en cuenta que prácticamente cualquier sistema (SAP, Oracle, Siesa, etc.) va a reportarte los meses de cero venta como faltantes. _Es tu responsabilidad completar los datos_.
+
+Te podés estar preguntando porqué es necesario registrar estos datos. La razón es que vamos a usar la variación de la venta para estimar el inventario de seguridad, y no es lo mismo `r c(1, 3, 5)` que `r c(0, 1, 0, 0, 3, 5, 0)`.
+
+Para _añadir_ los meses de venta cero nuestra estrategia general va a ser:
+
++ Crear una tabla con todas las combinaciones de fecha (mensual) y referencias. Para esto vamos a utilizar la función `CJ` de `data.table`, que es una especie de `expand.grid`, y
++ vamos a unir esa tabla con la de `ventasResumen` (a hacer un _join_).
+
+```{r}
+fechasMensuales <- seq(ymd("2017-01-01"), 
+                       ymd("2019-02-01"), 
+                       "1 month")
+
+# lo siguiente lo hacemos en caso de que haya algunas 
+#     referencias del pool total que no se hayan vendido
+referenciasMensuales <- ventasResumen[, unique(item)]
+
+tablaTemporal <- CJ(fecha = fechasMensuales, 
+                    item = referenciasMensuales)
+
+# Y ahora sí unimos las tablas, asignando de nuevo a ventasResumen
+ventasResumen <- ventasResumen[tablaTemporal, on = .(fecha, item)]
+
+# Por supuesto, quitamos los NA y los reemplazamos con CERO:
+ventasResumen[is.na(cantidad), cantidad := 0]
+```
+
+Revisemos que nuestra referencia `O1` tenga puntos en todos los meses:
+
+```{r}
+library(ggplot2)
+
+ggplot(ventasResumen[item == "O1", ], 
+       aes(x = fecha, y = cantidad))+
+  geom_point()
+```
+
+Ahora que hemos terminado la limpieza de los datos, podemos avanzar con un poco de teoría de inventarios.
+
+## Inventario de Seguridad
+
+El inventario de seguridad es una cantidad de producto que deseamos tener para _absorber las variabilidades en la demanda_. Esto es importante. Si nuestra demanda fuera perfectamente predecible, **no necesitaríamos inventario de seguridad**, puesto que sabríamos _exactamente_ la fecha en la que un producto se iría a agotar, y de esta manera podríamos planear su reposición siempre a tiempo. Por lo contrario, cuando la demanda de un producto varía (como es lo más común), entonces no podemos saber con certeza cuando vamos a agotar ese producto, ni cuando reponerlo. Es necesario entonces tener un pequeño inventario que cubra esas eventualidades.
+
+De lo anterior vemos que el inventario de seguridad es entonces una _función de la variabilidad de la demanda_. Resulta que también es una función del nivel de servicio que esperamos de ese producto. No es igual entrar en agotado con un producto de máxima criticidad (pensemos por ejemplo en un medicamento cardíaco) que en uno de menor criticidad (como una venda).
+
+En términos reales, el Inventario de seguridad óptimo se calcula como función del nivel de servicio ($k$ es un factor que depende del nivel de servicio, calculado a partir de la función de cuantiles de la distribución normal) y de los errores de pronóstico durante el tiempo de reposición, $\sigma_L$:
+
+$$ I_s = k \sigma_L $$
+
+El problema es que no conocemos el pronóstico, ¡mucho menos sus errores! Afortunadamente hay una versión simplificada de esta ecuación, que nos resulta más útil:
+
+$$ I_s = k \sigma_1 \sqrt{L} $$
+
+Donde 
+$\sigma_1$ es la desviación estándar de los errores del pronóstico (o muy aproximadamente la desviación estándar de la demanda), y 
+$L$ es el periodo de reposición, en unidades del periodo de planeación.
+
+En cuanto al punto de reorden, este será el inventario de seguridad más el consumo durante el tiempo de reposición, o aproximadamente:
+
+$$ P_R = I_s + \bar{d} L$$
+
+## Llevando eso a data.table
+
+### Asignemos los Niveles de Servicio
+
+Supongamos, que asignamos niveles de servicio diferentes para los diferentes productos (tal vez en categorías). Normalmente podemos definir esto en una hoja de cálculo y luego cargarlos, pero para nuestros datos inventados, vamos a definirlos de acuerdo a los siguientes criterios:
+
++ Los productos que comiencen con **A** deben tener un nivel de servicio del 98.5%
++ Los productos que comiencen con **B** deben tener un nivel de servicio del 97%
++ Los productos que terminen en **4** pueden tener un nivel de servicio de 90% (excepto que correspondan a las 2 categorías iniciales),
++ y todos los demás productos tendrán un nivel de servicio de 95%.
+
+```{r}
+ventasResumen[substr(item, 1, 1) == "A", 
+              nivelServicio := 0.985]
+
+ventasResumen[is.na(nivelServicio) & substr(item, 1, 1) == "B", 
+              nivelServicio := 0.97]
+
+ventasResumen[is.na(nivelServicio) & substr(item, 2, 2) == "4", 
+              nivelServicio := 0.9]
+
+ventasResumen[is.na(nivelServicio), 
+              nivelServicio := 0.95]
+```
+
+### Definamos un tiempo de reposición
+El tiempo de reposición o _lead time_ que definamos debe estar en meses, pues ese es el periodo que hemos usado como análisis. Para nuetro ejemplo, vamos a definir un tiempo de reposicion uniforme de 7.5 días, o 0.25 meses:
+
+```{r}
+ventasResumen[, tiempoReposicion := 0.25]
+```
+
+### Calculando las Desviaciones de la Demanda
+
+Para hacer esto simplemente utilizamos la capacidad de data.table de generar estadísticas de resumen de los datos agrupados. En este caso, por item:
+
+```{r}
+ventasResumen[, sigma1 := sd(cantidad), by = item]
+```
+
+También vamos a necesitar estimar la demanda promedio en los últimos 3 meses:
+
+```{r}
+ventasResumen[, promedioUltimos3Meses := mean(cantidad[(.N-2):.N]), 
+              by = item]
+```
+
+### Calculando el factor multiplicador k
+
+$k$ es un factor que depende del nivel de servicio esperado. Se calcula usando la función `qnorm()` que es la función de cuantiles de la función normal.
+
+```{r}
+ventasResumen[, k := qnorm(nivelServicio)]
+```
+
+## Calculando el Inventario de Seguridad
+
+En este punto podemos concentrarnos en los datos calculados, olvidando las cantidades y fechas actuales, y calcular el Inventario de seguridad y Punto de Reorden:
+
+```{r}
+inventarios <- ventasResumen[, .SD[1,], 
+                             by = item, 
+                             .SDcols = c("nivelServicio", 
+                                         "tiempoReposicion", 
+                                         "sigma1", 
+                                         "promedioUltimos3Meses", 
+                                         "k")]
+
+inventarios[, inventarioSeguridad := k*sigma1*sqrt(tiempoReposicion)]
+inventarios[, puntoReorden := inventarioSeguridad + promedioUltimos3Meses * tiempoReposicion]
+```
+
+¡Nuestros inventarios están calculados!
+
+## Analizando el resultado
+
+Algunos habrán notado que para algunos items las coberturas son, aparentemente, desproporcionadamente altas. Por ejemplo, el item `X5` tiene un promedio de demanda en los últimos 3 meses de sólo 0.33 unidades, y sin embargo estamos sugiriendo un inventario de seguridad de 7.95 unidades, ¡esto es una cobertura de `r round(7.95/0.33, 1)` meses! Si revisamos la historia de este producto, sin embargo, encontraremos que su demanda errática amerita tener esas 8 unidades en _stock_:
+
+```{r, echo = FALSE}
+ggplot(ventasResumen[item == "X5",], 
+       aes(x = fecha, y = cantidad))+
+  geom_point()+
+  labs(title = "Ventas mensuales de X5")
+
+```
+
+## Línea de Cierre
+
+Es posible planear los niveles de inventario para un grupo de referencias de manera rápida, fácil y consistente con R. Los niveles de inventario pueden planearse con un sentido lógico y técnico, no sólo con base en un número de días que, al usarse, pasa por alto la variabilidad de la demanda.
+

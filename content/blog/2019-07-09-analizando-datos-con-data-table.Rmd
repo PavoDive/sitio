@@ -1,0 +1,270 @@
+---
+title: Analizando datos con data.table
+author: Giovanni Pavolini
+date: '2019-07-09'
+slug: analizando-datos-con-data-table
+categories:
+  - Spanish
+tags:
+  - data.table
+  - R
+---
+
+R es un software muy útil para analizar datos. En R hay varios paquetes o librerías que se utilizan para sacarle aún más provecho a las muchas funcionalidades de R.
+
+Uno de esos paquetes es `data.table`. Éste brinda unas extensiones a la sintaxis natural de R y mucha velocidad y flexibilidad, especialmente en procesos en los que se requiere agrupar por variables y hacer análisis segmentados.
+
+## Instalando data.table
+
+Para instalar **data.table** sólo se necesita
+
+```{r, eval = FALSE}
+install.packages("data.table")
+```
+
+Este comando instalará el paquete data.table y las dependencias que requiere para funcionar (no son muchas).
+
+## Cargando data.table
+
+Una vez instalado el paquete, debemos cargarlo con el comando `library()`:
+
+```{r loadLibraries}
+library(data.table)
+```
+
+## Leyendo datos con data.table
+
+Una de las mayores ventajas de data.table es la velocidad con la que carga datos en formatos planos. Si tienes un archivo .csv o .txt con muchos datos, te reto a que hagas la comparación de tiempo que toma la carga estándar (con `read.csv()`, por ejemplo) versus la función `fread` (fast read) de data.table
+
+Sin embargo, en esta entrada no vamos a cargar datos externos, pues vamos a usar los datos de `iris`, unos datos bastante conocidos en R y normalmente usados para los ejemplos.
+
+```{r loadData}
+irisDT = data.table(iris)
+```
+
+Una cosa interesantes aquí: `irisDT` es de clase `data.frame` y `data.table`. Esto es bueno, porque al ser todavía una `data.frame`, el objeto conserva todas las propiedades y métodos de cualquier data.frame normal (ensayá por ejemplo `irisDT$Sepal.Length[1:4]`). Que sea una `data.table` significa que le aplican algunos métodos específicos de la clase. Ensayá por ejemplo `irisDT` y comparálo con `iris`. ¿Viste que `irisDT` imprime las filas 1 a 5 y las cinco últimas, mientras que `iris` las imprimió todas?
+
+Así como le aplica un método _nuevo_ de visualización, le aplican otros diferentes también.
+
+## La estructura de data.table
+
+La sintáxis de data.table es sencilla de entender, compacta y poderosa. Siempre se reduce a
+
+$$
+DT[i, j, by = k]
+$$
+
+### La _i_ sirve para filtrar
+
+En general (luego hablamos de las uniones o _joins_), la _i_ de data.table sirve para filtrar. Vamos por ejemplo a filtrar aquellas filas (registros) en los que la especies es "setosa":
+
+```{r filtraSetosa}
+irisDT[Species == "setosa", ]
+```
+
+¿Qué sale? Pues todos los registros cuya especie es "setosa". Por supuesto que se puede filtrar por otros criterios:
+
+```{r filtraPetalWidth}
+irisDT[Petal.Width > 2, ]
+```
+
+y obviamente por criterios combinados:
+
+```{r filtraCombinado}
+irisDT[Petal.Width <= 0.3 & Sepal.Length > 5,]
+```
+
+Es posible también filtrar por números de fila, intentá por ejemplo:
+
+```{r filtraNumerosFila}
+irisDT[4, ]
+
+irisDT[c(1, 4),]
+```
+
+**Cosas para notar**:
+
++ No es necesario utilizar `$` para extraer las columnas.
++ No es necesario utilizar comillas para los nombres de las variables. Esto es bastante útil para aquellas personas que, como yo, preferimos no teclear tanto.
++ La coma al final de la _expresión_ utilizada para filtar es opcional. Sin embargo, es buena idea acostumbrarse a ponerla.
+
+### La _j_ sirve para operar
+
+En el campo de la **_j_** podemos utilizar funciones o, más genralmente expresiones, para indicarle a R qué hacer con nuestros datos.
+
+#### Funciones
+
+Este es el uso más común, en el que hacemos alguna operación sobre alguna variable. Podemos, por ejemplo, calcular el promedio de longitud del sépalo de las flores de la especie "versicolor":
+
+```{r promedioVersicolor}
+irisDT[Species == "versicolor", mean(Sepal.Length)]
+```
+
+¿Qué hicimos ahí?
+
++ Filtrar aquellas filas en las que la especie es "versicolor", y
++ calcular el promedio de la variable `Sepal.Length` con la función `mean()`
+
+Nada astronáutico, ¿o sí?
+
+Es posible aplicar varias funciones (o expresiones):
+
+```{r promedioMediana}
+irisDT[Species == "versicolor", .(promedio = mean(Sepal.Length), mediana = median(Sepal.Length))]
+```
+
+El `.()` que encierra las expresiones en _j_ es un nombre alternativo para la función `list()` (ensaya cambiando el punto inicial por `list`), y sirven para que data.table nos devuelva un resultado de clase `data.table`.
+
+#### Expresiones
+
+La _j_ puede tomar no sólo funciones, sino también **expresiones**. Esto es útil en algunos contextos, así que voy a mostrar un par de ejemplos medio tontos de lo que esto significa. En algún blog posterior espero mostrar algo más relevante que se puede lograr con esto.
+
+Primero, el más tonto de los dos ejemplos:
+
+```{r print1_scientific}
+irisDT[Species == "versicolor", format(1, scientific = TRUE)]
+```
+
+Esta fue una expresión, bastante sosa, hay que admitirlo. Pero el hecho de que `data.table` la haya procesado es interesante. Vamos a un ejemplo menos simple:
+
+```{r plotHistograma}
+irisDT[Species == "versicolor", hist(Sepal.Length)]
+
+```
+
+Esto fue más interesante... no es exactamente una operación lo que hicimos ahí: fue una _expresión_, y data.table la procesa: generó el histograma de "Sepal.Length". Vamos a algo aún más poderoso:
+
+```{r asignaModelo}
+irisDT[Species == "versicolor", modelo <<- lm(Sepal.Length ~ Petal.Width)]
+```
+
+La variable `modelo` ha sido creada en el ambiente global (gracias a que usamos `<<-`), lo cual puede ser corroborado con:
+
+```{r resumenModelo}
+summary(modelo)
+```
+
+### La _k_ sirve para agrupar
+
+Ahora vamos a ver la funcionalidad de _k_:
+
+```{r promedioEspecies}
+irisDT[ , mean(Sepal.Length), by = Species]
+```
+
+Cuando le indicamos a data.table que _agrupe por `Species`_, entonces ella va a ejecutar las operaciones en _j_ para cada grupo que identifique en _k_. El resultado (para nuestro ejemplo) entonces es el promedio de `Sepal.Length` para cada especie que encuentre en la variable `Species`. Obviamente es posible aplicar esta operación con un filtro determinado (en este caso concentrándonos sólo en las flores cuyos sépalos tienen un ancho mayor o igual a 3):
+
+```{r operacionConjunta}
+irisDT[Sepal.Width >= 3, mean(Sepal.Length), by = Species]
+```
+
+De la misma forma en que pudimos aplicar varias operaciones simultáneas en _j_, también es posible aplicar varias agrupaciones simultáneas en _k_:
+
+```{r agruparConjunto}
+irisDT[, mean(Sepal.Length), by = .(Species, petaloPequeno = Petal.Width < .3)]
+
+```
+
+## Algunos atajos y extras
+
+`data.table` tiene muchas cosas interesantes que facilitan los análisis.
+
+### Variables incorporadas
+
+Hay algunas operaciones recurrentes que se simplifican con variables incorporadas. Las más usadas son:
+
+#### `.N`: para contar el número de registros.
+
+Con esta variable podemos contar el número de filas que cumplen con nuestro criterio:
+
+```{r usoDeN}
+irisDT[Petal.Width > 0.3, .N]
+
+irisDT[, .N, by = Species]
+```
+
+#### `.SD`: **S**ubset **D**ata
+Guarda una versión del objeto, tal como lo vamos operando. Es útil para muchas cosas (algunas de ellas más avanzadas de lo que espero mostrar aquí, como interacciones con las funciones `*pply` de base), como mostrar el primer registro por cada especie:
+
+```{r usoDeSD}
+irisDT[, .SD[1,], by = Species]
+```
+
+Aquí le pedimos a .SD que nos trajera la fila 1 de cada una de las subtablas por especie.
+
+#### `.BY`: La variable de agrupación
+
+La variable especial `.BY` guarda el valor con el que `data.table` está agrupando. Esto se ver mejor cuando retornamos el valor de `.BY`:
+
+```{r usoDeBY}
+irisDT[, paste0("a_", .BY), by = as.character(Species)]
+```
+
+(Notá que tuvimos que convertir `Species` en texto, porque originalmente es un factor).
+
+#### `.GRP`: La versión numérica del grupo
+
+```{r usoDeGRP}
+irisDT[, paste0("a_", .GRP), by = as.character(Species)]
+```
+
+### Funciones especiales
+
+`data.table` tiene algunas funciones especiales de gran utilidad. Algunas son:
+
++ `uniqueN`.
++ `shift`.
++ `between` o `%between%`
++ `like` o `%like%`
++ y varias otras para manejo de fechas
+
+```{r funcionesEspeciales}
+irisDT[, uniqueN(Species)]
+
+irisDT[Species == "setosa", .(originalSepal = Sepal.Length, 
+                              shiftedSepalDown = shift(Sepal.Length, n = 1, type = "lag"),
+                              shiftedSepalUp = shift(Sepal.Length, n = 1, type = "lead"))]
+
+irisDT[Sepal.Length %between% c(5.1, 5.2)]
+
+irisDT[Species %like% "v.*",]
+```
+
+## Encadenando comandos
+
+En `data.table` es posible encadenar comandos siguiendo la misma sintaxis, ya que el resultado de cualquier operación sobre una `data.table` es en sí misma otra data.table. Por lo tanto, encadenar comandos es tan simple como:
+
+```{r encadenando}
+irisDT[Sepal.Length < 5.5, 
+       .N, 
+       by = Species][, 
+                     .(Species, 
+                       N, 
+                       proporcion = paste0(round(100*prop.table(N), 
+                                                 2), 
+                                           "%"))]
+
+```
+
+Notá que donde está `][` está el "paso" de la primera aplicación de operandos a la segunda.
+
+Algunas personas encuentran más amigable utilizar el "pipe" de `magrittr` para encadenar, esto es perfectamente correcto. El resultado sería:
+
+```{r usandoPipe}
+library(magrittr)
+
+irisDT[Sepal.Length < 5.5, 
+       .N, 
+       by = Species] %>% 
+  .[, .(Species,
+       N,
+       proporcion = paste0(round(100*prop.table(N),
+                                 2),
+                           "%"))]
+```
+
+Notá que después del pipe (`%>%`) tuvimos que usar el punto `.` como una forma de indicar que sobre esa `data.table` que viene es que vamos a realizar la siguiente operación.
+
+## Cierre
+
+Quedan faltando un millón de temas por tocar sobre este paquete. Espero que hayás podido ver que la sintaxis de `data.table` no es para nada intimidante, y al contrario muy compacta y consistente. Si tenés dudas o comentarios, no lo dudés, ¡para conversar estamos!

@@ -1,0 +1,133 @@
+---
+title: Estimando Errores de Pronóstico
+author: Giovanni Pavolini
+date: '2019-07-24'
+slug: estimando-errores-de-pronóstico
+categories:
+  - Spanish
+tags:
+  - gerencia
+---
+
+Hay diferentes formas de medir el error en el pronóstico, y diferentes formas de agregarlo.
+
+
+## Cálculo del error de pronóstico
+
+Consideremos un producto con un valor pronosticado de venta de 60 unidades para marzo, y una venta real de 51 unidades durante el mismo mes.
+
+### MAD: Mean Absolute Deviation
+La desviación absoluta promedio se calcula así:
+
+$$
+MAD = \frac{1}{n}\sum_p{\left|y_a-y_f\right|}
+$$
+
+donde $n$ es el número de observaciones sobre las cuales queremos calcular nuestro error de pronóstico (cuando se pronosticaron más de un periodo), $p$ se refiere a los periodos, $y_a$ es el valor real de venta, y $y_f$ fue el valor pronosticado. En nuestro caso:
+
+$$
+MAD = \frac{1}{1}\times\left|51-60\right| = 9
+$$
+El principal problema con el MAD es que es dimensional, es decir, el resultado está en unidades, lo que hace difícil su interpretación.
+
+### MAPE: Mean Absolute Percent Error
+
+El error promedio absoluto porcentual mide el error en porcentaje, lo que lo hace fácil de interpretar. Se calcula así:
+
+$$
+MAPE = 100 \times \frac{1}{n} \sum_p{\frac{|y_a-y_f|}{|y_a|}}
+$$
+
+La nomenclatura es la misma que utilizamos para el MAD. En nuestro caso el MAPE es:
+
+$$
+MAPE = 100 \times \frac{1}{1} \sum_p{\frac{|51-60|}{|51|}}=17.6\%
+$$
+El principal problema con el MAPE es que se indetermina cuando el valor real es cero, o muestra inestabilidad en su vecindario.
+
+### Cociente MAD/mean
+Para evitar los problemas del MAPE cuando el valor real es cero y mantener un dato relativo, es posible dividir el MAD entre el promedio de las dos mediciones:
+
+$$
+MAD/mean = 100\times\frac{MAD}{\hat{y}}=\frac{\frac{1}{n}\sum_p{|y_a-y_f|}}{\frac{y_a+y_f}{2}}
+$$
+
+En nuestro caso:
+
+$$
+MAD/mean = 100\times\frac{MAD}{\hat{y}}=\frac{\frac{1}{1}\sum_p{|51-60|}}{\frac{51+60}{2}} = 16.21\%
+$$
+
+## Agregación sobre varias referencias
+
+Al agregar sobre varias referencias es importante tener en cuenta:
+
++ Si se usa el MAD: las unidades deben ser compatibles entre todas las referencias,
++ Si se usa el MAPE: las referencias con pronósticos (y valores reales) cercanos a cero tienden a tener un error _relativo_ mayor y por lo tanto tienden a dominar el cálculo.
+
+### WMAPE: Weighted MAPE
+
+Se utiliza con frecuencia la ponderación de los MAPE. Esta ponderación se puede realizar con un número de variables, tales como precio, rentabilidad, y volumen. La sugerencia es que se utilice como variable de ponderación la misma variable que se utilizó para estimar el pronóstico (volumen, en nuestro caso).
+
+Añadamos a nuestra referencia de los ejemplos anteriores una nueva referencia con pronóstico 2 y valor real 1.
+
+```{r, echo=FALSE}
+a <- data.frame(producto = c("P1", "P2"), pronostico = c(51, 2), actual = c(60, 1))
+
+knitr::kable(a)
+```
+
+Calculando los MAD y MAPE de cada uno:
+```{r, echo=FALSE}
+a$MAD <- c(9, 1)
+a$MAPE <- c(17.6, 100)
+a$MADmean <- c(16.21, 66.67)
+
+knitr::kable(a)
+```
+
+Ahora es claro por qué decíamos que para el MAPE los valores pequeños comandaban la agregación: el 100\% del producto 2 tiene un impacto significativo en el total.
+
+No se calcula una exactitud de pronóstico agregada sumando las unidades pronosticadas y las unidades actuales y calculando un MAPE para ellas por dos razones:
+
++ Las unidades podrían no ser compatibles.
++ Los errores negativos y positivos se podrían cancelar mutuamente.
+
+Es posible entonces calcular de dos formas el agregado:
+
++ Promediando los MAPE: $(17.6\%+100\%)/2 = 58.8\%$.
++ Ponderandolos con el volumen actual, WMAPE.
+
+El cálculo del WMAPE entonces es:
+
+$$
+WMAPE = \frac{\sum_i{V_i\times MAPE_i}}{\sum_i{V_i}}
+$$
+donde $i$ es un producto.
+
+En nuestro ejemplo:
+
+$$
+WMAPE = \frac{(60\times17.6)+(1*100)}{(60+1)}=18.95\%
+$$
+
+### WMAD/mean
+
+También es posible ponderar el MAD/mean con el volumen (o la rentabilidad o el valor de venta), de manera similar al cálculo del WMAPE. La ventaja que tiene el MAD/mean es que no es tan inestable en las proximades de cero. El WMAD/mean se calcula así:
+
+$$
+WMAD/mean = \frac{\sum_i{V_i\times MAD/mean_i}}{\sum_i{V_i}}
+$$
+donde $i$ es un producto.
+
+En nuestro ejemplo:
+
+$$
+WMAD/mean = \frac{(60\times16.21)+(1*66.67)}{(60+1)}=17.04\%
+$$
+
+## Línea de Cierre
+
+Es importante estimar la exactitud de los pronósticos que hacemos, y ajustar nuestros modelos buscando una mayor exactitud. 
+Al igual que existen numerosas estrateigas para pronosticar, y cada una tiene una utilización específica de acuerdo a nuestros datos, exisen diferentes fórmulas que se usan para estimar los errores de pronóstico. Éstas tienen ventajas y desventajas, así como los métodos para agregarlos entre las diferentes referencias. Conocer cada método en detalle permite evitar o mitigar las desventajas que pueda tener en nuestro caso particular.
+

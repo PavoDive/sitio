@@ -1,0 +1,122 @@
+---
+title: Calculando comisión de ventas - non-equi Joins
+author: Giovanni Pavolini
+date: '2019-09-10'
+slug: calculando-comisión-de-ventas-non-equi-joins
+categories:
+  - Spanish
+tags:
+  - data.table
+  - R
+  - productividad
+---
+
+Con frecuencia encontramos el problema de enlazar dos tablas no por valores iguales (lo que haríamos en Excel con un "BUSCARV" o "VLOOKUP"), sino identificando cuando un valor en una de las tablas **cae en un rango** de valores en la otra tabla. A este tipo de enlace entre tablas (_join_) se le llama _non-equi joins_, o uniones de desigualdad.
+
+## Analizando un caso práctico
+
+### El problema
+
+```{r, include=FALSE}
+
+library(data.table)
+library(knitr)
+
+dt1 <- data.table(idVendedor = paste0("VTS00", 29:34), venta = seq(0, 30, length.out = 6), key = "venta")
+
+dt2 <- data.table(inicioRango = seq(0, 32, length.out = 15), comision = seq(0.01, 0.15, length.out = 15))
+dt2[, finRango := inicioRango + 2]
+setcolorder(dt2, c(1, 3, 2))
+```
+
+Imaginemos que hay un grupo de vendedores que en el mes pasado tuvieron una venta, en millones, representada en la siguiente tabla:
+
+```{r, echo = FALSE}
+kable(dt1, col.names = c("ID vendedor", "Venta en MM"))
+```
+
+La comisión que se paga a cada vendedor aumenta con el valor vendido, pero se liquida en rangos de 2 millones, de acuerdo con la siguiente tabla:
+
+```{r, echo = FALSE}
+kable(dt2, col.names = c("Inicio Rango Venta", "Fin Rango Venta", "Comisión"))
+```
+
+Queremos entonces saber que comisión debemos pagar a cada uno de los vendedores. Para eso debemos hacer una unión de **doble desigualdad**: vamos a enlazar las filas en las que `venta >= inicioRango` y `venta <= finRango`.
+
+### La herramienta
+
+El paquete `data.table` ofrece dos formas de resolver este problema. Vamos primero con la "tradicional": un non-equi join.
+
+Para hacerlo, asignamos la tabla de venta por vendedor a la variable `dt1` y la tabla de comisiones a la variable `dt2`.
+
+Idealmente las tablas han sido cargadas con la función `fread` de data.table desde un archivo plano y por lo tanto son de clase `data.table`, pero si son de clase `data.frame`, simplemente las hacemos `data.table` con la función `setDT()`.
+
+Los non-equi joins siguen la misma sintaxis que las uniones normales entre tablas:
+
+```{r, eval=FALSE}
+library(data.table)
+
+x[y, on = .(nombreColumnaEnX = nombreColumnaEnY)]
+```
+
+excepto que vamos a reemplazar la igualdad `=` por una desigualdad (en realidad por dos!).
+
+```{r}
+dt1[dt2, 
+    .(venta, idVendedor, comision), 
+    on = .(venta >= inicioRango, venta  <= finRango), 
+    nomatch = NULL, 
+    by = .EACHI]
+```
+
+Por una razón que aún no comprendo y que [está reportada](https://github.com/Rdatatable/data.table/issues/3644), los nombres de las columnas del rango de venta salen errados. Esto es fácil de corregir, asignando los nombres de las primeras dos columnas de `dt2` a las primeras dos columnas de nuestro resultado:
+
+```{r}
+resultado <- dt1[dt2, 
+                 .(venta, idVendedor, comision), 
+                 on = .(venta >= inicioRango, venta  <= finRango), 
+                 nomatch = NULL, 
+                 by = .EACHI]
+
+setnames(resultado, 1:2, names(dt2)[1:2])
+
+resultado
+```
+
+## Una Alternativa con `foverlaps`
+
+La función `foverlaps` nos permite identificar rangos traslapados de variables en dos tablas. Esta función hace un non-equi join comparando los extremos de cada rango en cada tabla con los rangos en la otra tabla, y determinando si hay traslapo (en `?foverlaps` podrán ver que hay varios tipos de traslapo contemplados por la función).
+
+Debido a que la función compara **dos rangos**, necesitamos convertir nuestra venta en la tabla 1 en un rango. Vamos a usar un truco sencillo para lograrlo: definir un rango de ancho **CERO**:
+
+```{r}
+dt1[, venta2 := venta][]
+```
+
+También es necesario establecer llaves para las tablas (es una condición de `foverlaps`):
+
+```{r}
+setkey(dt1, "venta", "venta2")
+
+setkey(dt2, "inicioRango", "finRango")
+```
+
+Ahora sí podemos usar `foverlaps`:
+
+```{r}
+foverlaps(dt1, dt2)
+```
+
+Obviamente podemos remover `venta2` con `venta2 := NULL`.
+
+## Acciones finales
+
+Ahora que hemos cruzado las tablas, restaría sólo multiplicar la comisión por la venta:
+
+```{r}
+resultado[, valorComision := comision * venta][]
+```
+
+## Línea de Cierre
+
+Realizar uniones de desigualdad con `data.table` es simple y la sintaxis es absolutamente consistente con la utilizada para las uniones normales. La función `foverlaps` permite una forma sencilla y rápida de realizar este tipo de uniones, y en general estimar los traslapos que hay entre rangos de datos.

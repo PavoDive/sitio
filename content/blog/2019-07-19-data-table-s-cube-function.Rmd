@@ -1,0 +1,107 @@
+---
+title: data.table's `cube` function
+author: Giovanni Pavolini
+date: '2019-07-19'
+slug: data-table-s-cube-function
+categories:
+  - English
+tags:
+  - R
+  - data.table
+---
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+library(data.table)
+```
+
+Recently I learned there's a `cube` function in `data.table`, thanks to Dan Wilson:
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Just came across data.table::cube() which aggregates and includes a total. I don’t know how I’ve never known about this function before <a href="https://twitter.com/hashtag/datatable?src=hash&amp;ref_src=twsrc%5Etfw">#datatable</a> <a href="https://twitter.com/hashtag/rstats?src=hash&amp;ref_src=twsrc%5Etfw">#rstats</a><br>e.g. <br>cube(mtcars,<br> .(mean_disp = mean(disp)),<br> by = c(&quot;cyl&quot;))</p>&mdash; Dan Wilson (@danwwilson) <a href="https://twitter.com/danwwilson/status/1151816144522579968?ref_src=twsrc%5Etfw">July 18, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+Perhaps I should allocate a time to just do `[packageName]::` and keep hitting TAB in RStudio to learn about the many nice functions the packages I use often have, and I don't know.
+
+Although Dan's example with the famous `mtcars` is pretty self explanatory, I wanted to know the function in detail, so this is about that journey.
+
+## RTFM
+
+```{r, eval=FALSE}
+library(data.table)
+?cube
+
+```
+
+A good (the best?) place to start knowing a function is the documentation. So `?cube` tells us that cube
+
+> Calculate aggregates at various levels of groupings producing multiple (sub-)totals. Reflects SQLs _GROUPING SETS_ operations.
+
+It then tells us that there are two additional functions that are related: `rollup` and `groupingsets`, so I'll explore those briefly here.
+
+The syntax for `cube` is
+
+`cube(x, j, by, .SDcols, id = FALSE, ...)`
+
+Where:
+
++ `x` is the data.table we want to use,
++ `j` is the **expression** that you would normally use in data.table,
++ `by` is the names of the columns by which the grouping is made, 
++ `.SDcols` are the columns that will be used in `j`'s expression, and
++ `id` is a logical expression indicating whether you want a leading column with a mask of grouping sets (`TRUE`) or you don't (wich is the default case, `FALSE`).
+
+## Let's see how it works
+
+```{r}
+# let's work with iris, a well known example dataset
+dt <- data.table(iris)
+```
+
+
+```{r, eval = FALSE}
+# a timid test
+cube(dt, j = mean(Sepal.Length), by = Species, id = FALSE)
+```
+
+`       # Error in cube.data.table(dt, j = mean(Sepal.Length), by = Species, id = FALSE) :` 
+
+`       #  object 'Species' not found`
+
+```{r}
+cube(dt, j = mean(Sepal.Length), by = "Species", id = FALSE)
+
+```
+
+First thing I notice is I needed to quote `Species`, second thing I noticed is I had to read the documentation *carefully*, as it states clearly _**character** column names by which we are grouping._
+
+Then I noticed that the output produced a value for a `NA` Species... but the data is solid, there aren't `NA`s in the Species column... So what is it?
+
+It is the *overall* mean (for mean we asked in `j`) of the dataset's Sepal.Length:
+
+```{r}
+cube(dt, j = mean(Sepal.Length), by = "Species", id = TRUE)
+
+dt[, mean(Sepal.Length)]
+```
+
+Notice the `grouping` columns after setting to TRUE the `id` argument to `cube`.
+
+Seems pretty useful for those cases where you need subtotals, which a lot of people do very often (here goes a confession: when I'm *forced* to work in Excel or any other spreadsheet, If I ever come into a pivot or dynamic table, one of the first things I do is "disable subtotals").
+
+`cube` can have any expression in `j` and it seems to me that it's real power is evident when grouping for several variables:
+
+```{r}
+dt2 <- data.table(Titanic)
+cube(dt2, j = .(mean(N), sum(N)), by = c("Sex", "Class"))
+
+```
+
+## Bottom line
+
+Use `cube` if you want to evaluate an expression by **both** a group of variables and the ungrupped expression. In that regard is equivalent to:
+
+```{r}
+cube(dt, mean(Sepal.Length), "Species")
+rbind(dt[, mean(Sepal.Length), by = Species], 
+      dt[, .(V1 = mean(Sepal.Length))], 
+      fill = TRUE)
+
+```
+

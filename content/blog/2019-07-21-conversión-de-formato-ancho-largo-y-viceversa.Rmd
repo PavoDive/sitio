@@ -1,0 +1,173 @@
+---
+title: Conversión de formato Ancho a Largo y viceversa
+author: Giovanni Pavolini
+date: '2019-07-21'
+slug: conversión-de-formato-ancho-largo-y-viceversa
+categories:
+  - Spanish
+tags:
+  - data.table
+  - R
+  - ggplot
+---
+
+[See an English version here!](/2019/07/22/long-to-wide-and-wide-to-long-format-conversion)
+
+Uno de las dificultades que con frecuencia encuentro en preguntas en Stack Overflow sobre R, y en general sobre ciencia de datos es la errónea utilización de formatos anchos de datos para análisis de datos.
+
+En este post veremos algunas funciones del paquete `data.table` en **R** para convertir de formato ancho a largo y viceversa.
+
+## Diferentes Formas de Almacenar los Mismos Datos
+
+
+Hay dos posibles formas de almacenar información tabulada: en formato "ancho" y en formato "largo".
+
+### Formato Ancho
+
+El formato ancho es muy común en hojas de cálculo, ya que resulta más fácil de visualizar para el usuario. Un ejemplo de este formato en una tabla de ventas sería:
+
+```{r, echo=FALSE, include=FALSE}
+library(knitr)
+dfAncha <- data.frame(item = c("azúcar", "café", "harina", "sal"), este = c(13, 4, 4, 9), norte = c(11, 6, 2, 13), oeste = c(9, 6, 3, 11), sur = c(14, 5, 3, 10), stringsAsFactors = FALSE)
+```
+
+```{r, echo=FALSE}
+kable(dfAncha)
+```
+
+En esta tabla vemos que hay una columna de productos y cuatro columnas con la venta en cada región de cada uno de ellos. Si bien este formato es fácil de interpretar para nosotros, es relativamente "difícil" de usar por el computador cuando usamos los datos. 
+Pensálo así: si querés graficar la distribución de venta de cada producto, entonces vas a tener que dar cuatro diferentes instrucciones de gráfica, una para cada uno. El formato largo nos evita esto.
+
+### Formato Largo
+
+En el formato largo cada variable ocupa una columna (por eso también se le llama "tidy" u ordenado). Nuestra tabla entonces tendría una columna con el nombre del producto, otra con la región de venta y una última con el valor de la venta:
+
+```{r, echo = FALSE, include = FALSE}
+library(data.table)
+dfLarga <- melt(dfAncha, id.vars = "item", value.name = "valor", variable.name = "region", variable.factor = FALSE)
+```
+
+
+```{r, echo = FALSE}
+kable(dfLarga)
+
+```
+
+Allí tenemos los mismos 16 registros, sólo que ahora están organizados en una sola columna, y hay otra columna que nos indica a qué región corresponde cada valor de venta. Obviamente cada producto no aparece sólo 1 vez, como en la tabla ancha, sino 4 veces.
+
+## Comparación de los Formatos
+
+Tener la información en una tabla larga es más fácil para hacer ciertos procesamientos. Miremos por ejemplo lo que tendríamos que hacer para obtener *todos* los ítems en una sola gráfica, o lo que necesitamos para estimar los promedios por zona:
+
+### Con una Tabla Ancha:
+
+```{r}
+library(ggplot2)
+
+p <- ggplot(dfAncha)+
+  geom_point(aes(x = names(dfAncha)[2:5], y = t(dfAncha[1,2:5]), color = dfAncha[1,1]), position = "jitter")+
+  geom_point(aes(x = names(dfAncha)[2:5], y = t(dfAncha[2,2:5]), color = dfAncha[2, 1]), position = "jitter")+
+  geom_point(aes(x = names(dfAncha)[2:5], y = t(dfAncha[3, 2:5]), color = dfAncha[3,1]), position = "jitter")+
+  geom_point(aes(x = names(dfAncha)[2:5], y = t(dfAncha[4, 2:5]), color = dfAncha[4,1]), position = "jitter")
+
+p
+```
+
+Evidentemente requerimos hacer algunos ajustes cosméticos en los títulos:
+
+```{r}
+p + labs(x = "region", y = "valor venta", color = "item")
+```
+
+Para el caso de los promedios por zona, podemos:
+
+```{r}
+colMeans(dfAncha[, 2:5])
+```
+
+### Ahora con una Tabla Larga
+
+Veamos como se saca la misma gráfica:
+
+```{r}
+p2 <- ggplot(dfLarga, aes(x = region, y = valor, color = item))+
+  geom_point(position = "jitter")
+
+p2
+```
+
+¡No sólo el código es más corto, la cosmética es la adecuada!
+
+(Si notaste que las dos gráficas no son idénticas, eso es por el desplazamiento aleatorio del _jitter_. Los valores reales de las tablas son idénticos).
+
+Ahora veamos como se calcula el promedio por región:
+
+```{r}
+# Usando base R
+tapply(dfLarga$valor, dfLarga$region, mean)
+
+# con una sintaxis más amigable en data.table
+library(data.table)
+
+setDT(dfLarga)[, mean(valor), by = region]
+
+```
+
+Con una tabla larga, al ser un formato ordenado, podemos sacar el máximo provecho de paquetes como `data.table` o `dplyr`.
+
+## Convertir de Formato Ancho a Largo y Viceversa
+
+Para convertir de formato usaremos las funciones `melt` y `dcast` del paquete `data.table`.
+
+### Ancho a Largo
+Para hacer esta conversión usamos la función `melt` (literalmente "fundir"). Esta función toma los siguientes argumentos:
+
++ `data` es el objeto (tipo data.table) que vamos a convertir de ancha a larga,
++ `id.vars` son los vectores en la tabla que vamos a dejar **sin cambiar** de dimensión. En nuestro ejemplo sería la variable `item`, aunque pueden ser más en tablas más complejas. Puede usarse un vector de nombres (tipo character) o de números enteros que correspondan al número de columna.
++ `measure.vars` son las variables en las que se encuentran las mediciones. Puede ser un vector de nombres o de números enteros indicando los índices de las columnas. En nuestro caso son las columnas 2 a 5.
++ `variable.name` es el nombre que va a adoptar la columna en la que queden nuestras variables, es decir, en la que queden "oeste", "norte", "sur" y "este" de nuestra tabla de ejemplo.
++ `value.name` es el nombre que va a adoptar la columna en la que queden los valores, "value" por defecto.
++ `variable.factor` es una bandera lógica para indicar si queremos que la columna de variable quede convertida a factor (opción por defecto), o quede simplemente como caracter.
+
+Veamos como opera:
+
+```{r}
+setDT(dfAncha)
+
+dfLarga_2 <- melt(dfAncha, id.vars = "item", 
+                  variable.name = "region", 
+                  value.name = "valor", 
+                  variable.factor = FALSE)
+
+kable(dfLarga_2)
+```
+
+### Largo a Ancho
+
+Para esta tarea usamos la función `dcast`. Esta función tiene una notación un poco diferente, pues usa "fórmulas" para determinar qué variables poner en donde.
+
++ `data` es la tabla que vamos a convertir,
++ `formula` es la forma en que vamos a distribuir las columnas, mirá los ejemplos siguientes. En general la fórmula es de forma `x ~ y`. **La nemotécnica que yo uso es**: `filas ~ columnas`.
++ `fun.aggregate` es la función que debe usar para _consolidar_ los datos, en el caso que resulten más de un registro en la intersección fila - columna.
++ `value.var` es el nombre (o índice) de la columna en la que están los valores. Generalmente `dcast` adivina bien este parámetro, pero es bueno usarlo para evitar inconvenientes y el molesto mensaje de advertencia.
+
+```{r}
+dfAncha_2 <- dcast(dfLarga, 
+                   item ~ region, 
+                   value.var = "valor")
+
+kable(dfAncha_2)
+
+# Invirtiendo la fórmula
+dfAncha_3 <- dcast(dfLarga, 
+                   region ~ item, 
+                   value.var = "valor")
+
+kable(dfAncha_3)
+```
+
+## Línea de Cierre
+
+Siempre que tengás datos para analizar en computador, tratá de tenerlos en formato largo, es mucho más fácil de trabajar con ellos. Para convertir una tabla ancha en una larga, usá `data.table::melt`.
+
+Simepre que tengás que generar datos para interpretación por humanos, considerá ponerlos en formato ancho, son más fáciles de entender. Podés lograrlo con `data.table::dcast`.

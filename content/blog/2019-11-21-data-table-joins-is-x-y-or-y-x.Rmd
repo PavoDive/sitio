@@ -1,0 +1,35 @@
+---
+title: 'data.table joins: is X[Y] or Y[X]?'
+author: Giovanni Pavolini
+date: '2019-11-21'
+slug: data-table-joins-is-x-y-or-y-x
+categories:
+  - English
+tags:
+  - data.table
+---
+
+This is intended to be a very short post, an often-revisited reminder of the syntax for joins in `data.table`.
+
+When doing joins in data.table I often have to open a new R session and run the next code:
+
+```{r, include = FALSE}
+library(data.table)
+
+```
+
+```{r}
+a <- data.table(x = 1:3, y = 2:4)
+b <- data.table(x = 2:5, z = 3:6)
+a[b, on = .(x)]
+```
+
+in order to realize that the look-up table was `a` and not `b`. It seems I tend to read it as _"take `a` and look up its `x` column in `b`"_, which is obviously wrong.
+
+It should be read as _"show me the table `a` **having** `b`"_.
+
+So from now on my mnemonic will be _"What's going on in the inside shows on the outside"_[^1].
+
+![What's going on in the inside...](/post/2019-11-21-data-table-joins-is-x-y-or-y-x_files/scaledQuote.jpg){width=80%}
+
+[^1]: Earl Nightingale.

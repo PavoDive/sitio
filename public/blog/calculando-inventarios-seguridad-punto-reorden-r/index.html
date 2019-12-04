@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+
+
+
+
+
+
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Calculando Inventarios de Seguridad y puntos de reorden con R y data.table - Giovanni Pavolini - Consultor</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="icon" href="/favicon.ico">
+
+  
+  
+  
+  <link rel="stylesheet" href="/css/style.min.cc247bd1c5f1fae8fe5a7e431ae1d1c929f17ed843d980eee15ff49f4b55235e.css">
+  
+
+  
+
+  <link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+
+
+</head>
+
+<body class='page page-default-single'>
+  
+
+
+
+
+
+
+  <div id="main-menu-mobile" class="main-menu-mobile">
+  <ul>
+    
+    
+    <li class="menu-item-servicios">
+      <a href="/servicios/">
+        <span>Servicios</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-equipo">
+      <a href="/equipo/">
+        <span>Equipo</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog">
+      <a href="/blog/">
+        <span>Blog</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-contacto">
+      <a href="/contacto/">
+        <span>Contacto</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-nosotros">
+      <a href="/nosotros/">
+        <span>Nosotros</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+  <div class="wrapper">
+    <div class='header'>
+  <div class="container">
+    <div class="logo">
+      <a href="/"><img alt="Giovanni Pavolini - Consultor" src="/images/logo.svg" /></a>
+    </div>
+    <div class="logo-mobile">
+      <a href="/"><img alt="Giovanni Pavolini - Consultor" src="/images/logo-mobile.svg" /></a>
+    </div>
+    <div id="main-menu" class="main-menu">
+  <ul>
+    
+    
+    <li class="menu-item-servicios">
+      <a href="/servicios/">
+        
+        <span>Servicios</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-equipo">
+      <a href="/equipo/">
+        
+        <span>Equipo</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog">
+      <a href="/blog/">
+        
+        <span>Blog</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-contacto">
+      <a href="/contacto/">
+        
+        <span>Contacto</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-nosotros">
+      <a href="/nosotros/">
+        
+        <span>Nosotros</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+    <button id="toggle-main-menu-mobile" class="hamburger hamburger--slider" type="button" aria-label="Mobile Menu">
+  <span class="hamburger-box">
+    <span class="hamburger-inner"></span>
+  </span>
+</button>
+  </div>
+</div>
+
+    
+<div class="container pb-6 pt-6 pt-md-10 pb-md-10">
+  <div class="row justify-content-start">
+    <div class="col-12 col-md-8">
+      <div class="service service-single">
+        <h1 class="title">Calculando Inventarios de Seguridad y puntos de reorden con R y data.table</h1>
+        <div class="content">
+
+
+<p>En este post quiero mostrarles una forma de analizar sus datos de ventas y de estimar los inventarios de seguridad adecuados para esas referencias, así como el punto de reorden óptimo para ellas.</p>
+<blockquote>
+<p><em>El nivel de inventario refleja la capacidad o incapacidad de los administradores de controlar el sistema.</em><br>
+<em>Edgar Jaramillo.</em></p>
+</blockquote>
+<p>Es común en las empresas calcular los inventarios en días de venta. Esto ocurre, en la mayoría de las ocasiones, como una acción <strong>reactiva</strong>, es decir, las coberturas de inventario son <em>accidentes que ocurren y no decisiones planeadas</em>. Sobra decir que esto está mal, y que nuestros niveles de inventario deberían responder -como todo lo demás en la empresa- a una decisión planeada. En un post futuro miraremos los inventarios desde el punto de vista de su afectación sobre la productividad de capital de trabajo y consecuentemente sobre la palanca de crecimiento; por ahora baste decir que los inventarios son el banco más cercano y más barato que tenemos en todas las empresas.</p>
+<div id="todo-parte-de-la-venta" class="section level2">
+<h2>Todo parte de la Venta</h2>
+<p>El cálculo de inventarios parte de los históricos de venta y de los pronósticos que podemos derivar de ellos. En este post vamos a mantener las cosas simples, dejando la actividad de pronosticar para un post futuro.</p>
+<div id="creemos-datos-ficticios-de-venta" class="section level3">
+<h3>Creemos datos ficticios de venta</h3>
+<pre class="r"><code># Carguemos los paquetes que vamos a utilizar
+library(data.table)
+library(lubridate)
+
+# Hagamos que el ejercicio sea repetible, 
+#   que los aleatorios sean los mismos
+set.seed(1)
+
+# Creemos dos años de fechas y 
+#    130 referencias de las cuales escoger
+fechas &lt;- seq(ymd(&quot;2017-01-01&quot;), 
+              ymd(&quot;2019-02-28&quot;), 
+              by = &quot;1 day&quot;)
+referencias &lt;- setDT(expand.grid(LETTERS, 
+                                 1:5, 
+                                 stringsAsFactors = FALSE))[
+                                   , paste0(Var1, Var2)]
+
+# creemos un vector de probabilidades que asigna 
+#    10% de chance a venta de 0 unidades, 
+#    20% de chance de venta de 1 o 2 unidades, 
+#    10% de venta de 3 y venta uniforme para 4 hasta 19 unidades
+probabilidades &lt;- c(0.1, 
+                    0.2, 
+                    0.2, 
+                    0.1, 
+                    rep(0.4 / 16, 16))
+
+# y ahora sí, armemos una tabla de ventas con fecha, referencia y cantidad:
+ventas &lt;- data.table(fecha = sample(fechas, size = 2000, replace = TRUE), 
+                     item = sample(referencias, 2000, TRUE), 
+                     cantidad = sample(0:19, 2000, TRUE, prob = probabilidades), 
+                     key = &quot;fecha&quot;)</code></pre>
+<p>Es bueno <strong>siempre</strong> dar una exploración de los datos, para ver que todo está en orden:</p>
+<pre class="r"><code># Revisión general
+ventas</code></pre>
+<pre><code>##            fecha item cantidad
+##    1: 2017-01-01   Q1        1
+##    2: 2017-01-01   B3        2
+##    3: 2017-01-01   B2        0
+##    4: 2017-01-03   Y4       12
+##    5: 2017-01-03   Z4        1
+##   ---                         
+## 1996: 2019-02-27   N4        1
+## 1997: 2019-02-28   Z4       10
+## 1998: 2019-02-28   K2        3
+## 1999: 2019-02-28   K3        1
+## 2000: 2019-02-28   I3        6</code></pre>
+<pre class="r"><code># Veamos como quedaron los meses y los items
+ventas[, .N, 
+       by = .(fecha = floor_date(fecha, &quot;month&quot;))]</code></pre>
+<pre><code>##          fecha   N
+##  1: 2017-01-01  72
+##  2: 2017-02-01  70
+##  3: 2017-03-01  81
+##  4: 2017-04-01  78
+##  5: 2017-05-01  93
+##  6: 2017-06-01  56
+##  7: 2017-07-01  74
+##  8: 2017-08-01  86
+##  9: 2017-09-01  78
+## 10: 2017-10-01  71
+## 11: 2017-11-01  81
+## 12: 2017-12-01  86
+## 13: 2018-01-01  74
+## 14: 2018-02-01  60
+## 15: 2018-03-01  73
+## 16: 2018-04-01  86
+## 17: 2018-05-01 100
+## 18: 2018-06-01  59
+## 19: 2018-07-01  98
+## 20: 2018-08-01  63
+## 21: 2018-09-01  85
+## 22: 2018-10-01  76
+## 23: 2018-11-01  67
+## 24: 2018-12-01  83
+## 25: 2019-01-01  78
+## 26: 2019-02-01  72
+##          fecha   N</code></pre>
+<pre class="r"><code>ventas[, .N, by = item][order(-N)]</code></pre>
+<pre><code>##      item  N
+##   1:   R1 27
+##   2:   B2 25
+##   3:   C5 24
+##   4:   Y3 24
+##   5:   I5 23
+##  ---        
+## 126:   W5  9
+## 127:   Q4  8
+## 128:   V4  8
+## 129:   B1  8
+## 130:   O1  8</code></pre>
+<p>Como era de esperar, tenemos “transacciones” más o menos balanceadas en cada mes, y una distribución un poco más dispareja en las referencias, con algunas que fueron vendidas más de 20 veces y otras menos de 10.</p>
+</div>
+<div id="totalicemos-la-venta" class="section level3">
+<h3>Totalicemos la venta</h3>
+<p>Ya que tenemos datos ficticios de venta, totalicemos por mes y por item:</p>
+<pre class="r"><code>ventasResumen &lt;- ventas[, 
+                        .(cantidad = sum(cantidad)), 
+                        by = .(fecha = floor_date(fecha, &quot;month&quot;), 
+                               item)]</code></pre>
+<p>Es importante tener en cuenta el significado de los datos <strong>que no aparecen en este resumen de los datos</strong>. Veamos el caso de la referencia <code>O1</code>, una de las que menos transacciones tenía:</p>
+<pre class="r"><code>ventasResumen[item == &quot;O1&quot;,]</code></pre>
+<pre><code>##         fecha item cantidad
+## 1: 2017-07-01   O1        0
+## 2: 2017-08-01   O1       12
+## 3: 2017-12-01   O1       11
+## 4: 2018-03-01   O1        2
+## 5: 2018-05-01   O1       16
+## 6: 2018-09-01   O1       17
+## 7: 2018-10-01   O1        2</code></pre>
+</div>
+<div id="limpieza-de-datos" class="section level3">
+<h3>Limpieza de Datos</h3>
+<p>Observamos que hay meses de los que no se tiene registro. ¡Pero estos meses no son <code>NA</code>! En los meses en los que no tenemos registro, la venta fue de cero unidades. Por favor tené en cuenta que prácticamente cualquier sistema (SAP, Oracle, Siesa, etc.) va a reportarte los meses de cero venta como faltantes. <em>Es tu responsabilidad completar los datos</em>.</p>
+<p>Te podés estar preguntando porqué es necesario registrar estos datos. La razón es que vamos a usar la variación de la venta para estimar el inventario de seguridad, y no es lo mismo 1, 3, 5 que 0, 1, 0, 0, 3, 5, 0.</p>
+<p>Para <em>añadir</em> los meses de venta cero nuestra estrategia general va a ser:</p>
+<ul>
+<li>Crear una tabla con todas las combinaciones de fecha (mensual) y referencias. Para esto vamos a utilizar la función <code>CJ</code> de <code>data.table</code>, que es una especie de <code>expand.grid</code>, y</li>
+<li>vamos a unir esa tabla con la de <code>ventasResumen</code> (a hacer un <em>join</em>).</li>
+</ul>
+<pre class="r"><code>fechasMensuales &lt;- seq(ymd(&quot;2017-01-01&quot;), 
+                       ymd(&quot;2019-02-01&quot;), 
+                       &quot;1 month&quot;)
+
+# lo siguiente lo hacemos en caso de que haya algunas 
+#     referencias del pool total que no se hayan vendido
+referenciasMensuales &lt;- ventasResumen[, unique(item)]
+
+tablaTemporal &lt;- CJ(fecha = fechasMensuales, 
+                    item = referenciasMensuales)
+
+# Y ahora sí unimos las tablas, asignando de nuevo a ventasResumen
+ventasResumen &lt;- ventasResumen[tablaTemporal, on = .(fecha, item)]
+
+# Por supuesto, quitamos los NA y los reemplazamos con CERO:
+ventasResumen[is.na(cantidad), cantidad := 0]</code></pre>
+<p>Revisemos que nuestra referencia <code>O1</code> tenga puntos en todos los meses:</p>
+<pre class="r"><code>library(ggplot2)
+
+ggplot(ventasResumen[item == &quot;O1&quot;, ], 
+       aes(x = fecha, y = cantidad))+
+  geom_point()</code></pre>
+<p><img src="/blog/2019-08-09-calculando-inventarios-seguridad-punto-reorden-r_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>Ahora que hemos terminado la limpieza de los datos, podemos avanzar con un poco de teoría de inventarios.</p>
+</div>
+</div>
+<div id="inventario-de-seguridad" class="section level2">
+<h2>Inventario de Seguridad</h2>
+<p>El inventario de seguridad es una cantidad de producto que deseamos tener para <em>absorber las variabilidades en la demanda</em>. Esto es importante. Si nuestra demanda fuera perfectamente predecible, <strong>no necesitaríamos inventario de seguridad</strong>, puesto que sabríamos <em>exactamente</em> la fecha en la que un producto se iría a agotar, y de esta manera podríamos planear su reposición siempre a tiempo. Por lo contrario, cuando la demanda de un producto varía (como es lo más común), entonces no podemos saber con certeza cuando vamos a agotar ese producto, ni cuando reponerlo. Es necesario entonces tener un pequeño inventario que cubra esas eventualidades.</p>
+<p>De lo anterior vemos que el inventario de seguridad es entonces una <em>función de la variabilidad de la demanda</em>. Resulta que también es una función del nivel de servicio que esperamos de ese producto. No es igual entrar en agotado con un producto de máxima criticidad (pensemos por ejemplo en un medicamento cardíaco) que en uno de menor criticidad (como una venda).</p>
+<p>En términos reales, el Inventario de seguridad óptimo se calcula como función del nivel de servicio (<span class="math inline">\(k\)</span> es un factor que depende del nivel de servicio, calculado a partir de la función de cuantiles de la distribución normal) y de los errores de pronóstico durante el tiempo de reposición, <span class="math inline">\(\sigma_L\)</span>:</p>
+<p><span class="math display">\[ I_s = k \sigma_L \]</span></p>
+<p>El problema es que no conocemos el pronóstico, ¡mucho menos sus errores! Afortunadamente hay una versión simplificada de esta ecuación, que nos resulta más útil:</p>
+<p><span class="math display">\[ I_s = k \sigma_1 \sqrt{L} \]</span></p>
+<p>Donde
+<span class="math inline">\(\sigma_1\)</span> es la desviación estándar de los errores del pronóstico (o muy aproximadamente la desviación estándar de la demanda), y
+<span class="math inline">\(L\)</span> es el periodo de reposición, en unidades del periodo de planeación.</p>
+<p>En cuanto al punto de reorden, este será el inventario de seguridad más el consumo durante el tiempo de reposición, o aproximadamente:</p>
+<p><span class="math display">\[ P_R = I_s + \bar{d} L\]</span></p>
+</div>
+<div id="llevando-eso-a-data.table" class="section level2">
+<h2>Llevando eso a data.table</h2>
+<div id="asignemos-los-niveles-de-servicio" class="section level3">
+<h3>Asignemos los Niveles de Servicio</h3>
+<p>Supongamos, que asignamos niveles de servicio diferentes para los diferentes productos (tal vez en categorías). Normalmente podemos definir esto en una hoja de cálculo y luego cargarlos, pero para nuestros datos inventados, vamos a definirlos de acuerdo a los siguientes criterios:</p>
+<ul>
+<li>Los productos que comiencen con <strong>A</strong> deben tener un nivel de servicio del 98.5%</li>
+<li>Los productos que comiencen con <strong>B</strong> deben tener un nivel de servicio del 97%</li>
+<li>Los productos que terminen en <strong>4</strong> pueden tener un nivel de servicio de 90% (excepto que correspondan a las 2 categorías iniciales),</li>
+<li>y todos los demás productos tendrán un nivel de servicio de 95%.</li>
+</ul>
+<pre class="r"><code>ventasResumen[substr(item, 1, 1) == &quot;A&quot;, 
+              nivelServicio := 0.985]
+
+ventasResumen[is.na(nivelServicio) &amp; substr(item, 1, 1) == &quot;B&quot;, 
+              nivelServicio := 0.97]
+
+ventasResumen[is.na(nivelServicio) &amp; substr(item, 2, 2) == &quot;4&quot;, 
+              nivelServicio := 0.9]
+
+ventasResumen[is.na(nivelServicio), 
+              nivelServicio := 0.95]</code></pre>
+</div>
+<div id="definamos-un-tiempo-de-reposición" class="section level3">
+<h3>Definamos un tiempo de reposición</h3>
+<p>El tiempo de reposición o <em>lead time</em> que definamos debe estar en meses, pues ese es el periodo que hemos usado como análisis. Para nuetro ejemplo, vamos a definir un tiempo de reposicion uniforme de 7.5 días, o 0.25 meses:</p>
+<pre class="r"><code>ventasResumen[, tiempoReposicion := 0.25]</code></pre>
+</div>
+<div id="calculando-las-desviaciones-de-la-demanda" class="section level3">
+<h3>Calculando las Desviaciones de la Demanda</h3>
+<p>Para hacer esto simplemente utilizamos la capacidad de data.table de generar estadísticas de resumen de los datos agrupados. En este caso, por item:</p>
+<pre class="r"><code>ventasResumen[, sigma1 := sd(cantidad), by = item]</code></pre>
+<p>También vamos a necesitar estimar la demanda promedio en los últimos 3 meses:</p>
+<pre class="r"><code>ventasResumen[, promedioUltimos3Meses := mean(cantidad[(.N-2):.N]), 
+              by = item]</code></pre>
+</div>
+<div id="calculando-el-factor-multiplicador-k" class="section level3">
+<h3>Calculando el factor multiplicador k</h3>
+<p><span class="math inline">\(k\)</span> es un factor que depende del nivel de servicio esperado. Se calcula usando la función <code>qnorm()</code> que es la función de cuantiles de la función normal.</p>
+<pre class="r"><code>ventasResumen[, k := qnorm(nivelServicio)]</code></pre>
+</div>
+</div>
+<div id="calculando-el-inventario-de-seguridad" class="section level2">
+<h2>Calculando el Inventario de Seguridad</h2>
+<p>En este punto podemos concentrarnos en los datos calculados, olvidando las cantidades y fechas actuales, y calcular el Inventario de seguridad y Punto de Reorden:</p>
+<pre class="r"><code>inventarios &lt;- ventasResumen[, .SD[1,], 
+                             by = item, 
+                             .SDcols = c(&quot;nivelServicio&quot;, 
+                                         &quot;tiempoReposicion&quot;, 
+                                         &quot;sigma1&quot;, 
+                                         &quot;promedioUltimos3Meses&quot;, 
+                                         &quot;k&quot;)]
+
+inventarios[, inventarioSeguridad := k*sigma1*sqrt(tiempoReposicion)]
+inventarios[, puntoReorden := inventarioSeguridad + promedioUltimos3Meses * tiempoReposicion]</code></pre>
+<p>¡Nuestros inventarios están calculados!</p>
+</div>
+<div id="analizando-el-resultado" class="section level2">
+<h2>Analizando el resultado</h2>
+<p>Algunos habrán notado que para algunos items las coberturas son, aparentemente, desproporcionadamente altas. Por ejemplo, el item <code>X5</code> tiene un promedio de demanda en los últimos 3 meses de sólo 0.33 unidades, y sin embargo estamos sugiriendo un inventario de seguridad de 7.95 unidades, ¡esto es una cobertura de 24.1 meses! Si revisamos la historia de este producto, sin embargo, encontraremos que su demanda errática amerita tener esas 8 unidades en <em>stock</em>:</p>
+<p><img src="/blog/2019-08-09-calculando-inventarios-seguridad-punto-reorden-r_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+</div>
+<div id="línea-de-cierre" class="section level2">
+<h2>Línea de Cierre</h2>
+<p>Es posible planear los niveles de inventario para un grupo de referencias de manera rápida, fácil y consistente con R. Los niveles de inventario pueden planearse con un sentido lógico y técnico, no sólo con base en un número de días que, al usarse, pasa por alto la variabilidad de la demanda.</p>
+</div>
+</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  </div>
+
+  <div class="footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="footer-inner">
+          <h3 class="footer-title">Giovanni Pavolini - Consultor</h3>
+          <ul>
+            
+            
+            <li class="menu-item-home">
+              <a href="/">
+                Home
+              </a>
+            </li>
+            
+            <li class="menu-item-contacto">
+              <a href="/contacto/">
+                Contacto
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  <div class="sub-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="sub-footer-inner">
+          <ul>
+
+            <li><strong>Phone: </strong><span>&#43;57 300 402 8354</span></li>
+
+            <li><strong>Email: </strong><a href="mailto:giovanni@pavolini.net">
+                giovanni@pavolini.net</a></li>
+          </ul>
+          <a class="zerostatic" href="https://www.zerostatic.io">www.zerostatic.io</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/scripts.min.bf1e1f7ae8e03db5f012356e825843facdff51c0a559cb0d27fe2bbe1db405c2.js"></script>
+  
+
+  
+
+
+
+
+
+
+  
+  <link href="https://fonts.googleapis.com/css?family=DM+Serif+Display&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/bash.min.js"></script>
+  
+  <script>
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  
+  </script>
+  <script type="text/javascript"
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
+  
+</body>
+
+</html>

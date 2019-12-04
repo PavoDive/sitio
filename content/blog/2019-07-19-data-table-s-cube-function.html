@@ -1,0 +1,109 @@
+---
+title: data.table's `cube` function
+author: Giovanni Pavolini
+date: '2019-07-19'
+slug: data-table-s-cube-function
+categories:
+  - English
+tags:
+  - R
+  - data.table
+---
+
+
+
+<p>Recently I learned there’s a <code>cube</code> function in <code>data.table</code>, thanks to Dan Wilson:</p>
+<blockquote class="twitter-tweet">
+<p lang="en" dir="ltr">
+Just came across data.table::cube() which aggregates and includes a total. I don’t know how I’ve never known about this function before <a href="https://twitter.com/hashtag/datatable?src=hash&amp;ref_src=twsrc%5Etfw">#datatable</a> <a href="https://twitter.com/hashtag/rstats?src=hash&amp;ref_src=twsrc%5Etfw">#rstats</a><br>e.g. <br>cube(mtcars,<br> .(mean_disp = mean(disp)),<br> by = c(“cyl”))
+</p>
+— Dan Wilson (<span class="citation">@danwwilson</span>) <a href="https://twitter.com/danwwilson/status/1151816144522579968?ref_src=twsrc%5Etfw">July 18, 2019</a>
+</blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p>Perhaps I should allocate a time to just do <code>[packageName]::</code> and keep hitting TAB in RStudio to learn about the many nice functions the packages I use often have, and I don’t know.</p>
+<p>Although Dan’s example with the famous <code>mtcars</code> is pretty self explanatory, I wanted to know the function in detail, so this is about that journey.</p>
+<div id="rtfm" class="section level2">
+<h2>RTFM</h2>
+<pre class="r"><code>library(data.table)
+?cube</code></pre>
+<p>A good (the best?) place to start knowing a function is the documentation. So <code>?cube</code> tells us that cube</p>
+<blockquote>
+<p>Calculate aggregates at various levels of groupings producing multiple (sub-)totals. Reflects SQLs <em>GROUPING SETS</em> operations.</p>
+</blockquote>
+<p>It then tells us that there are two additional functions that are related: <code>rollup</code> and <code>groupingsets</code>, so I’ll explore those briefly here.</p>
+<p>The syntax for <code>cube</code> is</p>
+<p><code>cube(x, j, by, .SDcols, id = FALSE, ...)</code></p>
+<p>Where:</p>
+<ul>
+<li><code>x</code> is the data.table we want to use,</li>
+<li><code>j</code> is the <strong>expression</strong> that you would normally use in data.table,</li>
+<li><code>by</code> is the names of the columns by which the grouping is made,</li>
+<li><code>.SDcols</code> are the columns that will be used in <code>j</code>’s expression, and</li>
+<li><code>id</code> is a logical expression indicating whether you want a leading column with a mask of grouping sets (<code>TRUE</code>) or you don’t (wich is the default case, <code>FALSE</code>).</li>
+</ul>
+</div>
+<div id="lets-see-how-it-works" class="section level2">
+<h2>Let’s see how it works</h2>
+<pre class="r"><code># let&#39;s work with iris, a well known example dataset
+dt &lt;- data.table(iris)</code></pre>
+<pre class="r"><code># a timid test
+cube(dt, j = mean(Sepal.Length), by = Species, id = FALSE)</code></pre>
+<p><code># Error in cube.data.table(dt, j = mean(Sepal.Length), by = Species, id = FALSE) :</code></p>
+<p><code>#  object 'Species' not found</code></p>
+<pre class="r"><code>cube(dt, j = mean(Sepal.Length), by = &quot;Species&quot;, id = FALSE)</code></pre>
+<pre><code>##       Species       V1
+## 1:     setosa 5.006000
+## 2: versicolor 5.936000
+## 3:  virginica 6.588000
+## 4:       &lt;NA&gt; 5.843333</code></pre>
+<p>First thing I notice is I needed to quote <code>Species</code>, second thing I noticed is I had to read the documentation <em>carefully</em>, as it states clearly <em><strong>character</strong> column names by which we are grouping.</em></p>
+<p>Then I noticed that the output produced a value for a <code>NA</code> Species… but the data is solid, there aren’t <code>NA</code>s in the Species column… So what is it?</p>
+<p>It is the <em>overall</em> mean (for mean we asked in <code>j</code>) of the dataset’s Sepal.Length:</p>
+<pre class="r"><code>cube(dt, j = mean(Sepal.Length), by = &quot;Species&quot;, id = TRUE)</code></pre>
+<pre><code>##    grouping    Species       V1
+## 1:        0     setosa 5.006000
+## 2:        0 versicolor 5.936000
+## 3:        0  virginica 6.588000
+## 4:        1       &lt;NA&gt; 5.843333</code></pre>
+<pre class="r"><code>dt[, mean(Sepal.Length)]</code></pre>
+<pre><code>## [1] 5.843333</code></pre>
+<p>Notice the <code>grouping</code> columns after setting to TRUE the <code>id</code> argument to <code>cube</code>.</p>
+<p>Seems pretty useful for those cases where you need subtotals, which a lot of people do very often (here goes a confession: when I’m <em>forced</em> to work in Excel or any other spreadsheet, If I ever come into a pivot or dynamic table, one of the first things I do is “disable subtotals”).</p>
+<p><code>cube</code> can have any expression in <code>j</code> and it seems to me that it’s real power is evident when grouping for several variables:</p>
+<pre class="r"><code>dt2 &lt;- data.table(Titanic)
+cube(dt2, j = .(mean(N), sum(N)), by = c(&quot;Sex&quot;, &quot;Class&quot;))</code></pre>
+<pre><code>##        Sex Class        V1   V2
+##  1:   Male   1st  45.00000  180
+##  2:   Male   2nd  44.75000  179
+##  3:   Male   3rd 127.50000  510
+##  4:   Male  Crew 215.50000  862
+##  5: Female   1st  36.25000  145
+##  6: Female   2nd  26.50000  106
+##  7: Female   3rd  49.00000  196
+##  8: Female  Crew   5.75000   23
+##  9:   Male  &lt;NA&gt; 108.18750 1731
+## 10: Female  &lt;NA&gt;  29.37500  470
+## 11:   &lt;NA&gt;   1st  40.62500  325
+## 12:   &lt;NA&gt;   2nd  35.62500  285
+## 13:   &lt;NA&gt;   3rd  88.25000  706
+## 14:   &lt;NA&gt;  Crew 110.62500  885
+## 15:   &lt;NA&gt;  &lt;NA&gt;  68.78125 2201</code></pre>
+</div>
+<div id="bottom-line" class="section level2">
+<h2>Bottom line</h2>
+<p>Use <code>cube</code> if you want to evaluate an expression by <strong>both</strong> a group of variables and the ungrupped expression. In that regard is equivalent to:</p>
+<pre class="r"><code>cube(dt, mean(Sepal.Length), &quot;Species&quot;)</code></pre>
+<pre><code>##       Species       V1
+## 1:     setosa 5.006000
+## 2: versicolor 5.936000
+## 3:  virginica 6.588000
+## 4:       &lt;NA&gt; 5.843333</code></pre>
+<pre class="r"><code>rbind(dt[, mean(Sepal.Length), by = Species], 
+      dt[, .(V1 = mean(Sepal.Length))], 
+      fill = TRUE)</code></pre>
+<pre><code>##       Species       V1
+## 1:     setosa 5.006000
+## 2: versicolor 5.936000
+## 3:  virginica 6.588000
+## 4:       &lt;NA&gt; 5.843333</code></pre>
+</div>

@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+
+
+
+
+
+
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Wiki data.table en español - Giovanni Pavolini - Consultor</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="icon" href="/favicon.ico">
+
+  
+  
+  
+  <link rel="stylesheet" href="/css/style.min.cc247bd1c5f1fae8fe5a7e431ae1d1c929f17ed843d980eee15ff49f4b55235e.css">
+  
+
+  
+
+  <link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+
+
+</head>
+
+<body class='page page-default-single'>
+  
+
+
+
+
+
+
+  <div id="main-menu-mobile" class="main-menu-mobile">
+  <ul>
+    
+    
+    <li class="menu-item-servicios">
+      <a href="/servicios/">
+        <span>Servicios</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-equipo">
+      <a href="/equipo/">
+        <span>Equipo</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog">
+      <a href="/blog/">
+        <span>Blog</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-contacto">
+      <a href="/contacto/">
+        <span>Contacto</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-nosotros">
+      <a href="/nosotros/">
+        <span>Nosotros</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+  <div class="wrapper">
+    <div class='header'>
+  <div class="container">
+    <div class="logo">
+      <a href="/"><img alt="Giovanni Pavolini - Consultor" src="/images/logo.svg" /></a>
+    </div>
+    <div class="logo-mobile">
+      <a href="/"><img alt="Giovanni Pavolini - Consultor" src="/images/logo-mobile.svg" /></a>
+    </div>
+    <div id="main-menu" class="main-menu">
+  <ul>
+    
+    
+    <li class="menu-item-servicios">
+      <a href="/servicios/">
+        
+        <span>Servicios</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-equipo">
+      <a href="/equipo/">
+        
+        <span>Equipo</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog">
+      <a href="/blog/">
+        
+        <span>Blog</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-contacto">
+      <a href="/contacto/">
+        
+        <span>Contacto</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-nosotros">
+      <a href="/nosotros/">
+        
+        <span>Nosotros</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+    <button id="toggle-main-menu-mobile" class="hamburger hamburger--slider" type="button" aria-label="Mobile Menu">
+  <span class="hamburger-box">
+    <span class="hamburger-inner"></span>
+  </span>
+</button>
+  </div>
+</div>
+
+    
+<div class="container pb-6 pt-6 pt-md-10 pb-md-10">
+  <div class="row justify-content-start">
+    <div class="col-12 col-md-8">
+      <div class="service service-single">
+        <h1 class="title">Wiki data.table en español</h1>
+        <div class="content">
+
+
+<p><strong>Versión libre al español, adaptada de <a href="https://github.com/Rdatatable/data.table/wiki" class="uri">https://github.com/Rdatatable/data.table/wiki</a> en 2019-07-10</strong></p>
+<table>
+<td>
+<a   href="https://hexb.in/">
+<img  src="https://github.com/Rdatatable/data.table/wiki/icons/sticker.png"></a>
+</td>
+<td>
+<p><a   href="https://cran.r-project.org/web/checks/check_results_data.table.html">
+<img  src="https://cranchecks.info/badges/flavor/release/data.table"></a>
+<a   href="https://codecov.io/github/Rdatatable/data.table?branch=master">
+<img  src="https://codecov.io/github/Rdatatable/data.table/coverage.svg?branch=master"></a></p>
+<p><a   href="https://www.rdocumentation.org/trends">
+<img  src="https://cranlogs.r-pkg.org/badges/data.table"></a></p>
+<a   href="https://depsy.org/package/r/data.table">
+<img  src="https://depsy.org/api/package/cran/data.table/badge.svg"></a>
+<br>
+Lin/Mac:
+<a   href="https://travis-ci.org/Rdatatable/data.table">
+<img  src="https://travis-ci.org/Rdatatable/data.table.svg?branch=master"></a>
+Win:
+<a   href="https://ci.appveyor.com/project/Rdatatable/data-table">
+<img  src="https://ci.appveyor.com/api/projects/status/kayjdh5qtgymhoxr/branch/master?svg=true"></a>
+Extra:
+<a   href="https://gitlab.com/Rdatatable/data.table/pipelines">
+<img  src="https://gitlab.com/Rdatatable/data.table/badges/master/pipeline.svg"></a>
+<br>
+Últimas noticias de dev: <strong><a href="https://github.com/Rdatatable/data.table/blob/master/NEWS.md">Noticias</a></strong>
+<br>
+Nuevas presentaciones en 2019: click <strong><a href="https://github.com/Rdatatable/data.table/wiki/Presentations">Eventos</a></strong> en el menú lateral.
+<br>
+</td>
+</table>
+<p><code>data.table</code> es uno de los 13,000 paquetes de extensión para el lenguage de programación <a href="https://www.r-project.org/about.html">R</a> que es muy popular en <a href="https://www.maths.lancs.ac.uk/~rowlings/R/TaskViews/">estos campos</a>.
+Provee una versión de alto desempeño del <code>data.frame</code> de R base con adiciones de sintaxis y características
+para faciliad de uso, conveniencia y velocidad de programación. Para noviembre de 2018, data.table fue la cuarta etiqueta más
+activa en Stack Overflow en relación con paquetes de R con más de <a href="https://stackoverflow.com/questions/tagged/data.table">8,000 preguntas</a>,
+el <a href="https://www.r-pkg.org/starred">décimo más marcado como favorito</a> paquete de R en GitHub y tenía más de 650 paquetes en CRAN y
+Bioconductor usándolo. Aquí hay unas <a href="https://stackoverflow.com/search?q=%5BR%5D+data.table+-%5Bdata.table%5D+is%3Aanswer+isaccepted%3Ayes">6,000 respuestas aceptadas</a>
+que usan o mencionan data.table pero en las cuales la pregunta no fue específicamente sobre data.table.<br></p>
+<p>Hemos actualizado los resultados comparativos de agrupación para 2014 que comparan data.table con pandas y dplyr, y hemos
+incluido Spark y pydatatable. La comparación es automatizada y corre regularmente con las últimas versiones de esos paquetes.
+Es un permanente trabajo en progreso:</p>
+<p><a href="https://h2oai.github.io/db-benchmark">h2oai.github.io/db-benchmark</a><br>
+<a href="https://h2oai.github.io/db-benchmark/"><img src="https://github.com/Rdatatable/data.table/wiki/pictures/bench.png" /></a></p>
+<p><a href="https://github.com/Rdatatable/data.table/wiki/talks/ArunSrinivasanSatRdaysBudapest2016.pdf"><img src="https://github.com/Rdatatable/data.table/wiki/pictures/syntax1.jpg" /></a><br>
+<a href="https://youtu.be/Z0gZuh5xsuo?t=12s"><img src="https://github.com/Rdatatable/data.table/wiki/pictures/syntax2.jpg" /></a></p>
+<p>Estas consultas pueden <strong>ser encadenadas</strong> o enlazadas simplemente adicionando otra al final:<br>
+      <code>DT[...][...]</code><br>
+Consulta <strong>data.table compared to dplyr (data.table comparado con dplyr)</strong> en <a href="https://stackoverflow.com/questions/21435339/data-table-vs-dplyr-can-one-do-something-well-the-other-cant-or-does-poorly">Stack Overflow</a>
+y <a href="https://www.quora.com/Which-is-better-to-use-for-data-manipulation-dplyr-package-or-data-table-library">Quora</a>.</p>
+<pre><code>&gt; require(data.table)
+&gt; example(data.table)
+
+DT = data.table(x=rep(c(&quot;b&quot;,&quot;a&quot;,&quot;c&quot;),each=3), y=c(1,3,6), v=1:9)
+
+# Simples filtros aplicados a filas
+DT[2]                                       # segunda fila
+DT[2:3]                                     # segunda y tercera filas
+w=2:3; DT[w]                                # igual
+DT[order(x)]                                # no es necesario el prefijo DT$ en columna x
+DT[order(x), ]                              # igual; la &#39;,&#39; es opcional
+DT[y&gt;2]                                     # todas las filas en las que DT$y &gt; 2
+DT[y&gt;2 &amp; v&gt;5]                               # expresiones lógicas compuestas
+DT[!2:4]                                    # todas las filas distintas a 2:4
+DT[-(2:4)]                                  # igual</code></pre>
+<pre><code># seleccione o compute columnas
+DT[, v]                                     # columna v (como un vector)
+DT[, list(v)]                               # columna v (como data.table)
+DT[, .(v)]                                  # igual; .() es alias para list()
+DT[, sum(v)]                                # suma de la columna v, como vector
+DT[, .(sum(v))]                             # igual; pero resultado como data.table
+DT[, .(sv=sum(v))]                          # igual; pero con la columna nombrada como &quot;sv&quot;
+DT[, .(v, v*2)]                             # data.table de dos columnas</code></pre>
+<pre><code># filtrar filas y seleccionar | computar
+DT[2:3, sum(v)]                             # sum(v) sobre las filas 2:3
+DT[2:3, .(sum(v))]                          # igual, pero regresando una data.table
+DT[2:3, .(sv=sum(v))]                       # igual, pero llamando &quot;sv&quot; a la columna
+DT[2:5, cat(v, &quot;\n&quot;)]                       # solo por el efecto colateral en j</code></pre>
+<pre><code># seleccionando columnas al estilo data.frame
+DT[, 2]                                     # segunda columna, una data.table siempre
+colNum = 2                                  
+DT[, ..colNum]                              # igual que DT[,2]; ..var =&gt; un nivel arriba
+DT[[&quot;v&quot;]]                                   # igual que DT[,v] pero con menor overhead</code></pre>
+<pre><code># agrupación de operaciones - j y by
+DT[, sum(v), by=x]                          # el orden de aparición de los grupos se preserva
+DT[, sum(v), keyby=x]                       # resultados ordenados por grupo
+DT[, sum(v), by=x][order(x)]                # igual a través del encadenamiento de expresiones</code></pre>
+<pre><code># Subsets rápidos ad hoc en filas (subsets como uniones)
+DT[&quot;a&quot;, on=&quot;x&quot;]                             # igual que x == &quot;a&quot; pero utiliza clave (rápido)
+DT[&quot;a&quot;, on=.(x)]                            # igual
+DT[.(&quot;a&quot;), on=&quot;x&quot;]                          # igual
+DT[x==&quot;a&quot;]                                  # igual, == optimizado internamente
+DT[x!=&quot;b&quot; | y!=3]                           # aún no optimizado
+DT[.(&quot;b&quot;, 3), on=c(&quot;x&quot;, &quot;y&quot;)]               # igual que DT[x==&quot;b&quot; &amp; y==3]
+DT[.(&quot;b&quot;, 3), on=.(x, y)]                   # igual
+DT[.(&quot;b&quot;, 1:2), on=c(&quot;x&quot;, &quot;y&quot;)]             # las filas no-correspondientes regresan NA
+DT[.(&quot;b&quot;, 1:2), on=.(x, y), nomatch=0]      # las filas no-correspondentes no se regresan
+DT[.(&quot;b&quot;, 1:2), on=c(&quot;x&quot;, &quot;y&quot;), roll=Inf]   # locf (última observación llevada adelante), la fila anterior pasa adelante
+DT[.(&quot;b&quot;, 1:2), on=.(x, y), roll=-Inf]      # nocb (siguiente observación llevada atrás), la fila siguiente pasa atrás
+DT[&quot;b&quot;, sum(v*y), on=&quot;x&quot;]                   # igual a DT[x==&quot;b&quot;, sum(v*y)]</code></pre>
+<pre><code># todo junto
+DT[x!=&quot;a&quot;, sum(v), by=x]                    # obtener la sum(v) por cada &quot;x&quot; cuando x != &quot;a&quot;
+DT[!&quot;a&quot;, sum(v), by=.EACHI, on=&quot;x&quot;]         # igual, pero usando subsets-como-uniones
+DT[c(&quot;b&quot;,&quot;c&quot;), sum(v), by=.EACHI, on=&quot;x&quot;]   # igual
+DT[c(&quot;b&quot;,&quot;c&quot;), sum(v), by=.EACHI, on=.(x)]  # igual, usando on=.()</code></pre>
+<pre><code># uniones como subsets
+X = data.table(x=c(&quot;c&quot;,&quot;b&quot;), v=8:7, foo=c(4,2))
+X
+
+DT[X, on=&quot;x&quot;]                               # unión derecha (right join)
+X[DT, on=&quot;x&quot;]                               # unión izquierda (left join)
+DT[X, on=&quot;x&quot;, nomatch=0]                    # unión interna (inner join)
+DT[!X, on=&quot;x&quot;]                              # no unión (not join)
+DT[X, on=c(y=&quot;v&quot;)]                          # unir DT$y a X$v
+DT[X, on=&quot;y==v&quot;]                            # igual
+
+DT[X, on=.(y&lt;=foo)]                         # unión de desigualdad (non-equi join)
+DT[X, on=&quot;y&lt;=foo&quot;]                          # igual
+DT[X, on=c(&quot;y&lt;=foo&quot;)]                       # igual
+DT[X, on=.(y&gt;=foo)]                         # unión de desigualdad (non-equi join)
+DT[X, on=.(x, y&lt;=foo)]                      # unión de desigualdad (non-equi join)
+DT[X, .(x,y,x.y,v), on=.(x, y&gt;=foo)]        # seleccionar las columnas unidas de x también
+
+DT[X, on=&quot;x&quot;, mult=&quot;first&quot;]                 # primera fila de cada grupo
+DT[X, on=&quot;x&quot;, mult=&quot;last&quot;]                  # última fila de cada grupo
+DT[X, sum(v), by=.EACHI, on=&quot;x&quot;]            # unir y evaluar j para cada fila en i
+DT[X, sum(v)*foo, by=.EACHI, on=&quot;x&quot;]        # entorno heredado en la unión
+DT[X, sum(v)*i.v, by=.EACHI, on=&quot;x&quot;]        # &#39;i.v&#39; hace referencia a la columna v de X
+DT[X, on=.(x, v&gt;=v), sum(y)*foo, by=.EACHI] # unión de desigualdad con by=.EACHI</code></pre>
+<pre><code># estableciendo claves (de ordenamiento)
+kDT = copy(DT)                              # copiar DT a kDT para trabajar con ella
+setkey(kDT,x)                               # establecer un clave de una columna
+setkeyv(kDT,&quot;x&quot;)                            # igual (la v in setkeyv significa vector)
+v=&quot;x&quot;
+setkeyv(kDT,v)                              # igual
+haskey(kDT)                                 # TRUE
+key(kDT)                                    # &quot;x&quot;</code></pre>
+<pre><code># subsets rápidos con *clave*
+kDT[&quot;a&quot;]                                    # subset-como-unión en columna *clave* &#39;x&#39;
+kDT[&quot;a&quot;, on=&quot;x&quot;]                            # igual, siendo explícito en el uso de &#39;on=&#39;</code></pre>
+<pre><code># todo junto
+kDT[!&quot;a&quot;, sum(v), by=.EACHI]                # obtener la sum(v) para cada i != &quot;a&quot;</code></pre>
+<pre><code># clave multi-columna
+setkey(kDT,x,y)                             # clave de 2-columnas
+setkeyv(kDT,c(&quot;x&quot;,&quot;y&quot;))                     # igual</code></pre>
+<pre><code># fsubsets rápidos con *clave* de multi-columna
+kDT[&quot;a&quot;]                                    # unión a la primera columna de la clave
+kDT[&quot;a&quot;, on=&quot;x&quot;]                            # on= es opcional pero preferido
+kDT[.(&quot;a&quot;)]                                 # igual; .() es un alias para list()
+kDT[list(&quot;a&quot;)]                              # igual
+kDT[.(&quot;a&quot;, 3)]                              # unión a las 2 columnas de la clave
+kDT[.(&quot;a&quot;, 3:6)]                            # unir 4 filas (2 ausentes)
+kDT[.(&quot;a&quot;, 3:6), nomatch=0]                 # remover las ausentes
+kDT[.(&quot;a&quot;, 3:6), roll=TRUE]                 # unión hacia adelante locf (locf rolling join)
+kDT[.(&quot;a&quot;, 3:6), roll=Inf]                  # igual
+kDT[.(&quot;a&quot;, 3:6), roll=-Inf]                 # unión hacia atrás nocb (nocb rolling join)
+kDT[!.(&quot;a&quot;)]                                # no unión
+kDT[!&quot;a&quot;]                                   # igual</code></pre>
+<pre><code># más en símbolos especiales, ver también ?&quot;special-symbols&quot;
+DT[.N]                                      # última fila
+DT[, .N]                                    # número total de filas en DT
+DT[, .N, by=x]                              # número de filas en cada grupo
+DT[, .SD, .SDcols=x:y]                      # seleccionar columnas &#39;x&#39; y &#39;y&#39;
+DT[, .SD[1]]                                # primera fila; igual que DT[1,]
+DT[, .SD[1], by=x]                          # primera fila de cada grupo
+DT[, c(.N, lapply(.SD, sum)), by=x]         # tamaño de grupo junto con la suma por grupo
+DT[, .I[1], by=x]                           # número de fila de cada primera fila de cada grupo
+DT[, grp := .GRP, by=x]                     # adicionar una columna con contador de grupo
+X[, DT[.BY, y, on=&quot;x&quot;], by=x]               # unión dentro del grupo para usar menos ram</code></pre>
+<pre><code># adicionar/actualizar/borrar por referencia (ver ?assign)
+print(DT[, z:=42L])                         # adicionar nueva columna por referencia
+print(DT[, z:=NULL])                        # remvoer columna por referencia
+print(DT[&quot;a&quot;, v:=42L, on=&quot;x&quot;])              # sub-asignar a columna (asignar a algunos elementos de la columna)
+print(DT[&quot;b&quot;, v2:=84L, on=&quot;x&quot;])             # sub-asignar a nueva columna (completado con NA)
+
+DT[, m:=mean(v), by=x][]                    # adicionalr nueva columna por referencia por grupo
+                                            # el sufijo [] es un atajo para print()</code></pre>
+<pre><code># uso avanzado
+DT[, sum(v), by=.(y%%2)]                    # expresiones en by
+DT[, sum(v), by=.(bool = y%%2)]             # igual con expresiones nombradas en grupo
+DT[, .SD[2], by=x]                          # obtener la segunda columna de cada grupo
+DT[, tail(.SD,2), by=x]                     # últimas 2 filas de cadad groupo
+DT[, lapply(.SD, sum), by=x]                # suma de todas las columnas para cada grupo
+DT[, .SD[which.min(v)], by=x]               # búsqueda anidada por grupo
+
+DT[, list(MySum=sum(v),
+          MyMin=min(v),
+          MyMax=max(v)),
+    by=.(x, y%%2)]                          # agrupación por dos expresiones
+
+DT[, .(a = .(a), b = .(b)), by=x]           # columnas lista
+DT[, .(seq = min(a):max(b)), by=x]          # j no está limitado sólo a agregaciones
+DT[, sum(v), by=x][V1&lt;20]                   # consulta compuesta
+DT[, sum(v), by=x][order(-V1)]              # ordenación de resultados
+DT[, c(.N, lapply(.SD,sum)), by=x]          # tamaño de grupo y sumas por grupo
+DT[, {tmp &lt;- mean(y);                       # valor anónimo en &#39;j&#39;; j es cualquier
+      .(a = a-tmp, b = b-tmp)               #   expresión válida en la que cada elemento
+      }, by=x]                              #   se convierte en una columna en el resultado
+
+pdf(&quot;new.pdf&quot;)
+DT[, plot(a,b), by=x]                       # también puede plotear en &#39;j&#39;
+dev.off()</code></pre>
+<pre><code># obtener max(y) and min de un grupo de colunas para cada corrida consecutiva de &#39;v&#39;
+DT[, c(.(y=max(y)), lapply(.SD, min)), by=rleid(v), .SDcols=v:b]</code></pre>
+<p><a href="https://blog.revolutionanalytics.com/2016/12/food-inspection-forecasting.html"><img src="https://github.com/Rdatatable/data.table/wiki/pictures/USTV.png" /></a>          
+<a href="https://datascience.la/matt-dowles-data-table-talk-from-user-2014/"><img src="https://github.com/Rdatatable/data.table/wiki/pictures/origins.png" /></a><br></p>
+<p><a href="https://www.kaggle.com/titericz/outbrain-click-prediction/giba1-data-table-is-cool-lb-0-63714/code"><img src="https://github.com/Rdatatable/data.table/wiki/pictures/kaggle.png" /></a><br></p>
+<p><a href="https://ttvand.github.io/Winning-approach-of-the-Facebook-V-Kaggle-competition/"><img src="https://github.com/Rdatatable/data.table/wiki/pictures/kaggle2.png" /></a></p>
+<p>Otras características incluyen:</p>
+<ul>
+<li><strong>lector de datos delimitados rápido y amigable</strong>: <a href="https://www.rdocumentation.org/packages/data.table/functions/fread"><code>?fread</code></a>. Acepta comandos de sistema directamente (tales como <code>grep</code> and <code>gunzip</code>), tiene otras <a href="https://github.com/Rdatatable/data.table/wiki/Convenience-features-of-fread">características convenientes para datos <em>pequeños</em></a> y está ahora <strong>paralelizado</strong> en CRAN Mayo 2018 y presentado antes <a href="https://github.com/Rdatatable/data.table/wiki/talks/BARUG_201704_ParallelFread.pdf">aquí</a>.</li>
+<li><strong>escritor de archivos rápido y paralelizado</strong>: <a href="https://www.rdocumentation.org/packages/data.table/functions/fwrite"><code>?fwrite</code></a> anunciado <a href="https://blog.h2o.ai/2016/04/fast-csv-writing-for-r/">aquí</a> y en CRAN en noviembre de 2016.</li>
+<li><strong>subsets paralelizados en filas</strong> - Ver <a href="https://github.com/Rdatatable/data.table/issues/1660#issuecomment-212142342">esta comparación de tiempos</a></li>
+<li><strong>aggregación</strong> rápida de datos grandes; por ejemplo 100GB en RAM (ver [[benchmarks|Benchmarks : Grouping]] en hasta <strong>dos mil millones de filas</strong>)</li>
+<li>adición/actualización/borrado rápido de columnas <strong>por referencia</strong> por grupo sin usar copias en lo absoluto</li>
+<li><strong>uniones ordenadas</strong> rápidas; por ejemplo hacia adelante, hacia atrás, más próximas</li>
+<li><strong>Uniones de rango traslapado</strong> <a href="talks/EARL2014_OverlapRangeJoin_Arun.pdf">rápidas</a>; similares a la función <code>findOverlaps</code> en los paquetes IRanges/GenomicRanges de Bioconductor, pero no limitadas a intervalos genómicos (enteros).</li>
+<li><strong>uniones de desigualdad</strong> (o condicionales) rápidas, por ejemplo uniones que usan operadores <code>&gt;, &gt;=, &lt;, &lt;=</code> también, disponible desde v1.9.8+</li>
+<li>un rápido <strong>índice ordenado primario</strong>; por ejemplo <code>setkey(DT,col1,col2)</code></li>
+<li><strong>Indexado automático secundario</strong>; por ejemplo <code>DT[col==val,]</code> and <code>DT[col %in% vals,]</code></li>
+<li>rápido y memoria-eficiente combinación de unión y agrupación (join and group by); <strong><code>by=.EACHI</code></strong></li>
+<li>métodos rápidos de reshape2 (<strong>dcast</strong> and <strong>melt</strong>) sin que sea necesario el paquete reshape2 y su cadena de dependencias instalada o cargada</li>
+<li>los resultados de resumen de grupo pueden ser de varias filas (por ejemplo <strong>primera y última fila por grupo</strong>) y cada valor de celda puede ser en sí misma un vector/objeto/función (por ejemplo <strong>IDs únicos por grupo como una columna-lista de vectores de longitud variable</strong> - esto se imprime bien con comas)</li>
+<li>símbolos especiales integrados para conveniencia y velocidad, evitando el overhead de llamadas de función: <strong><a href="https://www.rdocumentation.org/packages/data.table/versions/1.10.0/topics/special-symbols"><code>.N</code>, <code>.SD</code>, <code>.I</code>, <code>.GRP</code> and <code>.BY</code></a></strong></li>
+<li><strong>cualquier función de R de cualquier paquete</strong> puede ser usada en consultas, no solo el subgrupo de funciones disponibles por un backend de database</li>
+<li><strong><a href="https://en.wikipedia.org/wiki/Dependency_hell">no tiene dependencias</a></strong> en lo absoluto, excepto por base R en sí mismo, para un proceso simple de producción/mantenimiento</li>
+<li>la dependencia de R es <strong>tan antigua y por tanto tiempo como sea posible</strong> y nosotros probamos contra esa versión; por ejemplo, v1.9.8 presentada en 25-Nov-2016 actualizó la dependencia del R 2.14.0 de 4.5 años a R 3.0.0 de 3 años.</li>
+</ul>
+<p>La version 1.0 fue presentada en CRAN en 2006. En junio de 2014 nos movimos de R-Forge a GitHub.</p>
+<p><a href="https://twitter.com/MattDowle/status/720872742933831680"><img src="https://github.com/Rdatatable/data.table/wiki/pictures/birthday.png" /></a></p>
+<p>Guías para presentar problemas / pull requests: <a href="https://github.com/Rdatatable/data.table/wiki/Contributing">Guías de contribución</a>.</p>
+</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  </div>
+
+  <div class="footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="footer-inner">
+          <h3 class="footer-title">Giovanni Pavolini - Consultor</h3>
+          <ul>
+            
+            
+            <li class="menu-item-home">
+              <a href="/">
+                Home
+              </a>
+            </li>
+            
+            <li class="menu-item-contacto">
+              <a href="/contacto/">
+                Contacto
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  <div class="sub-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="sub-footer-inner">
+          <ul>
+
+            <li><strong>Phone: </strong><span>&#43;57 300 402 8354</span></li>
+
+            <li><strong>Email: </strong><a href="mailto:giovanni@pavolini.net">
+                giovanni@pavolini.net</a></li>
+          </ul>
+          <a class="zerostatic" href="https://www.zerostatic.io">www.zerostatic.io</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/scripts.min.bf1e1f7ae8e03db5f012356e825843facdff51c0a559cb0d27fe2bbe1db405c2.js"></script>
+  
+
+  
+
+
+
+
+
+
+  
+  <link href="https://fonts.googleapis.com/css?family=DM+Serif+Display&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/bash.min.js"></script>
+  
+  <script>
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  
+  </script>
+  <script type="text/javascript"
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
+  
+</body>
+
+</html>

@@ -1,0 +1,35 @@
+---
+title: 'Uniones en data.table: ¿es X[Y] o Y[X]?'
+author: Giovanni Pavolini
+date: '2019-11-21'
+slug: uniones-en-data-table-es-x-y-o-y-x
+categories:
+  - Spanish
+tags:
+  - data.table
+---
+
+Este será un post muy corto, un recordatorio frecuentemente revisitado de la sintaxis de las uniones en `data.table`.
+
+Cuando hago uniones en data.table con frecuencia tengo que abrir una nueva sesión de R y correr el siguiente código:
+
+```{r, include = FALSE}
+library(data.table)
+
+```
+
+```{r}
+a <- data.table(x = 1:3, y = 2:4)
+b <- data.table(x = 2:5, z = 3:6)
+a[b, on = .(x)]
+```
+
+con el fin de recordar si la tabla de búsqueda era `a` y no `b`. Aparentemente suelo leer el código como _"tomá `a` y buscá su columna `x` en `b`"_, que es obviamente errado.
+
+Debería ser leído como _"mostráme la tabla `a` **que tiene** `b`"_.
+
+Así que de ahora en adelante mi nemotécnica será _"Lo que sucede en el interior se muestra en el exterior"_[^1].
+
+![](/post/2019-11-21-uniones-en-data-table-es-x-y-o-y-x_files/quoteSP.jpg){width=80%}
+
+[^1]: _What's going on in the inside shows in the outside_, Earl Nightingale.

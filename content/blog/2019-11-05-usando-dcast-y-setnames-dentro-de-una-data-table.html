@@ -1,0 +1,189 @@
+---
+title: Usando dcast y setnames **dentro** de una data.table
+author: Giovanni Pavolini
+date: '2019-11-05'
+slug: usando-dcast-y-setnames-dentro-de-una-data-table
+categories:
+  - Spanish
+tags:
+  - data.table
+---
+
+
+
+<p>Yo he dicho antes que una de las mejores cosas de <code>data.table</code> es que <strong>J</strong> acepta expresiones y no sólo funciones. Eso ofrece mucha flexibilidad respecto de lo que uno puede lograr con su código.</p>
+<p>Tmabién, el hecho de que <code>.SD</code> sea una data.table permite usar <strong>dentro de una data.table</strong> algunas funciones que aparentemente deberían usarse fuera de ella.</p>
+<p>Vea por ejemplo <code>dcast</code>, la función usada para convertir una data.table de larga a ancha. Está hecha para ser usada <strong>sobre</strong> una data.table, no <strong>dentro</strong> de ella, ¿cierto?</p>
+<p>¿Y qué tal <code>setnames</code>? ¡Si está diseñada para cambiar los nombres de una data.table, entonces definitivamente debe ser usada fuera de una!</p>
+<p>Bueno, ¡no tanto! Ambas funciones pueden ser usadas para lograr algunas cosas interesantes <strong>dentro</strong> de una data.table. Yo replicaré un caso de uso que me encontré ayer que ilustrará como usar ese tipo de funciones dentro de una data.table.</p>
+<div id="analizando-ventas" class="section level2">
+<h2>Analizando ventas</h2>
+<p>Imagine que usted tiene un set de datos con las transacciones realizadas por un equipo de ventas. La table tiene la fecha de la transacción, la cantidad e item cubiertos en la transacción y el nombre de la persona de ventas responsable por ella. Ahora, la cantidad puede ser negativa, y en ese caso eso significa que es una <em>devolución</em>. Nosotros queremos calcular el porcentaje de devoluciones de cada persona de ventas.</p>
+<div id="construyendo-algunos-datos-de-ejemplo" class="section level3">
+<h3>Construyendo algunos datos de Ejemplo</h3>
+<p>Construyamos los datos de ejemplo:</p>
+<pre class="r"><code>library(data.table)
+
+set.seed(1)
+
+fechas &lt;- seq(as.Date(&quot;2019-01-01&quot;), 
+             as.Date(&quot;2019-10-31&quot;), 
+             by = &quot;1 day&quot;)
+
+vendedores &lt;- c(&quot;Jose&quot;, &quot;Maria&quot;, 
+               &quot;Pedro&quot;, &quot;Roberto&quot;, 
+               &quot;Alicia&quot;, &quot;Juan&quot;, &quot;Susana&quot;)
+
+items &lt;- data.table(item = LETTERS[1:20], 
+                    precio = sample(1:20))
+
+ventas &lt;- data.table(fecha = sample(fechas, 200, TRUE), 
+                    cant = sample(-20:100, 200, TRUE), 
+                    item = sample(LETTERS[1:20], 200, TRUE), 
+                    vendedor = sample(vendedores, 200, TRUE), 
+                    key = &quot;fecha&quot;)
+
+ventas[items, pesos := cant * precio, on = .(item)]
+
+ventas</code></pre>
+<pre><code>##           fecha cant item vendedor pesos
+##   1: 2019-01-01   35    C   Alicia    35
+##   2: 2019-01-13   22    B     Juan   154
+##   3: 2019-01-14  -18    T     Jose  -144
+##   4: 2019-01-14   70    A    Maria   280
+##   5: 2019-01-15  -15    T     Jose  -120
+##  ---                                    
+## 196: 2019-10-27   32    H  Roberto   544
+## 197: 2019-10-27   -1    A  Roberto    -4
+## 198: 2019-10-31   92    P     Juan  1380
+## 199: 2019-10-31   72    O    Maria   432
+## 200: 2019-10-31   43    H    Pedro   731</code></pre>
+</div>
+<div id="generando-la-lógica" class="section level3">
+<h3>Generando la Lógica</h3>
+<p>Hay varias formas de calcular el porcentaje de devoluciones de cada vendedor, pero ya que esto es sólo una excusa para mostar una capacidad chévere de <code>data.table</code>, les propondré una lógica que podría no ser la óptima. Usaremos la siguiente receta:</p>
+<ol style="list-style-type: decimal">
+<li>Encontrar cuales transacciones son devoluciones y cuales no.</li>
+<li>Agrupar por vendedor <strong>y por</strong> el tipo de transacción (devolución o no).</li>
+<li>Sumar el valor en pesos de las transacciones y finalmente</li>
+<li>Calcular el cociente de devoluciones a ventas y multiplicarlo por 100 para tener el porcentaje.</li>
+</ol>
+<p>Idealmente terminaremos con algo como esto:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Vendedor</th>
+<th align="right">Devoluciones</th>
+<th align="right">Ventas</th>
+<th align="left">Devoluciones %</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Juan</td>
+<td align="right">20</td>
+<td align="right">100</td>
+<td align="left">20 / 100 = 20%</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="haciendo-que-suceda" class="section level3">
+<h3>Haciendo que suceda</h3>
+<p>Encontrar qué transacciones son devoluciones es fácil: nos dijeron que son aquellas con cantidades negativas. Las podríamos marcar como devoluciones, o podríamos ir directo con esa validación en la parte <code>by =</code> de la data.table. Vamos a usar la segunda opción:</p>
+<pre class="r"><code>ventas[, sum(pesos), by = .(devolucion = cant &lt; 0)]</code></pre>
+<pre><code>##    devolucion    V1
+## 1:      FALSE 97101
+## 2:       TRUE -3204</code></pre>
+<p>Este resultado tiene el problema de no integrar al vendedor y también de tener pesos negativos, así que vamos a arreglarlos:</p>
+<pre class="r"><code>ventas[, abs(sum(pesos)), 
+      by = .(vendedor, 
+             devolucion = cant &lt; 0)]</code></pre>
+<pre><code>##     vendedor devolucion    V1
+##  1:   Alicia      FALSE 12534
+##  2:     Juan      FALSE 20812
+##  3:     Jose       TRUE   818
+##  4:    Maria      FALSE 15706
+##  5:  Roberto      FALSE 15604
+##  6:   Susana       TRUE   595
+##  7:   Alicia       TRUE   643
+##  8:    Pedro      FALSE 13118
+##  9:     Jose      FALSE 10515
+## 10:    Pedro       TRUE   190
+## 11:  Roberto       TRUE    32
+## 12:   Susana      FALSE  8812
+## 13:     Juan       TRUE   652
+## 14:    Maria       TRUE   274</code></pre>
+<p>Ahora, esto es mucho mejor, <em>pero es una tabla larga</em>. Podríamos avanzar de aquí asignando el comando previo a una nueva data.table, haciéndole <code>dcast</code> y luego calculando el porcentaje. <strong>Pero en realidad lo podemos hacer dentro de la data.table</strong>:</p>
+<pre class="r"><code>ventas[, abs(sum(pesos)), 
+      by = .(vendedor, 
+             devolucion = cant &lt; 0)][, 
+                                dcast(.SD, 
+                                      vendedor ~ devolucion, 
+                                      fill = 0, 
+                                      value.var = &quot;V1&quot;)]</code></pre>
+<pre><code>##    vendedor FALSE TRUE
+## 1:   Alicia 12534  643
+## 2:     Jose 10515  818
+## 3:     Juan 20812  652
+## 4:    Maria 15706  274
+## 5:    Pedro 13118  190
+## 6:  Roberto 15604   32
+## 7:   Susana  8812  595</code></pre>
+<p>Wow! Eso definitivamente se parece a la tabla que queríamos. Veamos qué pasó en el comando encadenado:</p>
+<ul>
+<li><code>dcast(.SD, vendedor ~ devolucion, fill = 0, value.var = &quot;V1&quot;)</code>
+<ul>
+<li><code>.SD</code> es una data.table. De hecho, es <strong>nuestra</strong>ote que el <em>scope</em> de la data.table permanece como es habitual: reconoce los nombres en los datos.</li>
+<li><code>fill = 0</code> es simplemente derivado de la naturaleza del caso a la mano: si un vendedor no tuvo devoluciones (o ventas), eso significa que sus devoluciones (o ventas) fueron cero, no “no disponible”.</li>
+<li>y <code>value.var</code> es algo que uso principalmente para quitarme el mensaje 🤷.</li>
+</ul></li>
+</ul>
+<p>Podríamos avanzar desde aquí, trabajando con <code>FALSE</code> y <code>TRUE</code> como nombres de columnas (ellos son nombres válidos en tanto que se usen los back ticks cuando se llaman), pero eso es en realidad engorroso. Así que, ¿qué tal renombrar las columnas?</p>
+<p>Por supuesto, <code>setnames</code> viene a la mente, pero esa función es frecuentemente usada <em>fuera</em> de una data.table, ¿o no?</p>
+<p>Veamos:</p>
+<pre class="r"><code>ventas[, abs(sum(pesos)), 
+      by = .(vendedor, 
+             devolucion = cant &lt; 0)][, 
+                                dcast(.SD, 
+                                      vendedor ~ devolucion, 
+                                      fill = 0, 
+                                      value.var = &quot;V1&quot;)][,
+                                                         setnames(.SD, 
+                                                                  2:3, 
+                                                                  c(&quot;ventas&quot;, &quot;devoluciones&quot;))]</code></pre>
+<pre><code>##    vendedor ventas devoluciones
+## 1:   Alicia  12534          643
+## 2:     Jose  10515          818
+## 3:     Juan  20812          652
+## 4:    Maria  15706          274
+## 5:    Pedro  13118          190
+## 6:  Roberto  15604           32
+## 7:   Susana   8812          595</code></pre>
+<p>Ahora es simplemente usar el operador de asignación <code>:=</code> para definir el porcentaje:</p>
+<pre class="r"><code>ventas[, abs(sum(pesos)), 
+      by = .(vendedor, 
+             devolucion = cant &lt; 0)][, 
+                                dcast(.SD, 
+                                      vendedor ~ devolucion, 
+                                      fill = 0, 
+                                      value.var = &quot;V1&quot;)][,
+                                                         setnames(.SD, 
+                                                                  2:3, 
+                                                                  c(&quot;ventas&quot;, &quot;devoluciones&quot;))][,
+                                                                                          porcentaje := 100 * devoluciones / ventas][order(-porcentaje)]</code></pre>
+<pre><code>##    vendedor ventas devoluciones porcentaje
+## 1:     Jose  10515          818  7.7793628
+## 2:   Susana   8812          595  6.7521562
+## 3:   Alicia  12534          643  5.1300463
+## 4:     Juan  20812          652  3.1328080
+## 5:    Maria  15706          274  1.7445562
+## 6:    Pedro  13118          190  1.4483915
+## 7:  Roberto  15604           32  0.2050756</code></pre>
+<p>¡Eso es exactamente lo que esperábamos!</p>
+</div>
+</div>
+<div id="línea-de-cierre" class="section level2">
+<h2>Línea de cierre</h2>
+<p>Es posible usar funciones dentro de una data.table, aún si ellas aparentemente fueron pensadas para ser usadas fuera de ella. Las claves para lograrlo son mantener en mente que <code>.SD</code> es en sí misma una data.table que guarda el resultado del último comando encadenado y también que <strong>J</strong> (y by =) aceptan no sólo funciones, sino expresiones.</p>
+</div>

@@ -1,0 +1,148 @@
+---
+title: Using dcast and setnames **inside** a data.table
+author: Giovanni Pavolini
+date: '2019-11-04'
+slug: using-dcast-and-setnames-inside-a-data-table
+categories:
+  - English
+tags:
+  - data.table
+  - R
+---
+
+I've said before that one of the best things of `data.table` is that **J** takes in expressions and not only functions. That offers so much flexibility in what you can achieve with your code.
+
+
+Also, the fact that `.SD` is a data.table allows you to use **inside a data.table** some functions that apparently should be used outside of it.
+
+Take for example `dcast`, the function used to reshape a data.table from long to wide. It's made to be used **on** data.tables, not **inside** of them, right?
+
+How about `setnames`? If it's intended to change the names of a data.table, it definitely has to be used outside of one!
+
+Well, not quite! Both functions can be used to achieve some interesting things **inside** a data.table. I'll replicate a use-case I found yesterday that will ilustrate how to use that kind of functions inside a data.table.
+
+## Analyzing Sales
+Imagine you have a data set with the transactions made by a team of salespeople. The data has the date of the transaction, the quantity and item covered in the transaction and the name of the sales person responsible for it. Now, the quantity could be negative, and in that case it means it is a _return_. We want to calculate the percentage of returns for each sales person.
+
+### Building some mock data
+Let's build the mock data:
+
+```{r}
+library(data.table)
+
+set.seed(1)
+
+dates <- seq(as.Date("2019-01-01"), 
+             as.Date("2019-10-31"), 
+             by = "1 day")
+
+salesTeam <- c("John", "Jane", 
+               "Peter", "Bob", 
+               "Sue", "Jack", "Meryl")
+
+items <- data.table(item = LETTERS[1:20], 
+                    price = sample(1:20))
+
+sales <- data.table(date = sample(dates, 200, TRUE), 
+                    qty = sample(-20:100, 200, TRUE), 
+                    item = sample(LETTERS[1:20], 200, TRUE), 
+                    salesPerson = sample(salesTeam, 200, TRUE), 
+                    key = "date")
+
+sales[items, dollars := qty * price, on = .(item)]
+
+sales
+```
+
+### Generating the Logic
+There are several ways to calculate the percentage of returns of each sales person, but since this is just an excuse to show a nice feature of `data.table`, I'll propose a logic that may not be the optimal. We'll use the following recipe:
+
+1. Find which transactions are returns and which are not.
+2. Group by sales person **and** by wether the transaction is a return or not.
+3. Sum the dollar value of those transactions, and finally
+4. Calculate the ratio of returns to sales and multiply it by 100, so we have a percentage.
+
+Ideally we'll end up with something like this table:
+
+```{r, echo = FALSE}
+knitr::kable(data.frame("Joe", 
+                        20, 100, 
+                        "20 / 100 = 20%"), 
+             col.names = c("Sales Person", "Returns", 
+                           "Sales", "Return %"))
+```
+
+### Making it happen
+Finding wich transactions are returns is easy: we've been told they have negative quantities. We could mark them as returns, or we can go right away with that in the `by =` part of the data.table. We'll use the second option:
+
+```{r}
+sales[, sum(dollars), by = .(return = qty < 0)]
+```
+
+That result has the problem of not integrating the sales person and also having a negative dollar, so let's fix it:
+
+```{r}
+sales[, abs(sum(dollars)), 
+      by = .(salesPerson, 
+             return = qty < 0)]
+```
+
+Now, this is much better, _but it is a long table_. We could go from here assigning the previous statement into a new data.table, `dcast`ing it and then calculating the percentage. **But we can actually do it inside the data.table**:
+
+```{r}
+sales[, abs(sum(dollars)), 
+      by = .(salesPerson, 
+             return = qty < 0)][, 
+                                dcast(.SD, 
+                                      salesPerson ~ return, 
+                                      fill = 0, 
+                                      value.var = "V1")]
+```
+
+Wow! that definitely looks like the table we wanted. Let's look what happened in the chained command:
+
++ `dcast(.SD, salesPerson ~ return, fill = 0, value.var = "V1")`
+    + `.SD` is a data.table. Indeed, it is **our** data.table from the previous step. So working on it we're really working on the result of the previous statement.
+    + `salesPerson ~ return` is just the formula notation for `dcast`. Notice that the data.table scope remains as usual: it recognizes the names of columns in the data.
+    + `fill = 0` is just derived from the nature of the case at hand: if a sales person didn't have returns (or sales) that means their returns (or sales) were zero, not unavailable.
+    + and `value.var` is something I use mostly to keep out the message 🤷.
+    
+We could go from here, working with `FALSE` and `TRUE` as column names (they're valid column names as long as you use back ticks when you call them), but that's really cumbersome. So, how about renaming those columns?
+
+Of course, `setnames` comes to mind, but that's often used _outside_ of a data.table, or is it not?
+
+Let's see:
+
+```{r}
+sales[, abs(sum(dollars)), 
+      by = .(salesPerson, 
+             return = qty < 0)][, 
+                                dcast(.SD, 
+                                      salesPerson ~ return, 
+                                      fill = 0, 
+                                      value.var = "V1")][,
+                                                         setnames(.SD, 
+                                                                  2:3, 
+                                                                  c("sales", "returns"))]
+```
+
+Now of course it's just matter of using the `:=` assign operator to define the percentage:
+
+```{r}
+sales[, abs(sum(dollars)), 
+      by = .(salesPerson, 
+             return = qty < 0)][, 
+                                dcast(.SD, 
+                                      salesPerson ~ return, 
+                                      fill = 0, 
+                                      value.var = "V1")][,
+                                                         setnames(.SD, 
+                                                                  2:3, 
+                                                                  c("sales", "returns"))][,
+                                                                                          percent := 100 * returns / sales][order(-percent)]
+```
+
+That is exactly what we expected!
+
+## Bottom line
+It is possible to use functions inside a data.table, even if they apparently were intended to be used outside of it. The key to achieve it is to keep in mind that `.SD` is itself a data.table that holds the result of the last chained command and also that **J** (and by) accept not only functions, but expressions.

@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+
+
+
+
+
+
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Calculando comisión de ventas - non-equi Joins - Giovanni Pavolini - Consultor</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="icon" href="/favicon.ico">
+
+  
+  
+  
+  <link rel="stylesheet" href="/css/style.min.cc247bd1c5f1fae8fe5a7e431ae1d1c929f17ed843d980eee15ff49f4b55235e.css">
+  
+
+  
+
+  <link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+
+
+</head>
+
+<body class='page page-default-single'>
+  
+
+
+
+
+
+
+  <div id="main-menu-mobile" class="main-menu-mobile">
+  <ul>
+    
+    
+    <li class="menu-item-servicios">
+      <a href="/servicios/">
+        <span>Servicios</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-equipo">
+      <a href="/equipo/">
+        <span>Equipo</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog">
+      <a href="/blog/">
+        <span>Blog</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-contacto">
+      <a href="/contacto/">
+        <span>Contacto</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-nosotros">
+      <a href="/nosotros/">
+        <span>Nosotros</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+  <div class="wrapper">
+    <div class='header'>
+  <div class="container">
+    <div class="logo">
+      <a href="/"><img alt="Giovanni Pavolini - Consultor" src="/images/logo.svg" /></a>
+    </div>
+    <div class="logo-mobile">
+      <a href="/"><img alt="Giovanni Pavolini - Consultor" src="/images/logo-mobile.svg" /></a>
+    </div>
+    <div id="main-menu" class="main-menu">
+  <ul>
+    
+    
+    <li class="menu-item-servicios">
+      <a href="/servicios/">
+        
+        <span>Servicios</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-equipo">
+      <a href="/equipo/">
+        
+        <span>Equipo</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog">
+      <a href="/blog/">
+        
+        <span>Blog</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-contacto">
+      <a href="/contacto/">
+        
+        <span>Contacto</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-nosotros">
+      <a href="/nosotros/">
+        
+        <span>Nosotros</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+    <button id="toggle-main-menu-mobile" class="hamburger hamburger--slider" type="button" aria-label="Mobile Menu">
+  <span class="hamburger-box">
+    <span class="hamburger-inner"></span>
+  </span>
+</button>
+  </div>
+</div>
+
+    
+<div class="container pb-6 pt-6 pt-md-10 pb-md-10">
+  <div class="row justify-content-start">
+    <div class="col-12 col-md-8">
+      <div class="service service-single">
+        <h1 class="title">Calculando comisión de ventas - non-equi Joins</h1>
+        <div class="content">
+
+
+<p>Con frecuencia encontramos el problema de enlazar dos tablas no por valores iguales (lo que haríamos en Excel con un “BUSCARV” o “VLOOKUP”), sino identificando cuando un valor en una de las tablas <strong>cae en un rango</strong> de valores en la otra tabla. A este tipo de enlace entre tablas (<em>join</em>) se le llama <em>non-equi joins</em>, o uniones de desigualdad.</p>
+<div id="analizando-un-caso-práctico" class="section level2">
+<h2>Analizando un caso práctico</h2>
+<div id="el-problema" class="section level3">
+<h3>El problema</h3>
+<p>Imaginemos que hay un grupo de vendedores que en el mes pasado tuvieron una venta, en millones, representada en la siguiente tabla:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">ID vendedor</th>
+<th align="right">Venta en MM</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">VTS0029</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">VTS0030</td>
+<td align="right">6</td>
+</tr>
+<tr class="odd">
+<td align="left">VTS0031</td>
+<td align="right">12</td>
+</tr>
+<tr class="even">
+<td align="left">VTS0032</td>
+<td align="right">18</td>
+</tr>
+<tr class="odd">
+<td align="left">VTS0033</td>
+<td align="right">24</td>
+</tr>
+<tr class="even">
+<td align="left">VTS0034</td>
+<td align="right">30</td>
+</tr>
+</tbody>
+</table>
+<p>La comisión que se paga a cada vendedor aumenta con el valor vendido, pero se liquida en rangos de 2 millones, de acuerdo con la siguiente tabla:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="right">Inicio Rango Venta</th>
+<th align="right">Fin Rango Venta</th>
+<th align="right">Comisión</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">0.000000</td>
+<td align="right">2.000000</td>
+<td align="right">0.01</td>
+</tr>
+<tr class="even">
+<td align="right">2.285714</td>
+<td align="right">4.285714</td>
+<td align="right">0.02</td>
+</tr>
+<tr class="odd">
+<td align="right">4.571429</td>
+<td align="right">6.571429</td>
+<td align="right">0.03</td>
+</tr>
+<tr class="even">
+<td align="right">6.857143</td>
+<td align="right">8.857143</td>
+<td align="right">0.04</td>
+</tr>
+<tr class="odd">
+<td align="right">9.142857</td>
+<td align="right">11.142857</td>
+<td align="right">0.05</td>
+</tr>
+<tr class="even">
+<td align="right">11.428571</td>
+<td align="right">13.428571</td>
+<td align="right">0.06</td>
+</tr>
+<tr class="odd">
+<td align="right">13.714286</td>
+<td align="right">15.714286</td>
+<td align="right">0.07</td>
+</tr>
+<tr class="even">
+<td align="right">16.000000</td>
+<td align="right">18.000000</td>
+<td align="right">0.08</td>
+</tr>
+<tr class="odd">
+<td align="right">18.285714</td>
+<td align="right">20.285714</td>
+<td align="right">0.09</td>
+</tr>
+<tr class="even">
+<td align="right">20.571429</td>
+<td align="right">22.571429</td>
+<td align="right">0.10</td>
+</tr>
+<tr class="odd">
+<td align="right">22.857143</td>
+<td align="right">24.857143</td>
+<td align="right">0.11</td>
+</tr>
+<tr class="even">
+<td align="right">25.142857</td>
+<td align="right">27.142857</td>
+<td align="right">0.12</td>
+</tr>
+<tr class="odd">
+<td align="right">27.428571</td>
+<td align="right">29.428571</td>
+<td align="right">0.13</td>
+</tr>
+<tr class="even">
+<td align="right">29.714286</td>
+<td align="right">31.714286</td>
+<td align="right">0.14</td>
+</tr>
+<tr class="odd">
+<td align="right">32.000000</td>
+<td align="right">34.000000</td>
+<td align="right">0.15</td>
+</tr>
+</tbody>
+</table>
+<p>Queremos entonces saber que comisión debemos pagar a cada uno de los vendedores. Para eso debemos hacer una unión de <strong>doble desigualdad</strong>: vamos a enlazar las filas en las que <code>venta &gt;= inicioRango</code> y <code>venta &lt;= finRango</code>.</p>
+</div>
+<div id="la-herramienta" class="section level3">
+<h3>La herramienta</h3>
+<p>El paquete <code>data.table</code> ofrece dos formas de resolver este problema. Vamos primero con la “tradicional”: un non-equi join.</p>
+<p>Para hacerlo, asignamos la tabla de venta por vendedor a la variable <code>dt1</code> y la tabla de comisiones a la variable <code>dt2</code>.</p>
+<p>Idealmente las tablas han sido cargadas con la función <code>fread</code> de data.table desde un archivo plano y por lo tanto son de clase <code>data.table</code>, pero si son de clase <code>data.frame</code>, simplemente las hacemos <code>data.table</code> con la función <code>setDT()</code>.</p>
+<p>Los non-equi joins siguen la misma sintaxis que las uniones normales entre tablas:</p>
+<pre class="r"><code>library(data.table)
+
+x[y, on = .(nombreColumnaEnX = nombreColumnaEnY)]</code></pre>
+<p>excepto que vamos a reemplazar la igualdad <code>=</code> por una desigualdad (en realidad por dos!).</p>
+<pre class="r"><code>dt1[dt2, 
+    .(venta, idVendedor, comision), 
+    on = .(venta &gt;= inicioRango, venta  &lt;= finRango), 
+    nomatch = NULL, 
+    by = .EACHI]</code></pre>
+<pre><code>##        venta     venta venta idVendedor comision
+## 1:  0.000000  2.000000     0    VTS0029     0.01
+## 2:  4.571429  6.571429     6    VTS0030     0.03
+## 3: 11.428571 13.428571    12    VTS0031     0.06
+## 4: 16.000000 18.000000    18    VTS0032     0.08
+## 5: 22.857143 24.857143    24    VTS0033     0.11
+## 6: 29.714286 31.714286    30    VTS0034     0.14</code></pre>
+<p>Por una razón que aún no comprendo y que <a href="https://github.com/Rdatatable/data.table/issues/3644">está reportada</a>, los nombres de las columnas del rango de venta salen errados. Esto es fácil de corregir, asignando los nombres de las primeras dos columnas de <code>dt2</code> a las primeras dos columnas de nuestro resultado:</p>
+<pre class="r"><code>resultado &lt;- dt1[dt2, 
+                 .(venta, idVendedor, comision), 
+                 on = .(venta &gt;= inicioRango, venta  &lt;= finRango), 
+                 nomatch = NULL, 
+                 by = .EACHI]
+
+setnames(resultado, 1:2, names(dt2)[1:2])
+
+resultado</code></pre>
+<pre><code>##    inicioRango  finRango venta idVendedor comision
+## 1:    0.000000  2.000000     0    VTS0029     0.01
+## 2:    4.571429  6.571429     6    VTS0030     0.03
+## 3:   11.428571 13.428571    12    VTS0031     0.06
+## 4:   16.000000 18.000000    18    VTS0032     0.08
+## 5:   22.857143 24.857143    24    VTS0033     0.11
+## 6:   29.714286 31.714286    30    VTS0034     0.14</code></pre>
+</div>
+</div>
+<div id="una-alternativa-con-foverlaps" class="section level2">
+<h2>Una Alternativa con <code>foverlaps</code></h2>
+<p>La función <code>foverlaps</code> nos permite identificar rangos traslapados de variables en dos tablas. Esta función hace un non-equi join comparando los extremos de cada rango en cada tabla con los rangos en la otra tabla, y determinando si hay traslapo (en <code>?foverlaps</code> podrán ver que hay varios tipos de traslapo contemplados por la función).</p>
+<p>Debido a que la función compara <strong>dos rangos</strong>, necesitamos convertir nuestra venta en la tabla 1 en un rango. Vamos a usar un truco sencillo para lograrlo: definir un rango de ancho <strong>CERO</strong>:</p>
+<pre class="r"><code>dt1[, venta2 := venta][]</code></pre>
+<pre><code>##    idVendedor venta venta2
+## 1:    VTS0029     0      0
+## 2:    VTS0030     6      6
+## 3:    VTS0031    12     12
+## 4:    VTS0032    18     18
+## 5:    VTS0033    24     24
+## 6:    VTS0034    30     30</code></pre>
+<p>También es necesario establecer llaves para las tablas (es una condición de <code>foverlaps</code>):</p>
+<pre class="r"><code>setkey(dt1, &quot;venta&quot;, &quot;venta2&quot;)
+
+setkey(dt2, &quot;inicioRango&quot;, &quot;finRango&quot;)</code></pre>
+<p>Ahora sí podemos usar <code>foverlaps</code>:</p>
+<pre class="r"><code>foverlaps(dt1, dt2)</code></pre>
+<pre><code>##    inicioRango  finRango comision idVendedor venta venta2
+## 1:    0.000000  2.000000     0.01    VTS0029     0      0
+## 2:    4.571429  6.571429     0.03    VTS0030     6      6
+## 3:   11.428571 13.428571     0.06    VTS0031    12     12
+## 4:   16.000000 18.000000     0.08    VTS0032    18     18
+## 5:   22.857143 24.857143     0.11    VTS0033    24     24
+## 6:   29.714286 31.714286     0.14    VTS0034    30     30</code></pre>
+<p>Obviamente podemos remover <code>venta2</code> con <code>venta2 := NULL</code>.</p>
+</div>
+<div id="acciones-finales" class="section level2">
+<h2>Acciones finales</h2>
+<p>Ahora que hemos cruzado las tablas, restaría sólo multiplicar la comisión por la venta:</p>
+<pre class="r"><code>resultado[, valorComision := comision * venta][]</code></pre>
+<pre><code>##    inicioRango  finRango venta idVendedor comision valorComision
+## 1:    0.000000  2.000000     0    VTS0029     0.01          0.00
+## 2:    4.571429  6.571429     6    VTS0030     0.03          0.18
+## 3:   11.428571 13.428571    12    VTS0031     0.06          0.72
+## 4:   16.000000 18.000000    18    VTS0032     0.08          1.44
+## 5:   22.857143 24.857143    24    VTS0033     0.11          2.64
+## 6:   29.714286 31.714286    30    VTS0034     0.14          4.20</code></pre>
+</div>
+<div id="línea-de-cierre" class="section level2">
+<h2>Línea de Cierre</h2>
+<p>Realizar uniones de desigualdad con <code>data.table</code> es simple y la sintaxis es absolutamente consistente con la utilizada para las uniones normales. La función <code>foverlaps</code> permite una forma sencilla y rápida de realizar este tipo de uniones, y en general estimar los traslapos que hay entre rangos de datos.</p>
+</div>
+</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  </div>
+
+  <div class="footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="footer-inner">
+          <h3 class="footer-title">Giovanni Pavolini - Consultor</h3>
+          <ul>
+            
+            
+            <li class="menu-item-home">
+              <a href="/">
+                Home
+              </a>
+            </li>
+            
+            <li class="menu-item-contacto">
+              <a href="/contacto/">
+                Contacto
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  <div class="sub-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="sub-footer-inner">
+          <ul>
+
+            <li><strong>Phone: </strong><span>&#43;57 300 402 8354</span></li>
+
+            <li><strong>Email: </strong><a href="mailto:giovanni@pavolini.net">
+                giovanni@pavolini.net</a></li>
+          </ul>
+          <a class="zerostatic" href="https://www.zerostatic.io">www.zerostatic.io</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/scripts.min.bf1e1f7ae8e03db5f012356e825843facdff51c0a559cb0d27fe2bbe1db405c2.js"></script>
+  
+
+  
+
+
+
+
+
+
+  
+  <link href="https://fonts.googleapis.com/css?family=DM+Serif+Display&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/bash.min.js"></script>
+  
+  <script>
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  
+  </script>
+  <script type="text/javascript"
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
+  
+</body>
+
+</html>

@@ -1,0 +1,530 @@
+---
+title: Analizando datos con data.table
+author: Giovanni Pavolini
+date: '2019-07-09'
+slug: analizando-datos-con-data-table
+categories:
+  - Spanish
+tags:
+  - data.table
+  - R
+---
+
+
+
+<p>R es un software muy útil para analizar datos. En R hay varios paquetes o librerías que se utilizan para sacarle aún más provecho a las muchas funcionalidades de R.</p>
+<p>Uno de esos paquetes es <code>data.table</code>. Éste brinda unas extensiones a la sintaxis natural de R y mucha velocidad y flexibilidad, especialmente en procesos en los que se requiere agrupar por variables y hacer análisis segmentados.</p>
+<div id="instalando-data.table" class="section level2">
+<h2>Instalando data.table</h2>
+<p>Para instalar <strong>data.table</strong> sólo se necesita</p>
+<pre class="r"><code>install.packages(&quot;data.table&quot;)</code></pre>
+<p>Este comando instalará el paquete data.table y las dependencias que requiere para funcionar (no son muchas).</p>
+</div>
+<div id="cargando-data.table" class="section level2">
+<h2>Cargando data.table</h2>
+<p>Una vez instalado el paquete, debemos cargarlo con el comando <code>library()</code>:</p>
+<pre class="r"><code>library(data.table)</code></pre>
+</div>
+<div id="leyendo-datos-con-data.table" class="section level2">
+<h2>Leyendo datos con data.table</h2>
+<p>Una de las mayores ventajas de data.table es la velocidad con la que carga datos en formatos planos. Si tienes un archivo .csv o .txt con muchos datos, te reto a que hagas la comparación de tiempo que toma la carga estándar (con <code>read.csv()</code>, por ejemplo) versus la función <code>fread</code> (fast read) de data.table</p>
+<p>Sin embargo, en esta entrada no vamos a cargar datos externos, pues vamos a usar los datos de <code>iris</code>, unos datos bastante conocidos en R y normalmente usados para los ejemplos.</p>
+<pre class="r"><code>irisDT = data.table(iris)</code></pre>
+<p>Una cosa interesantes aquí: <code>irisDT</code> es de clase <code>data.frame</code> y <code>data.table</code>. Esto es bueno, porque al ser todavía una <code>data.frame</code>, el objeto conserva todas las propiedades y métodos de cualquier data.frame normal (ensayá por ejemplo <code>irisDT$Sepal.Length[1:4]</code>). Que sea una <code>data.table</code> significa que le aplican algunos métodos específicos de la clase. Ensayá por ejemplo <code>irisDT</code> y comparálo con <code>iris</code>. ¿Viste que <code>irisDT</code> imprime las filas 1 a 5 y las cinco últimas, mientras que <code>iris</code> las imprimió todas?</p>
+<p>Así como le aplica un método <em>nuevo</em> de visualización, le aplican otros diferentes también.</p>
+</div>
+<div id="la-estructura-de-data.table" class="section level2">
+<h2>La estructura de data.table</h2>
+<p>La sintáxis de data.table es sencilla de entender, compacta y poderosa. Siempre se reduce a</p>
+<p><span class="math display">\[
+DT[i, j, by = k]
+\]</span></p>
+<div id="la-i-sirve-para-filtrar" class="section level3">
+<h3>La <em>i</em> sirve para filtrar</h3>
+<p>En general (luego hablamos de las uniones o <em>joins</em>), la <em>i</em> de data.table sirve para filtrar. Vamos por ejemplo a filtrar aquellas filas (registros) en los que la especies es “setosa”:</p>
+<pre class="r"><code>irisDT[Species == &quot;setosa&quot;, ]</code></pre>
+<pre><code>##     Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+##  1:          5.1         3.5          1.4         0.2  setosa
+##  2:          4.9         3.0          1.4         0.2  setosa
+##  3:          4.7         3.2          1.3         0.2  setosa
+##  4:          4.6         3.1          1.5         0.2  setosa
+##  5:          5.0         3.6          1.4         0.2  setosa
+##  6:          5.4         3.9          1.7         0.4  setosa
+##  7:          4.6         3.4          1.4         0.3  setosa
+##  8:          5.0         3.4          1.5         0.2  setosa
+##  9:          4.4         2.9          1.4         0.2  setosa
+## 10:          4.9         3.1          1.5         0.1  setosa
+## 11:          5.4         3.7          1.5         0.2  setosa
+## 12:          4.8         3.4          1.6         0.2  setosa
+## 13:          4.8         3.0          1.4         0.1  setosa
+## 14:          4.3         3.0          1.1         0.1  setosa
+## 15:          5.8         4.0          1.2         0.2  setosa
+## 16:          5.7         4.4          1.5         0.4  setosa
+## 17:          5.4         3.9          1.3         0.4  setosa
+## 18:          5.1         3.5          1.4         0.3  setosa
+## 19:          5.7         3.8          1.7         0.3  setosa
+## 20:          5.1         3.8          1.5         0.3  setosa
+## 21:          5.4         3.4          1.7         0.2  setosa
+## 22:          5.1         3.7          1.5         0.4  setosa
+## 23:          4.6         3.6          1.0         0.2  setosa
+## 24:          5.1         3.3          1.7         0.5  setosa
+## 25:          4.8         3.4          1.9         0.2  setosa
+## 26:          5.0         3.0          1.6         0.2  setosa
+## 27:          5.0         3.4          1.6         0.4  setosa
+## 28:          5.2         3.5          1.5         0.2  setosa
+## 29:          5.2         3.4          1.4         0.2  setosa
+## 30:          4.7         3.2          1.6         0.2  setosa
+## 31:          4.8         3.1          1.6         0.2  setosa
+## 32:          5.4         3.4          1.5         0.4  setosa
+## 33:          5.2         4.1          1.5         0.1  setosa
+## 34:          5.5         4.2          1.4         0.2  setosa
+## 35:          4.9         3.1          1.5         0.2  setosa
+## 36:          5.0         3.2          1.2         0.2  setosa
+## 37:          5.5         3.5          1.3         0.2  setosa
+## 38:          4.9         3.6          1.4         0.1  setosa
+## 39:          4.4         3.0          1.3         0.2  setosa
+## 40:          5.1         3.4          1.5         0.2  setosa
+## 41:          5.0         3.5          1.3         0.3  setosa
+## 42:          4.5         2.3          1.3         0.3  setosa
+## 43:          4.4         3.2          1.3         0.2  setosa
+## 44:          5.0         3.5          1.6         0.6  setosa
+## 45:          5.1         3.8          1.9         0.4  setosa
+## 46:          4.8         3.0          1.4         0.3  setosa
+## 47:          5.1         3.8          1.6         0.2  setosa
+## 48:          4.6         3.2          1.4         0.2  setosa
+## 49:          5.3         3.7          1.5         0.2  setosa
+## 50:          5.0         3.3          1.4         0.2  setosa
+##     Sepal.Length Sepal.Width Petal.Length Petal.Width Species</code></pre>
+<p>¿Qué sale? Pues todos los registros cuya especie es “setosa”. Por supuesto que se puede filtrar por otros criterios:</p>
+<pre class="r"><code>irisDT[Petal.Width &gt; 2, ]</code></pre>
+<pre><code>##     Sepal.Length Sepal.Width Petal.Length Petal.Width   Species
+##  1:          6.3         3.3          6.0         2.5 virginica
+##  2:          7.1         3.0          5.9         2.1 virginica
+##  3:          6.5         3.0          5.8         2.2 virginica
+##  4:          7.6         3.0          6.6         2.1 virginica
+##  5:          7.2         3.6          6.1         2.5 virginica
+##  6:          6.8         3.0          5.5         2.1 virginica
+##  7:          5.8         2.8          5.1         2.4 virginica
+##  8:          6.4         3.2          5.3         2.3 virginica
+##  9:          7.7         3.8          6.7         2.2 virginica
+## 10:          7.7         2.6          6.9         2.3 virginica
+## 11:          6.9         3.2          5.7         2.3 virginica
+## 12:          6.7         3.3          5.7         2.1 virginica
+## 13:          6.4         2.8          5.6         2.1 virginica
+## 14:          6.4         2.8          5.6         2.2 virginica
+## 15:          7.7         3.0          6.1         2.3 virginica
+## 16:          6.3         3.4          5.6         2.4 virginica
+## 17:          6.9         3.1          5.4         2.1 virginica
+## 18:          6.7         3.1          5.6         2.4 virginica
+## 19:          6.9         3.1          5.1         2.3 virginica
+## 20:          6.8         3.2          5.9         2.3 virginica
+## 21:          6.7         3.3          5.7         2.5 virginica
+## 22:          6.7         3.0          5.2         2.3 virginica
+## 23:          6.2         3.4          5.4         2.3 virginica
+##     Sepal.Length Sepal.Width Petal.Length Petal.Width   Species</code></pre>
+<p>y obviamente por criterios combinados:</p>
+<pre class="r"><code>irisDT[Petal.Width &lt;= 0.3 &amp; Sepal.Length &gt; 5,]</code></pre>
+<pre><code>##     Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+##  1:          5.1         3.5          1.4         0.2  setosa
+##  2:          5.4         3.7          1.5         0.2  setosa
+##  3:          5.8         4.0          1.2         0.2  setosa
+##  4:          5.1         3.5          1.4         0.3  setosa
+##  5:          5.7         3.8          1.7         0.3  setosa
+##  6:          5.1         3.8          1.5         0.3  setosa
+##  7:          5.4         3.4          1.7         0.2  setosa
+##  8:          5.2         3.5          1.5         0.2  setosa
+##  9:          5.2         3.4          1.4         0.2  setosa
+## 10:          5.2         4.1          1.5         0.1  setosa
+## 11:          5.5         4.2          1.4         0.2  setosa
+## 12:          5.5         3.5          1.3         0.2  setosa
+## 13:          5.1         3.4          1.5         0.2  setosa
+## 14:          5.1         3.8          1.6         0.2  setosa
+## 15:          5.3         3.7          1.5         0.2  setosa</code></pre>
+<p>Es posible también filtrar por números de fila, intentá por ejemplo:</p>
+<pre class="r"><code>irisDT[4, ]</code></pre>
+<pre><code>##    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+## 1:          4.6         3.1          1.5         0.2  setosa</code></pre>
+<pre class="r"><code>irisDT[c(1, 4),]</code></pre>
+<pre><code>##    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+## 1:          5.1         3.5          1.4         0.2  setosa
+## 2:          4.6         3.1          1.5         0.2  setosa</code></pre>
+<p><strong>Cosas para notar</strong>:</p>
+<ul>
+<li>No es necesario utilizar <code>$</code> para extraer las columnas.</li>
+<li>No es necesario utilizar comillas para los nombres de las variables. Esto es bastante útil para aquellas personas que, como yo, preferimos no teclear tanto.</li>
+<li>La coma al final de la <em>expresión</em> utilizada para filtar es opcional. Sin embargo, es buena idea acostumbrarse a ponerla.</li>
+</ul>
+</div>
+<div id="la-j-sirve-para-operar" class="section level3">
+<h3>La <em>j</em> sirve para operar</h3>
+<p>En el campo de la <strong><em>j</em></strong> podemos utilizar funciones o, más genralmente expresiones, para indicarle a R qué hacer con nuestros datos.</p>
+<div id="funciones" class="section level4">
+<h4>Funciones</h4>
+<p>Este es el uso más común, en el que hacemos alguna operación sobre alguna variable. Podemos, por ejemplo, calcular el promedio de longitud del sépalo de las flores de la especie “versicolor”:</p>
+<pre class="r"><code>irisDT[Species == &quot;versicolor&quot;, mean(Sepal.Length)]</code></pre>
+<pre><code>## [1] 5.936</code></pre>
+<p>¿Qué hicimos ahí?</p>
+<ul>
+<li>Filtrar aquellas filas en las que la especie es “versicolor”, y</li>
+<li>calcular el promedio de la variable <code>Sepal.Length</code> con la función <code>mean()</code></li>
+</ul>
+<p>Nada astronáutico, ¿o sí?</p>
+<p>Es posible aplicar varias funciones (o expresiones):</p>
+<pre class="r"><code>irisDT[Species == &quot;versicolor&quot;, .(promedio = mean(Sepal.Length), mediana = median(Sepal.Length))]</code></pre>
+<pre><code>##    promedio mediana
+## 1:    5.936     5.9</code></pre>
+<p>El <code>.()</code> que encierra las expresiones en <em>j</em> es un nombre alternativo para la función <code>list()</code> (ensaya cambiando el punto inicial por <code>list</code>), y sirven para que data.table nos devuelva un resultado de clase <code>data.table</code>.</p>
+</div>
+<div id="expresiones" class="section level4">
+<h4>Expresiones</h4>
+<p>La <em>j</em> puede tomar no sólo funciones, sino también <strong>expresiones</strong>. Esto es útil en algunos contextos, así que voy a mostrar un par de ejemplos medio tontos de lo que esto significa. En algún blog posterior espero mostrar algo más relevante que se puede lograr con esto.</p>
+<p>Primero, el más tonto de los dos ejemplos:</p>
+<pre class="r"><code>irisDT[Species == &quot;versicolor&quot;, format(1, scientific = TRUE)]</code></pre>
+<pre><code>## [1] &quot;1e+00&quot;</code></pre>
+<p>Esta fue una expresión, bastante sosa, hay que admitirlo. Pero el hecho de que <code>data.table</code> la haya procesado es interesante. Vamos a un ejemplo menos simple:</p>
+<pre class="r"><code>irisDT[Species == &quot;versicolor&quot;, hist(Sepal.Length)]</code></pre>
+<p><img src="/blog/2019-07-09-analizando-datos-con-data-table_files/figure-html/plotHistograma-1.png" width="672" /></p>
+<pre><code>## $breaks
+## [1] 4.5 5.0 5.5 6.0 6.5 7.0
+## 
+## $counts
+## [1]  3  8 19 12  8
+## 
+## $density
+## [1] 0.12 0.32 0.76 0.48 0.32
+## 
+## $mids
+## [1] 4.75 5.25 5.75 6.25 6.75
+## 
+## $xname
+## [1] &quot;Sepal.Length&quot;
+## 
+## $equidist
+## [1] TRUE
+## 
+## attr(,&quot;class&quot;)
+## [1] &quot;histogram&quot;</code></pre>
+<p>Esto fue más interesante… no es exactamente una operación lo que hicimos ahí: fue una <em>expresión</em>, y data.table la procesa: generó el histograma de “Sepal.Length”. Vamos a algo aún más poderoso:</p>
+<pre class="r"><code>irisDT[Species == &quot;versicolor&quot;, modelo &lt;&lt;- lm(Sepal.Length ~ Petal.Width)]</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = Sepal.Length ~ Petal.Width)
+## 
+## Coefficients:
+## (Intercept)  Petal.Width  
+##       4.045        1.426</code></pre>
+<p>La variable <code>modelo</code> ha sido creada en el ambiente global (gracias a que usamos <code>&lt;&lt;-</code>), lo cual puede ser corroborado con:</p>
+<pre class="r"><code>summary(modelo)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = Sepal.Length ~ Petal.Width)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.84155 -0.29891  0.00109  0.31213  0.95845 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)   4.0446     0.4229   9.564 1.07e-12 ***
+## Petal.Width   1.4264     0.3155   4.521 4.04e-05 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.4368 on 48 degrees of freedom
+## Multiple R-squared:  0.2986, Adjusted R-squared:  0.284 
+## F-statistic: 20.44 on 1 and 48 DF,  p-value: 4.035e-05</code></pre>
+</div>
+</div>
+<div id="la-k-sirve-para-agrupar" class="section level3">
+<h3>La <em>k</em> sirve para agrupar</h3>
+<p>Ahora vamos a ver la funcionalidad de <em>k</em>:</p>
+<pre class="r"><code>irisDT[ , mean(Sepal.Length), by = Species]</code></pre>
+<pre><code>##       Species    V1
+## 1:     setosa 5.006
+## 2: versicolor 5.936
+## 3:  virginica 6.588</code></pre>
+<p>Cuando le indicamos a data.table que <em>agrupe por <code>Species</code></em>, entonces ella va a ejecutar las operaciones en <em>j</em> para cada grupo que identifique en <em>k</em>. El resultado (para nuestro ejemplo) entonces es el promedio de <code>Sepal.Length</code> para cada especie que encuentre en la variable <code>Species</code>. Obviamente es posible aplicar esta operación con un filtro determinado (en este caso concentrándonos sólo en las flores cuyos sépalos tienen un ancho mayor o igual a 3):</p>
+<pre class="r"><code>irisDT[Sepal.Width &gt;= 3, mean(Sepal.Length), by = Species]</code></pre>
+<pre><code>##       Species       V1
+## 1:     setosa 5.029167
+## 2: versicolor 6.218750
+## 3:  virginica 6.768966</code></pre>
+<p>De la misma forma en que pudimos aplicar varias operaciones simultáneas en <em>j</em>, también es posible aplicar varias agrupaciones simultáneas en <em>k</em>:</p>
+<pre class="r"><code>irisDT[, mean(Sepal.Length), by = .(Species, petaloPequeno = Petal.Width &lt; .3)]</code></pre>
+<pre><code>##       Species petaloPequeno    V1
+## 1:     setosa          TRUE 4.950
+## 2:     setosa         FALSE 5.125
+## 3: versicolor         FALSE 5.936
+## 4:  virginica         FALSE 6.588</code></pre>
+</div>
+</div>
+<div id="algunos-atajos-y-extras" class="section level2">
+<h2>Algunos atajos y extras</h2>
+<p><code>data.table</code> tiene muchas cosas interesantes que facilitan los análisis.</p>
+<div id="variables-incorporadas" class="section level3">
+<h3>Variables incorporadas</h3>
+<p>Hay algunas operaciones recurrentes que se simplifican con variables incorporadas. Las más usadas son:</p>
+<div id="n-para-contar-el-número-de-registros." class="section level4">
+<h4><code>.N</code>: para contar el número de registros.</h4>
+<p>Con esta variable podemos contar el número de filas que cumplen con nuestro criterio:</p>
+<pre class="r"><code>irisDT[Petal.Width &gt; 0.3, .N]</code></pre>
+<pre><code>## [1] 109</code></pre>
+<pre class="r"><code>irisDT[, .N, by = Species]</code></pre>
+<pre><code>##       Species  N
+## 1:     setosa 50
+## 2: versicolor 50
+## 3:  virginica 50</code></pre>
+</div>
+<div id="sd-subset-data" class="section level4">
+<h4><code>.SD</code>: <strong>S</strong>ubset <strong>D</strong>ata</h4>
+<p>Guarda una versión del objeto, tal como lo vamos operando. Es útil para muchas cosas (algunas de ellas más avanzadas de lo que espero mostrar aquí, como interacciones con las funciones <code>*pply</code> de base), como mostrar el primer registro por cada especie:</p>
+<pre class="r"><code>irisDT[, .SD[1,], by = Species]</code></pre>
+<pre><code>##       Species Sepal.Length Sepal.Width Petal.Length Petal.Width
+## 1:     setosa          5.1         3.5          1.4         0.2
+## 2: versicolor          7.0         3.2          4.7         1.4
+## 3:  virginica          6.3         3.3          6.0         2.5</code></pre>
+<p>Aquí le pedimos a .SD que nos trajera la fila 1 de cada una de las subtablas por especie.</p>
+</div>
+<div id="by-la-variable-de-agrupación" class="section level4">
+<h4><code>.BY</code>: La variable de agrupación</h4>
+<p>La variable especial <code>.BY</code> guarda el valor con el que <code>data.table</code> está agrupando. Esto se ver mejor cuando retornamos el valor de <code>.BY</code>:</p>
+<pre class="r"><code>irisDT[, paste0(&quot;a_&quot;, .BY), by = as.character(Species)]</code></pre>
+<pre><code>##    as.character           V1
+## 1:       setosa     a_setosa
+## 2:   versicolor a_versicolor
+## 3:    virginica  a_virginica</code></pre>
+<p>(Notá que tuvimos que convertir <code>Species</code> en texto, porque originalmente es un factor).</p>
+</div>
+<div id="grp-la-versión-numérica-del-grupo" class="section level4">
+<h4><code>.GRP</code>: La versión numérica del grupo</h4>
+<pre class="r"><code>irisDT[, paste0(&quot;a_&quot;, .GRP), by = as.character(Species)]</code></pre>
+<pre><code>##    as.character  V1
+## 1:       setosa a_1
+## 2:   versicolor a_2
+## 3:    virginica a_3</code></pre>
+</div>
+</div>
+<div id="funciones-especiales" class="section level3">
+<h3>Funciones especiales</h3>
+<p><code>data.table</code> tiene algunas funciones especiales de gran utilidad. Algunas son:</p>
+<ul>
+<li><code>uniqueN</code>.</li>
+<li><code>shift</code>.</li>
+<li><code>between</code> o <code>%between%</code></li>
+<li><code>like</code> o <code>%like%</code></li>
+<li>y varias otras para manejo de fechas</li>
+</ul>
+<pre class="r"><code>irisDT[, uniqueN(Species)]</code></pre>
+<pre><code>## [1] 3</code></pre>
+<pre class="r"><code>irisDT[Species == &quot;setosa&quot;, .(originalSepal = Sepal.Length, 
+                              shiftedSepalDown = shift(Sepal.Length, n = 1, type = &quot;lag&quot;),
+                              shiftedSepalUp = shift(Sepal.Length, n = 1, type = &quot;lead&quot;))]</code></pre>
+<pre><code>##     originalSepal shiftedSepalDown shiftedSepalUp
+##  1:           5.1               NA            4.9
+##  2:           4.9              5.1            4.7
+##  3:           4.7              4.9            4.6
+##  4:           4.6              4.7            5.0
+##  5:           5.0              4.6            5.4
+##  6:           5.4              5.0            4.6
+##  7:           4.6              5.4            5.0
+##  8:           5.0              4.6            4.4
+##  9:           4.4              5.0            4.9
+## 10:           4.9              4.4            5.4
+## 11:           5.4              4.9            4.8
+## 12:           4.8              5.4            4.8
+## 13:           4.8              4.8            4.3
+## 14:           4.3              4.8            5.8
+## 15:           5.8              4.3            5.7
+## 16:           5.7              5.8            5.4
+## 17:           5.4              5.7            5.1
+## 18:           5.1              5.4            5.7
+## 19:           5.7              5.1            5.1
+## 20:           5.1              5.7            5.4
+## 21:           5.4              5.1            5.1
+## 22:           5.1              5.4            4.6
+## 23:           4.6              5.1            5.1
+## 24:           5.1              4.6            4.8
+## 25:           4.8              5.1            5.0
+## 26:           5.0              4.8            5.0
+## 27:           5.0              5.0            5.2
+## 28:           5.2              5.0            5.2
+## 29:           5.2              5.2            4.7
+## 30:           4.7              5.2            4.8
+## 31:           4.8              4.7            5.4
+## 32:           5.4              4.8            5.2
+## 33:           5.2              5.4            5.5
+## 34:           5.5              5.2            4.9
+## 35:           4.9              5.5            5.0
+## 36:           5.0              4.9            5.5
+## 37:           5.5              5.0            4.9
+## 38:           4.9              5.5            4.4
+## 39:           4.4              4.9            5.1
+## 40:           5.1              4.4            5.0
+## 41:           5.0              5.1            4.5
+## 42:           4.5              5.0            4.4
+## 43:           4.4              4.5            5.0
+## 44:           5.0              4.4            5.1
+## 45:           5.1              5.0            4.8
+## 46:           4.8              5.1            5.1
+## 47:           5.1              4.8            4.6
+## 48:           4.6              5.1            5.3
+## 49:           5.3              4.6            5.0
+## 50:           5.0              5.3             NA
+##     originalSepal shiftedSepalDown shiftedSepalUp</code></pre>
+<pre class="r"><code>irisDT[Sepal.Length %between% c(5.1, 5.2)]</code></pre>
+<pre><code>##     Sepal.Length Sepal.Width Petal.Length Petal.Width    Species
+##  1:          5.1         3.5          1.4         0.2     setosa
+##  2:          5.1         3.5          1.4         0.3     setosa
+##  3:          5.1         3.8          1.5         0.3     setosa
+##  4:          5.1         3.7          1.5         0.4     setosa
+##  5:          5.1         3.3          1.7         0.5     setosa
+##  6:          5.2         3.5          1.5         0.2     setosa
+##  7:          5.2         3.4          1.4         0.2     setosa
+##  8:          5.2         4.1          1.5         0.1     setosa
+##  9:          5.1         3.4          1.5         0.2     setosa
+## 10:          5.1         3.8          1.9         0.4     setosa
+## 11:          5.1         3.8          1.6         0.2     setosa
+## 12:          5.2         2.7          3.9         1.4 versicolor
+## 13:          5.1         2.5          3.0         1.1 versicolor</code></pre>
+<pre class="r"><code>irisDT[Species %like% &quot;v.*&quot;,]</code></pre>
+<pre><code>##      Sepal.Length Sepal.Width Petal.Length Petal.Width    Species
+##   1:          7.0         3.2          4.7         1.4 versicolor
+##   2:          6.4         3.2          4.5         1.5 versicolor
+##   3:          6.9         3.1          4.9         1.5 versicolor
+##   4:          5.5         2.3          4.0         1.3 versicolor
+##   5:          6.5         2.8          4.6         1.5 versicolor
+##   6:          5.7         2.8          4.5         1.3 versicolor
+##   7:          6.3         3.3          4.7         1.6 versicolor
+##   8:          4.9         2.4          3.3         1.0 versicolor
+##   9:          6.6         2.9          4.6         1.3 versicolor
+##  10:          5.2         2.7          3.9         1.4 versicolor
+##  11:          5.0         2.0          3.5         1.0 versicolor
+##  12:          5.9         3.0          4.2         1.5 versicolor
+##  13:          6.0         2.2          4.0         1.0 versicolor
+##  14:          6.1         2.9          4.7         1.4 versicolor
+##  15:          5.6         2.9          3.6         1.3 versicolor
+##  16:          6.7         3.1          4.4         1.4 versicolor
+##  17:          5.6         3.0          4.5         1.5 versicolor
+##  18:          5.8         2.7          4.1         1.0 versicolor
+##  19:          6.2         2.2          4.5         1.5 versicolor
+##  20:          5.6         2.5          3.9         1.1 versicolor
+##  21:          5.9         3.2          4.8         1.8 versicolor
+##  22:          6.1         2.8          4.0         1.3 versicolor
+##  23:          6.3         2.5          4.9         1.5 versicolor
+##  24:          6.1         2.8          4.7         1.2 versicolor
+##  25:          6.4         2.9          4.3         1.3 versicolor
+##  26:          6.6         3.0          4.4         1.4 versicolor
+##  27:          6.8         2.8          4.8         1.4 versicolor
+##  28:          6.7         3.0          5.0         1.7 versicolor
+##  29:          6.0         2.9          4.5         1.5 versicolor
+##  30:          5.7         2.6          3.5         1.0 versicolor
+##  31:          5.5         2.4          3.8         1.1 versicolor
+##  32:          5.5         2.4          3.7         1.0 versicolor
+##  33:          5.8         2.7          3.9         1.2 versicolor
+##  34:          6.0         2.7          5.1         1.6 versicolor
+##  35:          5.4         3.0          4.5         1.5 versicolor
+##  36:          6.0         3.4          4.5         1.6 versicolor
+##  37:          6.7         3.1          4.7         1.5 versicolor
+##  38:          6.3         2.3          4.4         1.3 versicolor
+##  39:          5.6         3.0          4.1         1.3 versicolor
+##  40:          5.5         2.5          4.0         1.3 versicolor
+##  41:          5.5         2.6          4.4         1.2 versicolor
+##  42:          6.1         3.0          4.6         1.4 versicolor
+##  43:          5.8         2.6          4.0         1.2 versicolor
+##  44:          5.0         2.3          3.3         1.0 versicolor
+##  45:          5.6         2.7          4.2         1.3 versicolor
+##  46:          5.7         3.0          4.2         1.2 versicolor
+##  47:          5.7         2.9          4.2         1.3 versicolor
+##  48:          6.2         2.9          4.3         1.3 versicolor
+##  49:          5.1         2.5          3.0         1.1 versicolor
+##  50:          5.7         2.8          4.1         1.3 versicolor
+##  51:          6.3         3.3          6.0         2.5  virginica
+##  52:          5.8         2.7          5.1         1.9  virginica
+##  53:          7.1         3.0          5.9         2.1  virginica
+##  54:          6.3         2.9          5.6         1.8  virginica
+##  55:          6.5         3.0          5.8         2.2  virginica
+##  56:          7.6         3.0          6.6         2.1  virginica
+##  57:          4.9         2.5          4.5         1.7  virginica
+##  58:          7.3         2.9          6.3         1.8  virginica
+##  59:          6.7         2.5          5.8         1.8  virginica
+##  60:          7.2         3.6          6.1         2.5  virginica
+##  61:          6.5         3.2          5.1         2.0  virginica
+##  62:          6.4         2.7          5.3         1.9  virginica
+##  63:          6.8         3.0          5.5         2.1  virginica
+##  64:          5.7         2.5          5.0         2.0  virginica
+##  65:          5.8         2.8          5.1         2.4  virginica
+##  66:          6.4         3.2          5.3         2.3  virginica
+##  67:          6.5         3.0          5.5         1.8  virginica
+##  68:          7.7         3.8          6.7         2.2  virginica
+##  69:          7.7         2.6          6.9         2.3  virginica
+##  70:          6.0         2.2          5.0         1.5  virginica
+##  71:          6.9         3.2          5.7         2.3  virginica
+##  72:          5.6         2.8          4.9         2.0  virginica
+##  73:          7.7         2.8          6.7         2.0  virginica
+##  74:          6.3         2.7          4.9         1.8  virginica
+##  75:          6.7         3.3          5.7         2.1  virginica
+##  76:          7.2         3.2          6.0         1.8  virginica
+##  77:          6.2         2.8          4.8         1.8  virginica
+##  78:          6.1         3.0          4.9         1.8  virginica
+##  79:          6.4         2.8          5.6         2.1  virginica
+##  80:          7.2         3.0          5.8         1.6  virginica
+##  81:          7.4         2.8          6.1         1.9  virginica
+##  82:          7.9         3.8          6.4         2.0  virginica
+##  83:          6.4         2.8          5.6         2.2  virginica
+##  84:          6.3         2.8          5.1         1.5  virginica
+##  85:          6.1         2.6          5.6         1.4  virginica
+##  86:          7.7         3.0          6.1         2.3  virginica
+##  87:          6.3         3.4          5.6         2.4  virginica
+##  88:          6.4         3.1          5.5         1.8  virginica
+##  89:          6.0         3.0          4.8         1.8  virginica
+##  90:          6.9         3.1          5.4         2.1  virginica
+##  91:          6.7         3.1          5.6         2.4  virginica
+##  92:          6.9         3.1          5.1         2.3  virginica
+##  93:          5.8         2.7          5.1         1.9  virginica
+##  94:          6.8         3.2          5.9         2.3  virginica
+##  95:          6.7         3.3          5.7         2.5  virginica
+##  96:          6.7         3.0          5.2         2.3  virginica
+##  97:          6.3         2.5          5.0         1.9  virginica
+##  98:          6.5         3.0          5.2         2.0  virginica
+##  99:          6.2         3.4          5.4         2.3  virginica
+## 100:          5.9         3.0          5.1         1.8  virginica
+##      Sepal.Length Sepal.Width Petal.Length Petal.Width    Species</code></pre>
+</div>
+</div>
+<div id="encadenando-comandos" class="section level2">
+<h2>Encadenando comandos</h2>
+<p>En <code>data.table</code> es posible encadenar comandos siguiendo la misma sintaxis, ya que el resultado de cualquier operación sobre una <code>data.table</code> es en sí misma otra data.table. Por lo tanto, encadenar comandos es tan simple como:</p>
+<pre class="r"><code>irisDT[Sepal.Length &lt; 5.5, 
+       .N, 
+       by = Species][, 
+                     .(Species, 
+                       N, 
+                       proporcion = paste0(round(100*prop.table(N), 
+                                                 2), 
+                                           &quot;%&quot;))]</code></pre>
+<pre><code>##       Species  N proporcion
+## 1:     setosa 45     86.54%
+## 2: versicolor  6     11.54%
+## 3:  virginica  1      1.92%</code></pre>
+<p>Notá que donde está <code>][</code> está el “paso” de la primera aplicación de operandos a la segunda.</p>
+<p>Algunas personas encuentran más amigable utilizar el “pipe” de <code>magrittr</code> para encadenar, esto es perfectamente correcto. El resultado sería:</p>
+<pre class="r"><code>library(magrittr)
+
+irisDT[Sepal.Length &lt; 5.5, 
+       .N, 
+       by = Species] %&gt;% 
+  .[, .(Species,
+       N,
+       proporcion = paste0(round(100*prop.table(N),
+                                 2),
+                           &quot;%&quot;))]</code></pre>
+<pre><code>##       Species  N proporcion
+## 1:     setosa 45     86.54%
+## 2: versicolor  6     11.54%
+## 3:  virginica  1      1.92%</code></pre>
+<p>Notá que después del pipe (<code>%&gt;%</code>) tuvimos que usar el punto <code>.</code> como una forma de indicar que sobre esa <code>data.table</code> que viene es que vamos a realizar la siguiente operación.</p>
+</div>
+<div id="cierre" class="section level2">
+<h2>Cierre</h2>
+<p>Quedan faltando un millón de temas por tocar sobre este paquete. Espero que hayás podido ver que la sintaxis de <code>data.table</code> no es para nada intimidante, y al contrario muy compacta y consistente. Si tenés dudas o comentarios, no lo dudés, ¡para conversar estamos!</p>
+</div>

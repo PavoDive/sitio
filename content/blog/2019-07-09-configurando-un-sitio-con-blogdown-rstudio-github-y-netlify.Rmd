@@ -1,0 +1,123 @@
+---
+title: Configurando un Sitio con blogdown, RStudio, github y netlify
+author: Giovanni Pavolini
+date: '2019-07-09'
+slug: configurando-un-sitio-con-blogdown-rstudio-github-y-netlify
+categories:
+  - Spanish
+tags:
+  - R Markdown
+  - blogdown
+  - github
+  - R
+---
+
+Tener un sitio web es una experiencia interesante. El paquete `blogdown` lo hace mucho más fácil, especialmente para quienes comparten en sus blogs información sobre análisis de datos, sobre programación o sobre cualquier ciencia que requiera uso de código o de fórmulas matemáticas.
+
+Esta entrada (¡nuesta primera entrada!) te muestra como configurar tu sitio web utilizando las herramientas de R, RStudio, blogdown, github y netlify.
+
+## Descargá lo que necesitás
+
+Para poder hacer esto vas a necesitar:
+
++ Tener instalado [R](https://cloud.r-project.org/)
++ Tener instalado [RStudio](https://www.rstudio.com/products/rstudio/download/)
++ Tener una cuenta de [GitHub](https://github.com/join)
++ Tener instalado Git. Por ahora instrucciones en [inglés.](https://support.rstudio.com/hc/en-us/articles/200532077-Version-Control-with-Git-and-SVN)
+
+## Instalá `blogdown`
+
+La instalación de `blogdown` es bastante simple. Una vez en la ventana de comando de R o RStudio, simplemente:
+
+```{r, eval= FALSE}
+
+install.packages("blogdown")
+```
+
+Si querés leer sobre `blogdown`, la fuente obligada es su creador, Xie Yihui, en https://bookdown.org/yihui/blogdown/.
+
+## Creá un sitio que se sincronice automáticamente
+
+Para crear un sitio que se sincronice automáticamente (que fue la idea desde el principio), el flujo es aproximadamente el siguiente:
+
+1. Creás un repositorio en github
+2. Creás un nuevo proyecto en RStudio que haga control de versión con github. Exacto: son el mismo proyecto.
+3. Creás el sitio web en RStudio con `blogdown`.
+4. Sincronizás el sitio que está en github (que ahora está actualizado con el que tenés local) con netlify.
+
+### Creando el repositorio en github
+
+Para crear el repositorio en github, simplemente dale "nuevo repositorio". Podés escoger el nombre que te parezca conveniente (ojalá que haga sentido). Para crearlo, tené en cuenta lo siguiente:
+
++ Que sea público.
++ Cheaqueá la casilla "inicializar este repositorio con un README".
++ Dejar las opciones `.gitignore` y `license` en ninguna (none).
+
+Esto crea un repositorio vacío, que luego podemos sincronizar con RStudio.
+
+Copiá la URL del nuevo repositorio, porque la vas a necesitar en el paso siguiente.
+
+### Crear un proyecto en RStudio que haga control de versión con GitHub
+
+Cuando ya Git está configurado esto es sencillo, en una próxima entrada espero detallar el proceso de configuración de Git. Por lo pronto, en la esquina superior derecha hacer click en "nuevo proyecto" y luego "Version Control".
+
+![](/post/blogdownGithub/controlVersionProject.png)
+
+El cuadro de diálogo te pedirá que insertés la URL del repositorio, que es exactamente la que copiaste en Github.
+
+### Creá el sitio de prueba con blogdown
+
+Ahora sí, en RStudio vas a crear el sitio de prueba:
+
+```{r, eval= FALSE}
+library(blogdown)
+
+new_site()
+```
+
+Este sitio tiene varios archivos y directorios, vamos a entender un poco:
+
++ Hay un directorio `content`. Ahí están los archivos .Rmd en los que hacés los contenidos.
++ Hay un directorio `public`. Ahí va lo que está listo para publicación. **Este directorio no necesitás tocarlo, se actualiza automáticamente**.
++ Hay un directorio `static`. Ahí podés poner las imágenes que vas a incluir en tu blog.
++ Hay un archivo `config.toml`. Editá los enlaces a tus redes sociales (vienen twitter y github por defecto, pero podés añadir más siguiendo la línea, o retirar alguna), tu nombre y lo demás que tenga sentido.
+
+### Sincronizá lo que hiciste con GitHub
+
+Para eso:
+
++ Tocá la pestaña `Git` (también desde `Herramientas >> Version control`), seleccioná todos los archivos y dale "commit" y lugo "push".
++ Te pide usuario y password, y los archivos son enviados a Github.
+
+### Sincronizá lo que tenés en Github con Netlify.
+
++ Andá a [Netlify](https://netlify.com) y abrí una cuenta. Aprovechá para decir que querés asociarla a la existente de GitHub.
++ Luego dale "New site from Git" y seleccioná la opción "Continuos deployment from GitHub".
++ Netlify te permite seleccionar qué repositorio querés enlazar, y entonces ya sabés que es el que has venido trabajando. **Dos cosas clave aquí**:
+    - El "build command" debe ser el que normalmente está por defecto: `hugo`.
+    - El "publish directory" debe ser `public`.
++ Dale click a "deploy site". Esto debe tomar algunos segundos y luego te dará una confirmación.
++ Dale una mirada al sitio y no te asustés, luego vas a poder ajustar todo.
+
+## Haciendo algunos ajustes menores
+
+Probablemente el nombre del sitio que te asignó netlify es terrible... lo bueno es que podés cambiarlo.
+
++ Dale click a "overview", y luego a "site settings".
++ En "site information" podés darle "change site name" e introducir un nuevo subdominio (mi subdominio es el `gpavolini` que va antes de `netlify.com`). Ahora está menos espantoso, ¿cierto?
++ Ya que hiciste esto, necesitás actualizar una cosa en el archivo `config.toml` (lo hacés en RStudio).
+  - Debés ajustar el valor del `baseurl` de manera similar a esta: `baseurl = "https://gpavolini.netlify.com"`, obviamente poniendo tu subdominio.
+  
+## Ingresando y actualizando contenidos
+
+### Ingresando entradas de blog
+En la barra de menú de RStudio hay un pequeño botón que dice "addins". De ahí podés seleccionar la opción "New post" para hacer una nueva entrada. Una vez estés satisfecho con tus nuevas entradas, podés ir al directorio `content` y borrar las entradas de ejemplo que están allí.
+
+### Actualizando tu blog
+Cada vez que escribás un blog, debés seguir estos sencillos pasos para que quede actualizado:
+
++ Actualizar el sitio, lo podés hacer con el addin `serve_site`  con la función `serve_site()` directamente en la ventana de comando. Una vez esté eso listo, entonces solo falta
++ Sincronizar con GitHub, con el jeugo de acciones `commit` y `push`.
+
+
+

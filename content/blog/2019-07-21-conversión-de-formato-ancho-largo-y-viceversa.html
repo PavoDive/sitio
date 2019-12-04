@@ -1,0 +1,439 @@
+---
+title: Conversión de formato Ancho a Largo y viceversa
+author: Giovanni Pavolini
+date: '2019-07-21'
+slug: conversión-de-formato-ancho-largo-y-viceversa
+categories:
+  - Spanish
+tags:
+  - data.table
+  - R
+  - ggplot
+---
+
+
+
+<p><a href="/2019/07/22/long-to-wide-and-wide-to-long-format-conversion">See an English version here!</a></p>
+<p>Uno de las dificultades que con frecuencia encuentro en preguntas en Stack Overflow sobre R, y en general sobre ciencia de datos es la errónea utilización de formatos anchos de datos para análisis de datos.</p>
+<p>En este post veremos algunas funciones del paquete <code>data.table</code> en <strong>R</strong> para convertir de formato ancho a largo y viceversa.</p>
+<div id="diferentes-formas-de-almacenar-los-mismos-datos" class="section level2">
+<h2>Diferentes Formas de Almacenar los Mismos Datos</h2>
+<p>Hay dos posibles formas de almacenar información tabulada: en formato “ancho” y en formato “largo”.</p>
+<div id="formato-ancho" class="section level3">
+<h3>Formato Ancho</h3>
+<p>El formato ancho es muy común en hojas de cálculo, ya que resulta más fácil de visualizar para el usuario. Un ejemplo de este formato en una tabla de ventas sería:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">item</th>
+<th align="right">este</th>
+<th align="right">norte</th>
+<th align="right">oeste</th>
+<th align="right">sur</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">azúcar</td>
+<td align="right">13</td>
+<td align="right">11</td>
+<td align="right">9</td>
+<td align="right">14</td>
+</tr>
+<tr class="even">
+<td align="left">café</td>
+<td align="right">4</td>
+<td align="right">6</td>
+<td align="right">6</td>
+<td align="right">5</td>
+</tr>
+<tr class="odd">
+<td align="left">harina</td>
+<td align="right">4</td>
+<td align="right">2</td>
+<td align="right">3</td>
+<td align="right">3</td>
+</tr>
+<tr class="even">
+<td align="left">sal</td>
+<td align="right">9</td>
+<td align="right">13</td>
+<td align="right">11</td>
+<td align="right">10</td>
+</tr>
+</tbody>
+</table>
+<p>En esta tabla vemos que hay una columna de productos y cuatro columnas con la venta en cada región de cada uno de ellos. Si bien este formato es fácil de interpretar para nosotros, es relativamente “difícil” de usar por el computador cuando usamos los datos.
+Pensálo así: si querés graficar la distribución de venta de cada producto, entonces vas a tener que dar cuatro diferentes instrucciones de gráfica, una para cada uno. El formato largo nos evita esto.</p>
+</div>
+<div id="formato-largo" class="section level3">
+<h3>Formato Largo</h3>
+<p>En el formato largo cada variable ocupa una columna (por eso también se le llama “tidy” u ordenado). Nuestra tabla entonces tendría una columna con el nombre del producto, otra con la región de venta y una última con el valor de la venta:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">item</th>
+<th align="left">region</th>
+<th align="right">valor</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">azúcar</td>
+<td align="left">este</td>
+<td align="right">13</td>
+</tr>
+<tr class="even">
+<td align="left">café</td>
+<td align="left">este</td>
+<td align="right">4</td>
+</tr>
+<tr class="odd">
+<td align="left">harina</td>
+<td align="left">este</td>
+<td align="right">4</td>
+</tr>
+<tr class="even">
+<td align="left">sal</td>
+<td align="left">este</td>
+<td align="right">9</td>
+</tr>
+<tr class="odd">
+<td align="left">azúcar</td>
+<td align="left">norte</td>
+<td align="right">11</td>
+</tr>
+<tr class="even">
+<td align="left">café</td>
+<td align="left">norte</td>
+<td align="right">6</td>
+</tr>
+<tr class="odd">
+<td align="left">harina</td>
+<td align="left">norte</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="left">sal</td>
+<td align="left">norte</td>
+<td align="right">13</td>
+</tr>
+<tr class="odd">
+<td align="left">azúcar</td>
+<td align="left">oeste</td>
+<td align="right">9</td>
+</tr>
+<tr class="even">
+<td align="left">café</td>
+<td align="left">oeste</td>
+<td align="right">6</td>
+</tr>
+<tr class="odd">
+<td align="left">harina</td>
+<td align="left">oeste</td>
+<td align="right">3</td>
+</tr>
+<tr class="even">
+<td align="left">sal</td>
+<td align="left">oeste</td>
+<td align="right">11</td>
+</tr>
+<tr class="odd">
+<td align="left">azúcar</td>
+<td align="left">sur</td>
+<td align="right">14</td>
+</tr>
+<tr class="even">
+<td align="left">café</td>
+<td align="left">sur</td>
+<td align="right">5</td>
+</tr>
+<tr class="odd">
+<td align="left">harina</td>
+<td align="left">sur</td>
+<td align="right">3</td>
+</tr>
+<tr class="even">
+<td align="left">sal</td>
+<td align="left">sur</td>
+<td align="right">10</td>
+</tr>
+</tbody>
+</table>
+<p>Allí tenemos los mismos 16 registros, sólo que ahora están organizados en una sola columna, y hay otra columna que nos indica a qué región corresponde cada valor de venta. Obviamente cada producto no aparece sólo 1 vez, como en la tabla ancha, sino 4 veces.</p>
+</div>
+</div>
+<div id="comparación-de-los-formatos" class="section level2">
+<h2>Comparación de los Formatos</h2>
+<p>Tener la información en una tabla larga es más fácil para hacer ciertos procesamientos. Miremos por ejemplo lo que tendríamos que hacer para obtener <em>todos</em> los ítems en una sola gráfica, o lo que necesitamos para estimar los promedios por zona:</p>
+<div id="con-una-tabla-ancha" class="section level3">
+<h3>Con una Tabla Ancha:</h3>
+<pre class="r"><code>library(ggplot2)
+
+p &lt;- ggplot(dfAncha)+
+  geom_point(aes(x = names(dfAncha)[2:5], y = t(dfAncha[1,2:5]), color = dfAncha[1,1]), position = &quot;jitter&quot;)+
+  geom_point(aes(x = names(dfAncha)[2:5], y = t(dfAncha[2,2:5]), color = dfAncha[2, 1]), position = &quot;jitter&quot;)+
+  geom_point(aes(x = names(dfAncha)[2:5], y = t(dfAncha[3, 2:5]), color = dfAncha[3,1]), position = &quot;jitter&quot;)+
+  geom_point(aes(x = names(dfAncha)[2:5], y = t(dfAncha[4, 2:5]), color = dfAncha[4,1]), position = &quot;jitter&quot;)
+
+p</code></pre>
+<p><img src="/blog/2019-07-21-conversi%C3%B3n-de-formato-ancho-largo-y-viceversa_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>Evidentemente requerimos hacer algunos ajustes cosméticos en los títulos:</p>
+<pre class="r"><code>p + labs(x = &quot;region&quot;, y = &quot;valor venta&quot;, color = &quot;item&quot;)</code></pre>
+<p><img src="/blog/2019-07-21-conversi%C3%B3n-de-formato-ancho-largo-y-viceversa_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>Para el caso de los promedios por zona, podemos:</p>
+<pre class="r"><code>colMeans(dfAncha[, 2:5])</code></pre>
+<pre><code>##  este norte oeste   sur 
+##  7.50  8.00  7.25  8.00</code></pre>
+</div>
+<div id="ahora-con-una-tabla-larga" class="section level3">
+<h3>Ahora con una Tabla Larga</h3>
+<p>Veamos como se saca la misma gráfica:</p>
+<pre class="r"><code>p2 &lt;- ggplot(dfLarga, aes(x = region, y = valor, color = item))+
+  geom_point(position = &quot;jitter&quot;)
+
+p2</code></pre>
+<p><img src="/blog/2019-07-21-conversi%C3%B3n-de-formato-ancho-largo-y-viceversa_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>¡No sólo el código es más corto, la cosmética es la adecuada!</p>
+<p>(Si notaste que las dos gráficas no son idénticas, eso es por el desplazamiento aleatorio del <em>jitter</em>. Los valores reales de las tablas son idénticos).</p>
+<p>Ahora veamos como se calcula el promedio por región:</p>
+<pre class="r"><code># Usando base R
+tapply(dfLarga$valor, dfLarga$region, mean)</code></pre>
+<pre><code>##  este norte oeste   sur 
+##  7.50  8.00  7.25  8.00</code></pre>
+<pre class="r"><code># con una sintaxis más amigable en data.table
+library(data.table)
+
+setDT(dfLarga)[, mean(valor), by = region]</code></pre>
+<pre><code>##    region   V1
+## 1:   este 7.50
+## 2:  norte 8.00
+## 3:  oeste 7.25
+## 4:    sur 8.00</code></pre>
+<p>Con una tabla larga, al ser un formato ordenado, podemos sacar el máximo provecho de paquetes como <code>data.table</code> o <code>dplyr</code>.</p>
+</div>
+</div>
+<div id="convertir-de-formato-ancho-a-largo-y-viceversa" class="section level2">
+<h2>Convertir de Formato Ancho a Largo y Viceversa</h2>
+<p>Para convertir de formato usaremos las funciones <code>melt</code> y <code>dcast</code> del paquete <code>data.table</code>.</p>
+<div id="ancho-a-largo" class="section level3">
+<h3>Ancho a Largo</h3>
+<p>Para hacer esta conversión usamos la función <code>melt</code> (literalmente “fundir”). Esta función toma los siguientes argumentos:</p>
+<ul>
+<li><code>data</code> es el objeto (tipo data.table) que vamos a convertir de ancha a larga,</li>
+<li><code>id.vars</code> son los vectores en la tabla que vamos a dejar <strong>sin cambiar</strong> de dimensión. En nuestro ejemplo sería la variable <code>item</code>, aunque pueden ser más en tablas más complejas. Puede usarse un vector de nombres (tipo character) o de números enteros que correspondan al número de columna.</li>
+<li><code>measure.vars</code> son las variables en las que se encuentran las mediciones. Puede ser un vector de nombres o de números enteros indicando los índices de las columnas. En nuestro caso son las columnas 2 a 5.</li>
+<li><code>variable.name</code> es el nombre que va a adoptar la columna en la que queden nuestras variables, es decir, en la que queden “oeste”, “norte”, “sur” y “este” de nuestra tabla de ejemplo.</li>
+<li><code>value.name</code> es el nombre que va a adoptar la columna en la que queden los valores, “value” por defecto.</li>
+<li><code>variable.factor</code> es una bandera lógica para indicar si queremos que la columna de variable quede convertida a factor (opción por defecto), o quede simplemente como caracter.</li>
+</ul>
+<p>Veamos como opera:</p>
+<pre class="r"><code>setDT(dfAncha)
+
+dfLarga_2 &lt;- melt(dfAncha, id.vars = &quot;item&quot;, 
+                  variable.name = &quot;region&quot;, 
+                  value.name = &quot;valor&quot;, 
+                  variable.factor = FALSE)
+
+kable(dfLarga_2)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">item</th>
+<th align="left">region</th>
+<th align="right">valor</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">azúcar</td>
+<td align="left">este</td>
+<td align="right">13</td>
+</tr>
+<tr class="even">
+<td align="left">café</td>
+<td align="left">este</td>
+<td align="right">4</td>
+</tr>
+<tr class="odd">
+<td align="left">harina</td>
+<td align="left">este</td>
+<td align="right">4</td>
+</tr>
+<tr class="even">
+<td align="left">sal</td>
+<td align="left">este</td>
+<td align="right">9</td>
+</tr>
+<tr class="odd">
+<td align="left">azúcar</td>
+<td align="left">norte</td>
+<td align="right">11</td>
+</tr>
+<tr class="even">
+<td align="left">café</td>
+<td align="left">norte</td>
+<td align="right">6</td>
+</tr>
+<tr class="odd">
+<td align="left">harina</td>
+<td align="left">norte</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="left">sal</td>
+<td align="left">norte</td>
+<td align="right">13</td>
+</tr>
+<tr class="odd">
+<td align="left">azúcar</td>
+<td align="left">oeste</td>
+<td align="right">9</td>
+</tr>
+<tr class="even">
+<td align="left">café</td>
+<td align="left">oeste</td>
+<td align="right">6</td>
+</tr>
+<tr class="odd">
+<td align="left">harina</td>
+<td align="left">oeste</td>
+<td align="right">3</td>
+</tr>
+<tr class="even">
+<td align="left">sal</td>
+<td align="left">oeste</td>
+<td align="right">11</td>
+</tr>
+<tr class="odd">
+<td align="left">azúcar</td>
+<td align="left">sur</td>
+<td align="right">14</td>
+</tr>
+<tr class="even">
+<td align="left">café</td>
+<td align="left">sur</td>
+<td align="right">5</td>
+</tr>
+<tr class="odd">
+<td align="left">harina</td>
+<td align="left">sur</td>
+<td align="right">3</td>
+</tr>
+<tr class="even">
+<td align="left">sal</td>
+<td align="left">sur</td>
+<td align="right">10</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="largo-a-ancho" class="section level3">
+<h3>Largo a Ancho</h3>
+<p>Para esta tarea usamos la función <code>dcast</code>. Esta función tiene una notación un poco diferente, pues usa “fórmulas” para determinar qué variables poner en donde.</p>
+<ul>
+<li><code>data</code> es la tabla que vamos a convertir,</li>
+<li><code>formula</code> es la forma en que vamos a distribuir las columnas, mirá los ejemplos siguientes. En general la fórmula es de forma <code>x ~ y</code>. <strong>La nemotécnica que yo uso es</strong>: <code>filas ~ columnas</code>.</li>
+<li><code>fun.aggregate</code> es la función que debe usar para <em>consolidar</em> los datos, en el caso que resulten más de un registro en la intersección fila - columna.</li>
+<li><code>value.var</code> es el nombre (o índice) de la columna en la que están los valores. Generalmente <code>dcast</code> adivina bien este parámetro, pero es bueno usarlo para evitar inconvenientes y el molesto mensaje de advertencia.</li>
+</ul>
+<pre class="r"><code>dfAncha_2 &lt;- dcast(dfLarga, 
+                   item ~ region, 
+                   value.var = &quot;valor&quot;)
+
+kable(dfAncha_2)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">item</th>
+<th align="right">este</th>
+<th align="right">norte</th>
+<th align="right">oeste</th>
+<th align="right">sur</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">azúcar</td>
+<td align="right">13</td>
+<td align="right">11</td>
+<td align="right">9</td>
+<td align="right">14</td>
+</tr>
+<tr class="even">
+<td align="left">café</td>
+<td align="right">4</td>
+<td align="right">6</td>
+<td align="right">6</td>
+<td align="right">5</td>
+</tr>
+<tr class="odd">
+<td align="left">harina</td>
+<td align="right">4</td>
+<td align="right">2</td>
+<td align="right">3</td>
+<td align="right">3</td>
+</tr>
+<tr class="even">
+<td align="left">sal</td>
+<td align="right">9</td>
+<td align="right">13</td>
+<td align="right">11</td>
+<td align="right">10</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code># Invirtiendo la fórmula
+dfAncha_3 &lt;- dcast(dfLarga, 
+                   region ~ item, 
+                   value.var = &quot;valor&quot;)
+
+kable(dfAncha_3)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">region</th>
+<th align="right">azúcar</th>
+<th align="right">café</th>
+<th align="right">harina</th>
+<th align="right">sal</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">este</td>
+<td align="right">13</td>
+<td align="right">4</td>
+<td align="right">4</td>
+<td align="right">9</td>
+</tr>
+<tr class="even">
+<td align="left">norte</td>
+<td align="right">11</td>
+<td align="right">6</td>
+<td align="right">2</td>
+<td align="right">13</td>
+</tr>
+<tr class="odd">
+<td align="left">oeste</td>
+<td align="right">9</td>
+<td align="right">6</td>
+<td align="right">3</td>
+<td align="right">11</td>
+</tr>
+<tr class="even">
+<td align="left">sur</td>
+<td align="right">14</td>
+<td align="right">5</td>
+<td align="right">3</td>
+<td align="right">10</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="línea-de-cierre" class="section level2">
+<h2>Línea de Cierre</h2>
+<p>Siempre que tengás datos para analizar en computador, tratá de tenerlos en formato largo, es mucho más fácil de trabajar con ellos. Para convertir una tabla ancha en una larga, usá <code>data.table::melt</code>.</p>
+<p>Simepre que tengás que generar datos para interpretación por humanos, considerá ponerlos en formato ancho, son más fáciles de entender. Podés lograrlo con <code>data.table::dcast</code>.</p>
+</div>
