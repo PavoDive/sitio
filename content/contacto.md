@@ -5,4 +5,4 @@ menu: main
 title: Contacto
 ---
 
-Estamos ubicados en Cali, Colombia, pero tenemos disponibilidad de atender su empresa en el lugar que usted esté. Contáctenos por vía telefónica o email y agendemos una cita.
+Estamos ubicados en Cali, Colombia, pero tenemos disponibilidad de atender su empresa en el lugar que usted esté. Escríbanos un email y agendemos una cita.
