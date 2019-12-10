@@ -1,0 +1,58 @@
+---
+title: 'Enseñanzas de la Pandemia: ¿Realmente Aprendimos Algo?'
+author: Giovanni Pavolini
+date: '2020-04-10'
+slug: enseñanzas-de-la-pandemia-realmente-aprendimos-algo
+categories:
+  - Spanish
+tags:
+  - gerencia
+  - Productividad
+featured: yes
+draft: no
+weight: 100
+---
+
+He visto en redes sociales un gran número de publicaciones que son del tipo "si durante la cuanrentena no XYZ, entonces no aprendiste nada". Y de manera similar, un número de publicaciones, algunas de personas muy reconocidas, sobre todas las enseñanzas que nos deja esta pandemia.
+
+La verdad, no estoy tan optimista respecto de la capacidad de la gente para aprender y verdaderamente cambiar sus hábitos. Creo que una vez esto termine, y lo hará más temprano que tarde, la gente volverá de nuevo a los hábitos que tenía.
+
+La razón para esta visión medio fatalista está basada en dos premisas: por un lado la enorme inercia cultural que traemos. No es fácil cambiar de hábitos, especialmente si los que hemos traido nos han funcionado (fijación funcional, un tipo de sesgo cognitivo). Por otro lado está el hecho de que esta pandemia no ha traido cambios "de base". Ni siquiera las guerras lo hicieron y por lo tanto introdujeron cambios pasajeros (comparar con la revolución industrial, por ejemplo, o la tecnológica, en la que hubo cambios de base que alteraron el comportamiento colectivo).
+
+De manera análoga a los analistas que piensan que la recesión económica inducida por la pandemia será muy profunda pero poco duradera, creo que los cambios que esta situación traiga sobre las personas y empresas seerán muy marcados, pero poco duraderos. Antes de lo que imaginamos estaremos de vuelta al tradicional _"business as usual"_.
+
+Pero que no vaya a haber un cambio significativo no implica que ese cambio **no sea profundamente necesario o conveniente**. Creo que la supervivencia de empresas en las próximas décadas dependerá de como cambien sus estrategias y prácticas a partir de todo lo que está pasando.
+
+## La Tormenta en el Horizonte
+
+La pandemia del coronavirus es sólo una de las muchas catástrofes naturales y sociales sobre las que nos han alertado. De la misma manera en que una pandemia como la actual fue alertada desde al menos 2017 en publicaciones científicas, hay cientos de escenarios bastante apocalípticos asociados principalmente al clima y a eventos sociales de diversa índole.
+
+Desde aquellos que observamos suceder "en cámara lenta" como la agudización de eventos climáticos como huracanes y temporadas de lluvía o sequía y eventos sociales que parecen explotar de la nada (ver por ejemplo la "primavera árabe" y otros similares), hasta eventos catastróficos como tsunamis generados por meteoritos o mega-terremotos, la variedad \emdash y gravedad \emdash de los diferentes escenarios es amplia y bien distribuida por todo el planeta.
+
+Empresas y personas debemos prepararnos para que la frecuencia e intensidad de algunos de estos eventos se incremente, dados nuestros efectos sobre el clima y el crecimiento poblacional.
+
+## Aprendizaje para las Empresas
+
+Hay varios puntos que creo que las empresas pueden integrar para mejorar su desempeño y resiliencia frente a situaciones de este tipo. Las presento sin nungún orden específico, esperando que sean motivo de reflexión, **y principalmente de acción**. Como dice la frasecita, _gente con inciativa hay mucha, lo que necesitamos es gente con "terminativa"_.
+
+1. Implementar un Plan de Continuidad de Negocio (BCP, _Business Continuity Plan_) y un Plan de Recuperación de Negocio. Estas son herramientas clave para planear (léase pre-definir) las acciones que deben llevarse a cabo para evitar o limitar la interrupción de las actividades clave del negocio, o para recuperarlas si es que han sido gravemente afectadas por un evento intempestivo. Algunas notas sobre esto:
+    + Planes de Continuidad y Recuperación de Negocio en internet hay muchos. Pero descargarlos y tratar de "adaptarlos" a su negocio es exactamente comparable a descargar una fórmula médica de internet y tratar de adaptarla a sus síntomas. Tal vez funcione, tal vez no y tal vez le haga mucho daño. Asesórese bien. Eso puede ser costoso, pero más costoso es tener un plan que no funciona (si está interesado, pregúnteme: _yo no soy experto en esto_, pero trabajo con alguien que sí lo es. Lo ha estudiado formalmente y lo ha implementado con éxito en varias empresas. Y cuando digo con éxito es que se ha probado en circunstancias de interrupción de negocio).
+    + El éxito de un Plan de Continuidad / Recuperación de Negocio está en que tan bien interiorizado esté por las personas en la operación. Si usted tiene un plan perfecto, pero la gente no lo conoce, entonces seguramente no va a funcionar.
+    + Considere muchos escenarios. Estoy casi seguro que en el DOFA 2019 de ninguna empresa estaba una pandemia. Esto no quiere decir que usted deba montar una respuesta para las miles de posibles combinaciones de escenarios, pero si para "familias" de escenarios: Escenarios con daño a las instalaciones; Escenarios con depresión súbita de demanda (como el actual); Escenarios con limitación de capacidad de personal (los colaboradores no pueden ir a trabajar); Escenarios con restricciones logísticas (imposibilidad de transportar, limitaciones en la disponibilidad de materias primas, etc.).
+    + Considere diferentes duraciones para estos escenarios.
+2. Revisar la segmentación de su mercado. En eventos catastróficos (guerras, pandemias, eventos climáticos o naturales, eventos sociales) siempre habrá cadenas de suministro que se mantendrán activas. Impactadas, seguramente, pero activas. Alimentos, medicamentos e insumos médicos, fuerzas armadas, servicios públicos entre otros serán cadenas de suministro que seguirán funcionando. Esfuercése por localizar una parte representativa de su mercado en estas industrias. Esto mitigará el impacto financiero sobre su organización. Tal vez esto sea más difícil para algunas industrias o empresas que para otras, pero con un poco de creatividad se pueden encontrar alternativas. Observe las reacciones que han tomado empresas alrededor del mundo para mantenerse activas e inspírese a partir de esas historias. Algunos ejemplos:
+    + Fabricantes de ropa "fashion": ajustaron sus procesos para producir implementos médicos desechables.
+    + Empresas de extrusión de plásticos: ajustaron el proceso para producir bolsas para cadáveres (el ejemplo es medio macabro, pero ya ven la idea).
+    + Hoteles: Mutaron su operación para ser "casas de aislamiento" o "centros hospitalarios de menor complejidad".
+    + Empresas de parasoles arquitectónicos: ajustaron procesos para suminsitro de hospitales de campaña.
+3. Desarrollar su cadena de abastecimiento. De nada sirve que usted genere oportunidades de mercado como las mencionadas en el punto anterior, si usted _no tiene desarrollados proveedores de materias primas_ para lograr ejecutarlo. Las alternativas deben ser plenamente funcionales.
+4. Reducir sus costos. Si durante esta pandemia fue posible para su empresa funcionar con teletrabajo, y créame: lo fue para muchas, entonces es posible mantener al menos una parte de ese esquema en tiempos normales. Esto no sólo ayudaría al planeta (lo cual debería tener un efecto sobre la frecuencia e intensidad de estos eventos), sino que también ayudaría a reducir algunos gastos y a elevar la moral de su equipo.
+5. Tener caja disponible. Tributariamente puede ser considerado una especie de herejía, pero la verdadera riqueza se mide en el número de meses que una empresa o persona puede aguantar sin ingresos. Trabaje para mantener dinero en caja. Algunas ideas:
+    + Establezca un proceso de S&OP (Planeación de Ventas y Operaciones) que ponga en línea la operación con la demanda (si está interesado, pregúnteme: trabajo con un experto en este tema).
+    + Mantenga al mínimo sus inventarios. Para esto debe trabajar en la [flexibilización de fábricas y cadenas de abastecimiento](/servicios/logistica/).
+    + [Reduzca sus costos y gastos](/servicios/productividad/), trabaje en optimizar la eficiencia.
+5. Anticipar eventos. La crisis actual fue una especie de _Crónica de una muerte anunciada_. En China vieron los efectos de la epidemia en la primera mitad de enero, y tomaron medidas muy drásticas en los primeros días de febrero. Cuando un país decide dar un duro golpe a la enconomía encerrando 50 millones de personas en una de las regiones más productivas, es porque están viendo algo potencialmente grave. Pero en la mayoría de otros países no supimos leer esas señales. No lo hicimos como sociedades, y **tampoco como empresas**. Un mes pudo haber sido suficiente para desarrollar los puntos 1 al 3 desde cero, o para perfeccionar el plan, si este ya existía. Infórmese y aprenda a leer las señales que se generan en otros puntos del mundo.
+6. Generar alternativas de abastecimiento. Uno de los efectos de esta pandemia fue el cierre de fronteras. Aunque ese cierre no incluye las mercancías, éstas si han visto una limitación en su posibilidad de tránsito internacional. Pero una cadena de abastecimiento no sólo se afecta por cierres de fronteras. Puede ser afectada por eventos naturales o sociales _que ocurren en otros continentes_. Desarrolle alternativas de abastecimiento, y ponga un _premium_ en las cadenas locales. Frente a escenarios como el actual, es más fácil abastecerse desde una ciudad cercana que desde un país lejano. Recuerde que _desarrollar un proveedor_ no es una actividad que se ejecuta en una semana, y ¡menos en una crisis!.
+
+## Línea de Cierre
+Preveer lo que sucedió era muy difícil para la vasta mayoría de empresarios. Pero prepararse para mitigar sus efectos requería de algunos pasos relativamente fáciles de implementar. La pandemia del coronavirus es terrible, pero no será el último evento catastrófico que enfrentemos. De hecho, este tipo de eventos se harán más frecuentes e intensos; si usted y su empresa ejecutan **hoy** las acciones correctas, la próxima crisis lo encontrará mejor preparado.
