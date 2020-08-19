@@ -17,6 +17,12 @@
     font-family: $font-family-base;
     color: $steel;
   }
+  strong {
+    font-weight: bold;
+  }
+  em {
+    font-style: italic;
+  }
   h1 {
     font-family: $font-family-heading;
     line-height: 1.2;
