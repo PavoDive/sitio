@@ -14,7 +14,7 @@ En los últimos años he dirigido equipos de consultores en proyectos de diferen
 
 Mis áreas de experticia son los temas de gerencia de planta, mejoramiento de productividad y ciencia de datos, pero a lo largo de mi carrera profesional he construido también una significativa experiencia en las áreas de proyectos y mantenimiento.
 
-Como consultor empresarial he trabajado por más de 10 años generando mejoramientos de productividad de empresas manufactureras y logísticas de diversos sectores y segmentos industriales, logrando incrementos de productividad y reducciones de costo significativas para todos mis clientes.
+Como consultor empresarial he trabajado desde 2008 generando mejoramientos de productividad de empresas manufactureras y logísticas de diversos sectores y segmentos industriales, logrando incrementos de productividad y reducciones de costo significativas para todos mis clientes.
 
 Trabajo análisis de datos en R, y oriento la productividad de las empresas bajo diferentes metodologías.
 

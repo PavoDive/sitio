@@ -6,7 +6,7 @@
     <description>Recent content in Home on Giovanni Pavolini - Consultor</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 10 Apr 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 18 Sep 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
@@ -32,6 +32,16 @@ Mis áreas de experticia son los temas de gerencia de planta, mejoramiento de pr
     </item>
     
     <item>
+      <title>Giovanni Pavolini</title>
+      <link>/equipo/giovanni-pavolini/</link>
+      <pubDate>Mon, 19 Nov 2018 10:47:58 +1000</pubDate>
+      
+      <guid>/equipo/giovanni-pavolini/</guid>
+      <description>En los últimos años he dirigido equipos de consultores en proyectos de diferentes objetivos y alcances para empresas en varias industrias. Soy ingeniero mecánico de la Universidad del Valle de Cali, Colombia y realicé estudios de doctorado en la Universidad Nacional de Yokohama, en Japón.
+Mis áreas de experticia son los temas de gerencia de planta, mejoramiento de productividad y ciencia de datos, pero a lo largo de mi carrera profesional he construido también una significativa experiencia en las áreas de proyectos y mantenimiento.</description>
+    </item>
+    
+    <item>
       <title>Ciencia de Datos</title>
       <link>/servicios/ciencia-datos/</link>
       <pubDate>Wed, 28 Nov 2018 19:16:00 -0500</pubDate>
@@ -40,6 +50,16 @@ Mis áreas de experticia son los temas de gerencia de planta, mejoramiento de pr
       <description>Pareciera que sólo utilizamos los datos para justificarnos, a pesar de que nuestras empresas llevan una gran cantidad de registros y nuestros sistemas tienen infinidad de datos.
 La tecnología nos ha permitido recolectar más y más datos con mayor frecuencia de lo que nunca antes en la historia. Pero más datos no necesariamente significan más o mejores insights o mejores resultados. ¿Cómo hacer ese puente?
 Con las herramientas correctas Para procesar grandes cantidades de datos de manera eficiente y reproducible es necesario utilizar herramientas especializadas para procesamiento de información.</description>
+    </item>
+    
+    <item>
+      <title>PCA - Análisis de Componentes Principales con data.table</title>
+      <link>/post/pca-analisis-de-componentes-principales-con-data-table/</link>
+      <pubDate>Fri, 18 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/post/pca-analisis-de-componentes-principales-con-data-table/</guid>
+      <description>  PCA o Análisis de Componentes Principales es una herramienta poderosa para tareas de clasificación, que ayuda a reducir la cantidad de dimensiones de una tabla de datos. En este blog vamos a trabajar con unset de datos que
+library(data.table) library(ggplot2) cancer &amp;lt;- fread(&amp;quot;https://archive.ics.uci.edu/ml/machine-learning-databases/breast-cancer-wisconsin/wdbc.data&amp;quot;) </description>
     </item>
     
     <item>
@@ -279,9 +299,9 @@ Entrenamientos en herramientas poderosas de mejoramiento Nuestros entrenamientos
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/nosotros/</guid>
-      <description>Tenemos más de diez años mejorando los negocios de nuestros clientes como consultores, y más de 30 de experiencia real de trabajo en empresas de diferentes sectores.
+      <description>Tenemos desde 2008 mejorando los negocios de nuestros clientes como consultores, y desde 1991 acreditando experiencia real de trabajo en empresas de diferentes sectores.
 Formación y Experiencia Relevante Nuestra propuesta de valor está soportada en varios años de experiencia real, pero no sólo en eso. Tenemos la formación técnica necesaria para soportar, conceptualmente, nuestras iniciativas:
- Pregrado en ingeniería mecánica de la Universidad del Valle, Cali - Colombia.</description>
+ Pregrado en ingeniería mecánica de la Universidad del Valle, Cali - Colombia. Doctorado en optimización de procesos en la Yokohama National University, Yokohama - Japón.</description>
     </item>
     
   </channel>

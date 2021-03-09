@@ -3,7 +3,7 @@ menu: main
 title: Nosotros
 ---
 
-Tenemos más de diez años mejorando los negocios de nuestros clientes como consultores, y más de 30 de experiencia real de trabajo en empresas de diferentes sectores.
+Tenemos desde 2008 mejorando los negocios de nuestros clientes como consultores, y desde 1991 acreditando experiencia real de trabajo en empresas de diferentes sectores.
 
 ## Formación y Experiencia Relevante
 

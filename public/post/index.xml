@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on Giovanni Pavolini - Consultor</title>
+    <link>/post/</link>
+    <description>Recent content in Posts on Giovanni Pavolini - Consultor</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 18 Sep 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>PCA - Análisis de Componentes Principales con data.table</title>
+      <link>/post/pca-analisis-de-componentes-principales-con-data-table/</link>
+      <pubDate>Fri, 18 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/post/pca-analisis-de-componentes-principales-con-data-table/</guid>
+      <description>  PCA o Análisis de Componentes Principales es una herramienta poderosa para tareas de clasificación, que ayuda a reducir la cantidad de dimensiones de una tabla de datos. En este blog vamos a trabajar con unset de datos que
+library(data.table) library(ggplot2) cancer &amp;lt;- fread(&amp;quot;https://archive.ics.uci.edu/ml/machine-learning-databases/breast-cancer-wisconsin/wdbc.data&amp;quot;) </description>
+    </item>
+    
+  </channel>
+</rss>

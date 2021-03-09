@@ -13,8 +13,18 @@
   </url>
   
   <url>
+    <loc>/equipo/giovanni-pavolini/</loc>
+    <lastmod>2018-11-19T10:47:58+10:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/servicios/ciencia-datos/</loc>
     <lastmod>2018-11-28T19:16:00-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/pca-analisis-de-componentes-principales-con-data-table/</loc>
+    <lastmod>2020-09-18T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -23,31 +33,49 @@
   </url>
   
   <url>
-    <loc>/blog/</loc>
-    <lastmod>2020-04-10T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/categories/</loc>
-    <lastmod>2020-04-10T00:00:00+00:00</lastmod>
+    <lastmod>2020-09-18T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/</loc>
-    <lastmod>2020-04-10T00:00:00+00:00</lastmod>
+    <lastmod>2020-09-18T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/</loc>
+    <lastmod>2020-09-18T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/r/</loc>
+    <lastmod>2020-09-18T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>/categories/spanish/</loc>
-    <lastmod>2020-04-10T00:00:00+00:00</lastmod>
+    <lastmod>2020-09-18T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/</loc>
-    <lastmod>2020-04-10T00:00:00+00:00</lastmod>
+    <lastmod>2020-09-18T00:00:00+00:00</lastmod>
     <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/data.table/</loc>
+    <lastmod>2020-09-18T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/blog/</loc>
+    <lastmod>2020-04-10T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -90,12 +118,6 @@
   </url>
   
   <url>
-    <loc>/tags/data.table/</loc>
-    <lastmod>2019-11-21T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>/blog/data-table-joins-is-x-y-or-y-x/</loc>
     <lastmod>2019-11-21T00:00:00+00:00</lastmod>
   </url>
@@ -103,12 +125,6 @@
   <url>
     <loc>/blog/usando-dcast-y-setnames-dentro-de-una-data-table/</loc>
     <lastmod>2019-11-05T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/r/</loc>
-    <lastmod>2019-11-04T00:00:00+00:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>

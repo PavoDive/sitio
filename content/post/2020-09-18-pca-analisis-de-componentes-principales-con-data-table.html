@@ -1,0 +1,22 @@
+---
+title: PCA - Análisis de Componentes Principales con data.table
+author: Giovanni Pavolini
+date: '2020-09-18'
+slug: pca-analisis-de-componentes-principales-con-data-table
+categories:
+  - Spanish
+tags:
+  - data.table
+  - R
+featured: yes
+draft: no
+weight: 100
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<p>PCA o Análisis de Componentes Principales es una herramienta poderosa para tareas de clasificación, que ayuda a reducir la cantidad de dimensiones de una tabla de datos. En este blog vamos a trabajar con unset de datos que</p>
+<pre class="r"><code>library(data.table)
+library(ggplot2)</code></pre>
+<pre class="r"><code>cancer &lt;- fread(&quot;https://archive.ics.uci.edu/ml/machine-learning-databases/breast-cancer-wisconsin/wdbc.data&quot;)</code></pre>
