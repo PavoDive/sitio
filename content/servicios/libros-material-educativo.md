@@ -10,4 +10,6 @@ Muchos de nuestros clientes prefieren explorar por su cuenta la metodología ant
 
 En cualquiera de los casos, es muy útil contar con libros y material educativo que sea fiel a la metodología utilizada.
 
+[Adquiere nuestros libros en Amazon.com](https://www.amazon.com/stores/author/B0983XBV8Z/allbooks)
+
 <iframe type="text/html" width="336" height="550" frameborder="0" allowfullscreen style="max-width:100%" src="https://read.amazon.com/kp/card?asin=B097Z91FYG&preview=inline&linkCode=kpe&ref_=cm_sw_r_kb_dp_FQQ45DCRZNCR50TMHXBA" ></iframe>
