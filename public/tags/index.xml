@@ -6,10 +6,28 @@
     <description>Recent content in Tags on Giovanni Pavolini - Consultor</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 18 Sep 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 16 Aug 2023 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://gpavolini.netlify.com/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>gerencia</title>
+      <link>https://gpavolini.netlify.com/tags/gerencia/</link>
+      <pubDate>Wed, 16 Aug 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://gpavolini.netlify.com/tags/gerencia/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>productividad</title>
+      <link>https://gpavolini.netlify.com/tags/productividad/</link>
+      <pubDate>Wed, 16 Aug 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://gpavolini.netlify.com/tags/productividad/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>R</title>
@@ -26,24 +44,6 @@
       <pubDate>Fri, 18 Sep 2020 00:00:00 +0000</pubDate>
       
       <guid>https://gpavolini.netlify.com/tags/data.table/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>gerencia</title>
-      <link>https://gpavolini.netlify.com/tags/gerencia/</link>
-      <pubDate>Fri, 10 Apr 2020 00:00:00 +0000</pubDate>
-      
-      <guid>https://gpavolini.netlify.com/tags/gerencia/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>productividad</title>
-      <link>https://gpavolini.netlify.com/tags/productividad/</link>
-      <pubDate>Fri, 10 Apr 2020 00:00:00 +0000</pubDate>
-      
-      <guid>https://gpavolini.netlify.com/tags/productividad/</guid>
       <description></description>
     </item>
     

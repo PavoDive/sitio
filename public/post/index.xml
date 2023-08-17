@@ -6,7 +6,7 @@
     <description>Recent content in Posts on Giovanni Pavolini - Consultor</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 18 Sep 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 16 Aug 2023 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://gpavolini.netlify.com/post/index.xml" rel="self" type="application/rss+xml" />
     
@@ -19,6 +19,16 @@
       <guid>https://gpavolini.netlify.com/post/pca-analisis-de-componentes-principales-con-data-table/</guid>
       <description>  PCA o Análisis de Componentes Principales es una herramienta poderosa para tareas de clasificación, que ayuda a reducir la cantidad de dimensiones de una tabla de datos. En este blog vamos a trabajar con unset de datos que
 library(data.table) library(ggplot2) cancer &amp;lt;- fread(&amp;quot;https://archive.ics.uci.edu/ml/machine-learning-databases/breast-cancer-wisconsin/wdbc.data&amp;quot;) </description>
+    </item>
+    
+    <item>
+      <title>Manos y no Cerebros</title>
+      <link>https://gpavolini.netlify.com/post/2023-08-16-manos-y-no-cerebros/</link>
+      <pubDate>Wed, 16 Aug 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://gpavolini.netlify.com/post/2023-08-16-manos-y-no-cerebros/</guid>
+      <description>He visto una y otra vez como las empresas suelen contratar manos en lugar de cerebros. Es bien posible que en los inicios de la era industrial esto hubiera sido lo normal, e incluso lo correcto. Sin embargo, en plena era de la información es absolutamente insostenible, amén de improductivo.
+¿Contratar un profesional para indicarle al detalle qué hacer? ¿Decirle a un empleado que no piense y mejor se dedique a seguir las instrucciones de un sistema?</description>
     </item>
     
   </channel>

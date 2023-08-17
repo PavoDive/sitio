@@ -6,7 +6,7 @@
     <description>Recent content in Home on Giovanni Pavolini - Consultor</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 29 Jul 2021 18:51:00 -0500</lastBuildDate>
+    <lastBuildDate>Wed, 16 Aug 2023 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://gpavolini.netlify.com/index.xml" rel="self" type="application/rss+xml" />
     
@@ -19,6 +19,7 @@
       <guid>https://gpavolini.netlify.com/servicios/libros-material-educativo/</guid>
       <description>Muchos de nuestros clientes prefieren explorar por su cuenta la metodología antes de iniciar un proceso formal de consultoría; muchos desean conservar un material de referencia para poder mantener el nivel de mejoramiento logrado durante la consultoría.
 En cualquiera de los casos, es muy útil contar con libros y material educativo que sea fiel a la metodología utilizada.
+Adquiere nuestros libros en Amazon.com
  </description>
     </item>
     
@@ -71,6 +72,16 @@ library(data.table) library(ggplot2) cancer &amp;lt;- fread(&amp;quot;https://ar
       <guid>https://gpavolini.netlify.com/blog/ense%C3%B1anzas-de-la-pandemia-realmente-aprendimos-algo/</guid>
       <description>He visto en redes sociales un gran número de publicaciones que son del tipo “si durante la cuanrentena no XYZ, entonces no aprendiste nada”. Y de manera similar, un número de publicaciones, algunas de personas muy reconocidas, sobre todas las enseñanzas que nos deja esta pandemia.
 La verdad, no estoy tan optimista respecto de la capacidad de la gente para aprender y verdaderamente cambiar sus hábitos. Creo que una vez esto termine, y lo hará más temprano que tarde, la gente volverá de nuevo a los hábitos que tenía.</description>
+    </item>
+    
+    <item>
+      <title>Manos y no Cerebros</title>
+      <link>https://gpavolini.netlify.com/post/2023-08-16-manos-y-no-cerebros/</link>
+      <pubDate>Wed, 16 Aug 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://gpavolini.netlify.com/post/2023-08-16-manos-y-no-cerebros/</guid>
+      <description>He visto una y otra vez como las empresas suelen contratar manos en lugar de cerebros. Es bien posible que en los inicios de la era industrial esto hubiera sido lo normal, e incluso lo correcto. Sin embargo, en plena era de la información es absolutamente insostenible, amén de improductivo.
+¿Contratar un profesional para indicarle al detalle qué hacer? ¿Decirle a un empleado que no piense y mejor se dedique a seguir las instrucciones de un sistema?</description>
     </item>
     
     <item>
