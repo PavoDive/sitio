@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Equipo on Giovanni Pavolini - Consultor</title>
-    <link>/equipo/</link>
+    <link>https://gpavolini.netlify.com/equipo/</link>
     <description>Recent content in Equipo on Giovanni Pavolini - Consultor</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Mon, 19 Nov 2018 10:47:58 +1000</lastBuildDate>
     
-	<atom:link href="/equipo/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://gpavolini.netlify.com/equipo/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Giovanni Pavolini</title>
-      <link>/equipo/giovanni-pavolini/</link>
+      <link>https://gpavolini.netlify.com/equipo/giovanni-pavolini/</link>
       <pubDate>Mon, 19 Nov 2018 10:47:58 +1000</pubDate>
       
-      <guid>/equipo/giovanni-pavolini/</guid>
+      <guid>https://gpavolini.netlify.com/equipo/giovanni-pavolini/</guid>
       <description>En los últimos años he dirigido equipos de consultores en proyectos de diferentes objetivos y alcances para empresas en varias industrias. Soy ingeniero mecánico de la Universidad del Valle de Cali, Colombia y realicé estudios de doctorado en la Universidad Nacional de Yokohama, en Japón.
 Mis áreas de experticia son los temas de gerencia de planta, mejoramiento de productividad y ciencia de datos, pero a lo largo de mi carrera profesional he construido también una significativa experiencia en las áreas de proyectos y mantenimiento.</description>
     </item>

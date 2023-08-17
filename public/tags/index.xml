@@ -2,93 +2,93 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Giovanni Pavolini - Consultor</title>
-    <link>/tags/</link>
+    <link>https://gpavolini.netlify.com/tags/</link>
     <description>Recent content in Tags on Giovanni Pavolini - Consultor</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Fri, 18 Sep 2020 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://gpavolini.netlify.com/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>R</title>
-      <link>/tags/r/</link>
+      <link>https://gpavolini.netlify.com/tags/r/</link>
       <pubDate>Fri, 18 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>/tags/r/</guid>
+      <guid>https://gpavolini.netlify.com/tags/r/</guid>
       <description></description>
     </item>
     
     <item>
       <title>data.table</title>
-      <link>/tags/data.table/</link>
+      <link>https://gpavolini.netlify.com/tags/data.table/</link>
       <pubDate>Fri, 18 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>/tags/data.table/</guid>
+      <guid>https://gpavolini.netlify.com/tags/data.table/</guid>
       <description></description>
     </item>
     
     <item>
       <title>gerencia</title>
-      <link>/tags/gerencia/</link>
+      <link>https://gpavolini.netlify.com/tags/gerencia/</link>
       <pubDate>Fri, 10 Apr 2020 00:00:00 +0000</pubDate>
       
-      <guid>/tags/gerencia/</guid>
+      <guid>https://gpavolini.netlify.com/tags/gerencia/</guid>
       <description></description>
     </item>
     
     <item>
       <title>productividad</title>
-      <link>/tags/productividad/</link>
+      <link>https://gpavolini.netlify.com/tags/productividad/</link>
       <pubDate>Fri, 10 Apr 2020 00:00:00 +0000</pubDate>
       
-      <guid>/tags/productividad/</guid>
+      <guid>https://gpavolini.netlify.com/tags/productividad/</guid>
       <description></description>
     </item>
     
     <item>
       <title>linux</title>
-      <link>/tags/linux/</link>
+      <link>https://gpavolini.netlify.com/tags/linux/</link>
       <pubDate>Tue, 03 Dec 2019 00:00:00 +0000</pubDate>
       
-      <guid>/tags/linux/</guid>
+      <guid>https://gpavolini.netlify.com/tags/linux/</guid>
       <description></description>
     </item>
     
     <item>
       <title>ggplot</title>
-      <link>/tags/ggplot/</link>
+      <link>https://gpavolini.netlify.com/tags/ggplot/</link>
       <pubDate>Mon, 22 Jul 2019 00:00:00 +0000</pubDate>
       
-      <guid>/tags/ggplot/</guid>
+      <guid>https://gpavolini.netlify.com/tags/ggplot/</guid>
       <description></description>
     </item>
     
     <item>
       <title>R Markdown</title>
-      <link>/tags/r-markdown/</link>
+      <link>https://gpavolini.netlify.com/tags/r-markdown/</link>
       <pubDate>Tue, 09 Jul 2019 00:00:00 +0000</pubDate>
       
-      <guid>/tags/r-markdown/</guid>
+      <guid>https://gpavolini.netlify.com/tags/r-markdown/</guid>
       <description></description>
     </item>
     
     <item>
       <title>blogdown</title>
-      <link>/tags/blogdown/</link>
+      <link>https://gpavolini.netlify.com/tags/blogdown/</link>
       <pubDate>Tue, 09 Jul 2019 00:00:00 +0000</pubDate>
       
-      <guid>/tags/blogdown/</guid>
+      <guid>https://gpavolini.netlify.com/tags/blogdown/</guid>
       <description></description>
     </item>
     
     <item>
       <title>github</title>
-      <link>/tags/github/</link>
+      <link>https://gpavolini.netlify.com/tags/github/</link>
       <pubDate>Tue, 09 Jul 2019 00:00:00 +0000</pubDate>
       
-      <guid>/tags/github/</guid>
+      <guid>https://gpavolini.netlify.com/tags/github/</guid>
       <description></description>
     </item>
     

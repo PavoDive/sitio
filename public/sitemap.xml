@@ -3,240 +3,245 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>/servicios/productividad/</loc>
+    <loc>https://gpavolini.netlify.com/servicios/libros-material-educativo/</loc>
+    <lastmod>2021-07-29T18:51:00-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://gpavolini.netlify.com/servicios/productividad/</loc>
     <lastmod>2019-11-28T18:47:00-05:00</lastmod>
   </url>
   
   <url>
-    <loc>/equipo/giovanni-pavolini/</loc>
+    <loc>https://gpavolini.netlify.com/equipo/giovanni-pavolini/</loc>
     <lastmod>2018-11-19T10:47:58+10:00</lastmod>
   </url>
   
   <url>
-    <loc>/servicios/ciencia-datos/</loc>
+    <loc>https://gpavolini.netlify.com/servicios/ciencia-datos/</loc>
     <lastmod>2018-11-28T19:16:00-05:00</lastmod>
   </url>
   
   <url>
-    <loc>/post/pca-analisis-de-componentes-principales-con-data-table/</loc>
+    <loc>https://gpavolini.netlify.com/post/pca-analisis-de-componentes-principales-con-data-table/</loc>
     <lastmod>2020-09-18T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/blog/ense%C3%B1anzas-de-la-pandemia-realmente-aprendimos-algo/</loc>
+    <loc>https://gpavolini.netlify.com/blog/ense%C3%B1anzas-de-la-pandemia-realmente-aprendimos-algo/</loc>
     <lastmod>2020-04-10T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/categories/</loc>
+    <loc>https://gpavolini.netlify.com/</loc>
+    <lastmod>2021-07-29T18:51:00-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://gpavolini.netlify.com/servicios/</loc>
+    <lastmod>2021-07-29T18:51:00-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://gpavolini.netlify.com/categories/</loc>
     <lastmod>2020-09-18T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/</loc>
-    <lastmod>2020-09-18T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/post/</loc>
+    <loc>https://gpavolini.netlify.com/post/</loc>
     <lastmod>2020-09-18T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/r/</loc>
+    <loc>https://gpavolini.netlify.com/tags/r/</loc>
     <lastmod>2020-09-18T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/categories/spanish/</loc>
+    <loc>https://gpavolini.netlify.com/categories/spanish/</loc>
     <lastmod>2020-09-18T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/</loc>
+    <loc>https://gpavolini.netlify.com/tags/</loc>
     <lastmod>2020-09-18T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/data.table/</loc>
+    <loc>https://gpavolini.netlify.com/tags/data.table/</loc>
     <lastmod>2020-09-18T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/blog/</loc>
+    <loc>https://gpavolini.netlify.com/blog/</loc>
     <lastmod>2020-04-10T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/tags/gerencia/</loc>
+    <loc>https://gpavolini.netlify.com/tags/gerencia/</loc>
     <lastmod>2020-04-10T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/productividad/</loc>
+    <loc>https://gpavolini.netlify.com/tags/productividad/</loc>
     <lastmod>2020-04-10T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/blog/convertir-xls-to-xlsx/</loc>
+    <loc>https://gpavolini.netlify.com/blog/convertir-xls-to-xlsx/</loc>
     <lastmod>2019-12-03T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/tags/linux/</loc>
+    <loc>https://gpavolini.netlify.com/tags/linux/</loc>
     <lastmod>2019-12-03T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/servicios/</loc>
-    <lastmod>2019-11-28T18:47:00-05:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/categories/english/</loc>
+    <loc>https://gpavolini.netlify.com/categories/english/</loc>
     <lastmod>2019-11-21T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/blog/uniones-en-data-table-es-x-y-o-y-x/</loc>
+    <loc>https://gpavolini.netlify.com/blog/uniones-en-data-table-es-x-y-o-y-x/</loc>
     <lastmod>2019-11-21T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/blog/data-table-joins-is-x-y-or-y-x/</loc>
+    <loc>https://gpavolini.netlify.com/blog/data-table-joins-is-x-y-or-y-x/</loc>
     <lastmod>2019-11-21T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/blog/usando-dcast-y-setnames-dentro-de-una-data-table/</loc>
+    <loc>https://gpavolini.netlify.com/blog/usando-dcast-y-setnames-dentro-de-una-data-table/</loc>
     <lastmod>2019-11-05T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/blog/using-dcast-and-setnames-inside-a-data-table/</loc>
+    <loc>https://gpavolini.netlify.com/blog/using-dcast-and-setnames-inside-a-data-table/</loc>
     <lastmod>2019-11-04T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/blog/calculando-comisi%C3%B3n-de-ventas-non-equi-joins/</loc>
+    <loc>https://gpavolini.netlify.com/blog/calculando-comisi%C3%B3n-de-ventas-non-equi-joins/</loc>
     <lastmod>2019-09-10T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/blog/calculando-inventarios-seguridad-punto-reorden-r/</loc>
+    <loc>https://gpavolini.netlify.com/blog/calculando-inventarios-seguridad-punto-reorden-r/</loc>
     <lastmod>2019-08-09T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/blog/estimando-errores-de-pron%C3%B3stico/</loc>
+    <loc>https://gpavolini.netlify.com/blog/estimando-errores-de-pron%C3%B3stico/</loc>
     <lastmod>2019-07-24T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/blog/long-to-wide-and-wide-to-long-format-conversion/</loc>
+    <loc>https://gpavolini.netlify.com/blog/long-to-wide-and-wide-to-long-format-conversion/</loc>
     <lastmod>2019-07-22T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/tags/ggplot/</loc>
+    <loc>https://gpavolini.netlify.com/tags/ggplot/</loc>
     <lastmod>2019-07-22T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/blog/conversi%C3%B3n-de-formato-ancho-largo-y-viceversa/</loc>
+    <loc>https://gpavolini.netlify.com/blog/conversi%C3%B3n-de-formato-ancho-largo-y-viceversa/</loc>
     <lastmod>2019-07-21T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/blog/data-table-s-cube-function/</loc>
+    <loc>https://gpavolini.netlify.com/blog/data-table-s-cube-function/</loc>
     <lastmod>2019-07-19T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/blog/rstudio-s-rename-in-scope/</loc>
+    <loc>https://gpavolini.netlify.com/blog/rstudio-s-rename-in-scope/</loc>
     <lastmod>2019-07-12T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/blog/alguien-tiene-que-hacerse-cargo-de-lo-t%C3%A9cnico/</loc>
+    <loc>https://gpavolini.netlify.com/blog/alguien-tiene-que-hacerse-cargo-de-lo-t%C3%A9cnico/</loc>
     <lastmod>2019-07-10T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/blog/wiki-data-table-en-espa%C3%B1ol/</loc>
+    <loc>https://gpavolini.netlify.com/blog/wiki-data-table-en-espa%C3%B1ol/</loc>
     <lastmod>2019-07-10T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/blog/analizando-datos-con-data-table/</loc>
+    <loc>https://gpavolini.netlify.com/blog/analizando-datos-con-data-table/</loc>
     <lastmod>2019-07-09T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/blog/configurando-un-sitio-con-blogdown-rstudio-github-y-netlify/</loc>
+    <loc>https://gpavolini.netlify.com/blog/configurando-un-sitio-con-blogdown-rstudio-github-y-netlify/</loc>
     <lastmod>2019-07-09T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/tags/r-markdown/</loc>
-    <lastmod>2019-07-09T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/tags/blogdown/</loc>
+    <loc>https://gpavolini.netlify.com/tags/r-markdown/</loc>
     <lastmod>2019-07-09T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/github/</loc>
+    <loc>https://gpavolini.netlify.com/tags/blogdown/</loc>
     <lastmod>2019-07-09T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/servicios/logistica/</loc>
+    <loc>https://gpavolini.netlify.com/tags/github/</loc>
+    <lastmod>2019-07-09T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://gpavolini.netlify.com/servicios/logistica/</loc>
     <lastmod>2018-11-28T20:49:00-05:00</lastmod>
   </url>
   
   <url>
-    <loc>/servicios/desarrollo-de-competencias/</loc>
+    <loc>https://gpavolini.netlify.com/servicios/desarrollo-de-competencias/</loc>
     <lastmod>2018-11-28T15:14:54-05:00</lastmod>
   </url>
   
   <url>
-    <loc>/servicios/entrenamientos/</loc>
+    <loc>https://gpavolini.netlify.com/servicios/entrenamientos/</loc>
     <lastmod>2018-11-28T15:15:26+10:00</lastmod>
   </url>
   
   <url>
-    <loc>/equipo/</loc>
+    <loc>https://gpavolini.netlify.com/equipo/</loc>
     <lastmod>2018-11-19T10:47:58+10:00</lastmod>
   </url>
   
   <url>
-    <loc>/contacto/</loc>
+    <loc>https://gpavolini.netlify.com/contacto/</loc>
     <lastmod>2018-02-22T17:01:34+07:00</lastmod>
   </url>
   
   <url>
-    <loc>/nosotros/</loc>
+    <loc>https://gpavolini.netlify.com/nosotros/</loc>
   </url>
   
   <url>
-    <loc>/404/</loc>
+    <loc>https://gpavolini.netlify.com/404/</loc>
   </url>
   
 </urlset>

@@ -2,30 +2,30 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Categories on Giovanni Pavolini - Consultor</title>
-    <link>/categories/</link>
+    <link>https://gpavolini.netlify.com/categories/</link>
     <description>Recent content in Categories on Giovanni Pavolini - Consultor</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Fri, 18 Sep 2020 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/categories/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://gpavolini.netlify.com/categories/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Spanish</title>
-      <link>/categories/spanish/</link>
+      <link>https://gpavolini.netlify.com/categories/spanish/</link>
       <pubDate>Fri, 18 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>/categories/spanish/</guid>
+      <guid>https://gpavolini.netlify.com/categories/spanish/</guid>
       <description></description>
     </item>
     
     <item>
       <title>English</title>
-      <link>/categories/english/</link>
+      <link>https://gpavolini.netlify.com/categories/english/</link>
       <pubDate>Thu, 21 Nov 2019 00:00:00 +0000</pubDate>
       
-      <guid>/categories/english/</guid>
+      <guid>https://gpavolini.netlify.com/categories/english/</guid>
       <description></description>
     </item>
     

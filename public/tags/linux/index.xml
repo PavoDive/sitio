@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>linux on Giovanni Pavolini - Consultor</title>
-    <link>/tags/linux/</link>
+    <link>https://gpavolini.netlify.com/tags/linux/</link>
     <description>Recent content in linux on Giovanni Pavolini - Consultor</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 03 Dec 2019 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/tags/linux/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://gpavolini.netlify.com/tags/linux/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Convertir xls a xlsx</title>
-      <link>/blog/convertir-xls-to-xlsx/</link>
+      <link>https://gpavolini.netlify.com/blog/convertir-xls-to-xlsx/</link>
       <pubDate>Tue, 03 Dec 2019 00:00:00 +0000</pubDate>
       
-      <guid>/blog/convertir-xls-to-xlsx/</guid>
+      <guid>https://gpavolini.netlify.com/blog/convertir-xls-to-xlsx/</guid>
       <description>En este post compartiré un código que olvido (y uso) con frecuencia para convertir masivamente archivos de xls a xlsx. Esto lo utilizo cuando por ejemplo recibo de mis clientes archivos cuyos formatos son mezclados, xls y xlsx.
 Convertir simultáneamente varios archivos de xls a xlsx Hoy recibí cerca de 60 archivos de excel que debo analizar. Varios de ellos (unos 15) están en formato xls y los demás están como xlsx.</description>
     </item>

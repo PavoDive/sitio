@@ -2,41 +2,52 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Home on Giovanni Pavolini - Consultor</title>
-    <link>/</link>
+    <link>https://gpavolini.netlify.com/</link>
     <description>Recent content in Home on Giovanni Pavolini - Consultor</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 18 Sep 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 29 Jul 2021 18:51:00 -0500</lastBuildDate>
     
-	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://gpavolini.netlify.com/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
+      <title>Libros y Material Educativo</title>
+      <link>https://gpavolini.netlify.com/servicios/libros-material-educativo/</link>
+      <pubDate>Thu, 29 Jul 2021 18:51:00 -0500</pubDate>
+      
+      <guid>https://gpavolini.netlify.com/servicios/libros-material-educativo/</guid>
+      <description>Muchos de nuestros clientes prefieren explorar por su cuenta la metodología antes de iniciar un proceso formal de consultoría; muchos desean conservar un material de referencia para poder mantener el nivel de mejoramiento logrado durante la consultoría.
+En cualquiera de los casos, es muy útil contar con libros y material educativo que sea fiel a la metodología utilizada.
+ </description>
+    </item>
+    
+    <item>
       <title>Productividad</title>
-      <link>/servicios/productividad/</link>
+      <link>https://gpavolini.netlify.com/servicios/productividad/</link>
       <pubDate>Thu, 28 Nov 2019 18:47:00 -0500</pubDate>
       
-      <guid>/servicios/productividad/</guid>
+      <guid>https://gpavolini.netlify.com/servicios/productividad/</guid>
       <description>El mejoramiento de productividad de planta es una iniciativa central en el mejoramiento de cualquier empresa. El mejoramiento en la planta debe tener dos focos principales: el mejoramiento de los márgenes brutos y el mejoramiento de la entrega a los clientes.
 Mejoramiento de los márgenes brutos La competencia siempre presente obliga a la mayoría de empresas a revisar sus precios para mantener los volúmenes de venta y operación que garanticen la viabilidad financiera.</description>
     </item>
     
     <item>
       <title>Giovanni Pavolini</title>
-      <link>/equipo/giovanni-pavolini/</link>
+      <link>https://gpavolini.netlify.com/equipo/giovanni-pavolini/</link>
       <pubDate>Mon, 19 Nov 2018 10:47:58 +1000</pubDate>
       
-      <guid>/equipo/giovanni-pavolini/</guid>
+      <guid>https://gpavolini.netlify.com/equipo/giovanni-pavolini/</guid>
       <description>En los últimos años he dirigido equipos de consultores en proyectos de diferentes objetivos y alcances para empresas en varias industrias. Soy ingeniero mecánico de la Universidad del Valle de Cali, Colombia y realicé estudios de doctorado en la Universidad Nacional de Yokohama, en Japón.
 Mis áreas de experticia son los temas de gerencia de planta, mejoramiento de productividad y ciencia de datos, pero a lo largo de mi carrera profesional he construido también una significativa experiencia en las áreas de proyectos y mantenimiento.</description>
     </item>
     
     <item>
       <title>Ciencia de Datos</title>
-      <link>/servicios/ciencia-datos/</link>
+      <link>https://gpavolini.netlify.com/servicios/ciencia-datos/</link>
       <pubDate>Wed, 28 Nov 2018 19:16:00 -0500</pubDate>
       
-      <guid>/servicios/ciencia-datos/</guid>
+      <guid>https://gpavolini.netlify.com/servicios/ciencia-datos/</guid>
       <description>Pareciera que sólo utilizamos los datos para justificarnos, a pesar de que nuestras empresas llevan una gran cantidad de registros y nuestros sistemas tienen infinidad de datos.
 La tecnología nos ha permitido recolectar más y más datos con mayor frecuencia de lo que nunca antes en la historia. Pero más datos no necesariamente significan más o mejores insights o mejores resultados. ¿Cómo hacer ese puente?
 Con las herramientas correctas Para procesar grandes cantidades de datos de manera eficiente y reproducible es necesario utilizar herramientas especializadas para procesamiento de información.</description>
@@ -44,40 +55,40 @@ Con las herramientas correctas Para procesar grandes cantidades de datos de mane
     
     <item>
       <title>PCA - Análisis de Componentes Principales con data.table</title>
-      <link>/post/pca-analisis-de-componentes-principales-con-data-table/</link>
+      <link>https://gpavolini.netlify.com/post/pca-analisis-de-componentes-principales-con-data-table/</link>
       <pubDate>Fri, 18 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>/post/pca-analisis-de-componentes-principales-con-data-table/</guid>
+      <guid>https://gpavolini.netlify.com/post/pca-analisis-de-componentes-principales-con-data-table/</guid>
       <description>  PCA o Análisis de Componentes Principales es una herramienta poderosa para tareas de clasificación, que ayuda a reducir la cantidad de dimensiones de una tabla de datos. En este blog vamos a trabajar con unset de datos que
 library(data.table) library(ggplot2) cancer &amp;lt;- fread(&amp;quot;https://archive.ics.uci.edu/ml/machine-learning-databases/breast-cancer-wisconsin/wdbc.data&amp;quot;) </description>
     </item>
     
     <item>
       <title>Enseñanzas de la Pandemia: ¿Realmente Aprendimos Algo?</title>
-      <link>/blog/ense%C3%B1anzas-de-la-pandemia-realmente-aprendimos-algo/</link>
+      <link>https://gpavolini.netlify.com/blog/ense%C3%B1anzas-de-la-pandemia-realmente-aprendimos-algo/</link>
       <pubDate>Fri, 10 Apr 2020 00:00:00 +0000</pubDate>
       
-      <guid>/blog/ense%C3%B1anzas-de-la-pandemia-realmente-aprendimos-algo/</guid>
+      <guid>https://gpavolini.netlify.com/blog/ense%C3%B1anzas-de-la-pandemia-realmente-aprendimos-algo/</guid>
       <description>He visto en redes sociales un gran número de publicaciones que son del tipo “si durante la cuanrentena no XYZ, entonces no aprendiste nada”. Y de manera similar, un número de publicaciones, algunas de personas muy reconocidas, sobre todas las enseñanzas que nos deja esta pandemia.
 La verdad, no estoy tan optimista respecto de la capacidad de la gente para aprender y verdaderamente cambiar sus hábitos. Creo que una vez esto termine, y lo hará más temprano que tarde, la gente volverá de nuevo a los hábitos que tenía.</description>
     </item>
     
     <item>
       <title>Convertir xls a xlsx</title>
-      <link>/blog/convertir-xls-to-xlsx/</link>
+      <link>https://gpavolini.netlify.com/blog/convertir-xls-to-xlsx/</link>
       <pubDate>Tue, 03 Dec 2019 00:00:00 +0000</pubDate>
       
-      <guid>/blog/convertir-xls-to-xlsx/</guid>
+      <guid>https://gpavolini.netlify.com/blog/convertir-xls-to-xlsx/</guid>
       <description>En este post compartiré un código que olvido (y uso) con frecuencia para convertir masivamente archivos de xls a xlsx. Esto lo utilizo cuando por ejemplo recibo de mis clientes archivos cuyos formatos son mezclados, xls y xlsx.
 Convertir simultáneamente varios archivos de xls a xlsx Hoy recibí cerca de 60 archivos de excel que debo analizar. Varios de ellos (unos 15) están en formato xls y los demás están como xlsx.</description>
     </item>
     
     <item>
       <title>Uniones en data.table: ¿es X[Y] o Y[X]?</title>
-      <link>/blog/uniones-en-data-table-es-x-y-o-y-x/</link>
+      <link>https://gpavolini.netlify.com/blog/uniones-en-data-table-es-x-y-o-y-x/</link>
       <pubDate>Thu, 21 Nov 2019 00:00:00 +0000</pubDate>
       
-      <guid>/blog/uniones-en-data-table-es-x-y-o-y-x/</guid>
+      <guid>https://gpavolini.netlify.com/blog/uniones-en-data-table-es-x-y-o-y-x/</guid>
       <description>Este será un post muy corto, un recordatorio frecuentemente revisitado de la sintaxis de las uniones en data.table.
 Cuando hago uniones en data.table con frecuencia tengo que abrir una nueva sesión de R y correr el siguiente código:
 a &amp;lt;- data.table(x = 1:3, y = 2:4) b &amp;lt;- data.table(x = 2:5, z = 3:6) a[b, on = .(x)] ## x y z ## 1: 2 3 3 ## 2: 3 4 4 ## 3: 4 NA 5 ## 4: 5 NA 6 con el fin de recordar si la tabla de búsqueda era a y no b.</description>
@@ -85,10 +96,10 @@ a &amp;lt;- data.table(x = 1:3, y = 2:4) b &amp;lt;- data.table(x = 2:5, z = 3:6
     
     <item>
       <title>data.table joins: is X[Y] or Y[X]?</title>
-      <link>/blog/data-table-joins-is-x-y-or-y-x/</link>
+      <link>https://gpavolini.netlify.com/blog/data-table-joins-is-x-y-or-y-x/</link>
       <pubDate>Thu, 21 Nov 2019 00:00:00 +0000</pubDate>
       
-      <guid>/blog/data-table-joins-is-x-y-or-y-x/</guid>
+      <guid>https://gpavolini.netlify.com/blog/data-table-joins-is-x-y-or-y-x/</guid>
       <description>This is intended to be a very short post, an often-revisited reminder of the syntax for joins in data.table.
 When doing joins in data.table I often have to open a new R session and run the next code:
 a &amp;lt;- data.table(x = 1:3, y = 2:4) b &amp;lt;- data.table(x = 2:5, z = 3:6) a[b, on = .(x)] ## x y z ## 1: 2 3 3 ## 2: 3 4 4 ## 3: 4 NA 5 ## 4: 5 NA 6 in order to realize that the look-up table was a and not b.</description>
@@ -96,10 +107,10 @@ a &amp;lt;- data.table(x = 1:3, y = 2:4) b &amp;lt;- data.table(x = 2:5, z = 3:6
     
     <item>
       <title>Usando dcast y setnames **dentro** de una data.table</title>
-      <link>/blog/usando-dcast-y-setnames-dentro-de-una-data-table/</link>
+      <link>https://gpavolini.netlify.com/blog/usando-dcast-y-setnames-dentro-de-una-data-table/</link>
       <pubDate>Tue, 05 Nov 2019 00:00:00 +0000</pubDate>
       
-      <guid>/blog/usando-dcast-y-setnames-dentro-de-una-data-table/</guid>
+      <guid>https://gpavolini.netlify.com/blog/usando-dcast-y-setnames-dentro-de-una-data-table/</guid>
       <description>Yo he dicho antes que una de las mejores cosas de data.table es que J acepta expresiones y no sólo funciones. Eso ofrece mucha flexibilidad respecto de lo que uno puede lograr con su código.
 Tmabién, el hecho de que .SD sea una data.table permite usar dentro de una data.table algunas funciones que aparentemente deberían usarse fuera de ella.
 Vea por ejemplo dcast, la función usada para convertir una data.</description>
@@ -107,10 +118,10 @@ Vea por ejemplo dcast, la función usada para convertir una data.</description>
     
     <item>
       <title>Using dcast and setnames **inside** a data.table</title>
-      <link>/blog/using-dcast-and-setnames-inside-a-data-table/</link>
+      <link>https://gpavolini.netlify.com/blog/using-dcast-and-setnames-inside-a-data-table/</link>
       <pubDate>Mon, 04 Nov 2019 00:00:00 +0000</pubDate>
       
-      <guid>/blog/using-dcast-and-setnames-inside-a-data-table/</guid>
+      <guid>https://gpavolini.netlify.com/blog/using-dcast-and-setnames-inside-a-data-table/</guid>
       <description>I’ve said before that one of the best things of data.table is that J takes in expressions and not only functions. That offers so much flexibility in what you can achieve with your code.
 Also, the fact that .SD is a data.table allows you to use inside a data.table some functions that apparently should be used outside of it.
 Take for example dcast, the function used to reshape a data.</description>
@@ -118,20 +129,20 @@ Take for example dcast, the function used to reshape a data.</description>
     
     <item>
       <title>Calculando comisión de ventas - non-equi Joins</title>
-      <link>/blog/calculando-comisi%C3%B3n-de-ventas-non-equi-joins/</link>
+      <link>https://gpavolini.netlify.com/blog/calculando-comisi%C3%B3n-de-ventas-non-equi-joins/</link>
       <pubDate>Tue, 10 Sep 2019 00:00:00 +0000</pubDate>
       
-      <guid>/blog/calculando-comisi%C3%B3n-de-ventas-non-equi-joins/</guid>
+      <guid>https://gpavolini.netlify.com/blog/calculando-comisi%C3%B3n-de-ventas-non-equi-joins/</guid>
       <description>Con frecuencia encontramos el problema de enlazar dos tablas no por valores iguales (lo que haríamos en Excel con un “BUSCARV” o “VLOOKUP”), sino identificando cuando un valor en una de las tablas cae en un rango de valores en la otra tabla. A este tipo de enlace entre tablas (join) se le llama non-equi joins, o uniones de desigualdad.
 Analizando un caso práctico El problema Imaginemos que hay un grupo de vendedores que en el mes pasado tuvieron una venta, en millones, representada en la siguiente tabla:</description>
     </item>
     
     <item>
       <title>Calculando Inventarios de Seguridad y puntos de reorden con R y data.table</title>
-      <link>/blog/calculando-inventarios-seguridad-punto-reorden-r/</link>
+      <link>https://gpavolini.netlify.com/blog/calculando-inventarios-seguridad-punto-reorden-r/</link>
       <pubDate>Fri, 09 Aug 2019 00:00:00 +0000</pubDate>
       
-      <guid>/blog/calculando-inventarios-seguridad-punto-reorden-r/</guid>
+      <guid>https://gpavolini.netlify.com/blog/calculando-inventarios-seguridad-punto-reorden-r/</guid>
       <description>En este post quiero mostrarles una forma de analizar sus datos de ventas y de estimar los inventarios de seguridad adecuados para esas referencias, así como el punto de reorden óptimo para ellas.
  El nivel de inventario refleja la capacidad o incapacidad de los administradores de controlar el sistema.
 Edgar Jaramillo.
@@ -140,10 +151,10 @@ Edgar Jaramillo.
     
     <item>
       <title>Estimando Errores de Pronóstico</title>
-      <link>/blog/estimando-errores-de-pron%C3%B3stico/</link>
+      <link>https://gpavolini.netlify.com/blog/estimando-errores-de-pron%C3%B3stico/</link>
       <pubDate>Wed, 24 Jul 2019 00:00:00 +0000</pubDate>
       
-      <guid>/blog/estimando-errores-de-pron%C3%B3stico/</guid>
+      <guid>https://gpavolini.netlify.com/blog/estimando-errores-de-pron%C3%B3stico/</guid>
       <description>Hay diferentes formas de medir el error en el pronóstico, y diferentes formas de agregarlo.
 Cálculo del error de pronóstico Consideremos un producto con un valor pronosticado de venta de 60 unidades para marzo, y una venta real de 51 unidades durante el mismo mes.
 MAD: Mean Absolute Deviation La desviación absoluta promedio se calcula así:
@@ -153,10 +164,10 @@ donde \(n\) es el número de observaciones sobre las cuales queremos calcular nu
     
     <item>
       <title>Long to Wide and Wide to Long Format Conversion</title>
-      <link>/blog/long-to-wide-and-wide-to-long-format-conversion/</link>
+      <link>https://gpavolini.netlify.com/blog/long-to-wide-and-wide-to-long-format-conversion/</link>
       <pubDate>Mon, 22 Jul 2019 00:00:00 +0000</pubDate>
       
-      <guid>/blog/long-to-wide-and-wide-to-long-format-conversion/</guid>
+      <guid>https://gpavolini.netlify.com/blog/long-to-wide-and-wide-to-long-format-conversion/</guid>
       <description>¡Mirá una versión en español aquí!
 One of the difficulties I find most often in Stack Overflow questions about R, an in general about data science, is the erroneous usage of wide formats for data analysis.
 In this post we’ll se some functions of the data.table package in R to convert from wide to long format and vice versa.
@@ -165,10 +176,10 @@ Different Ways to Store the Same Data There are two possible ways of storing tab
     
     <item>
       <title>Conversión de formato Ancho a Largo y viceversa</title>
-      <link>/blog/conversi%C3%B3n-de-formato-ancho-largo-y-viceversa/</link>
+      <link>https://gpavolini.netlify.com/blog/conversi%C3%B3n-de-formato-ancho-largo-y-viceversa/</link>
       <pubDate>Sun, 21 Jul 2019 00:00:00 +0000</pubDate>
       
-      <guid>/blog/conversi%C3%B3n-de-formato-ancho-largo-y-viceversa/</guid>
+      <guid>https://gpavolini.netlify.com/blog/conversi%C3%B3n-de-formato-ancho-largo-y-viceversa/</guid>
       <description>See an English version here!
 Uno de las dificultades que con frecuencia encuentro en preguntas en Stack Overflow sobre R, y en general sobre ciencia de datos es la errónea utilización de formatos anchos de datos para análisis de datos.
 En este post veremos algunas funciones del paquete data.table en R para convertir de formato ancho a largo y viceversa.
@@ -177,10 +188,10 @@ Diferentes Formas de Almacenar los Mismos Datos Hay dos posibles formas de almac
     
     <item>
       <title>data.table&#39;s `cube` function</title>
-      <link>/blog/data-table-s-cube-function/</link>
+      <link>https://gpavolini.netlify.com/blog/data-table-s-cube-function/</link>
       <pubDate>Fri, 19 Jul 2019 00:00:00 +0000</pubDate>
       
-      <guid>/blog/data-table-s-cube-function/</guid>
+      <guid>https://gpavolini.netlify.com/blog/data-table-s-cube-function/</guid>
       <description>Recently I learned there’s a cube function in data.table, thanks to Dan Wilson:
 Just came across data.table::cube() which aggregates and includes a total. I don’t know how I’ve never known about this function before #datatable #rstats
 e.g. cube(mtcars,
@@ -190,30 +201,30 @@ by = c(“cyl”)) — Dan Wilson (@danwwilson) July 18, 2019   Perhaps I should
     
     <item>
       <title>RStudio&#39;s rename in scope</title>
-      <link>/blog/rstudio-s-rename-in-scope/</link>
+      <link>https://gpavolini.netlify.com/blog/rstudio-s-rename-in-scope/</link>
       <pubDate>Fri, 12 Jul 2019 00:00:00 +0000</pubDate>
       
-      <guid>/blog/rstudio-s-rename-in-scope/</guid>
+      <guid>https://gpavolini.netlify.com/blog/rstudio-s-rename-in-scope/</guid>
       <description>Una de las funcionalidades que encuentro más prácticas de RStudio es la función Code &amp;gt;&amp;gt; Rename in Scope, salvajemente traducida (¡!) como &amp;ldquo;renombrar en alcance&amp;rdquo;.
 Esta función sirve para aquellos casos es los que se desea cambiar el nombre de una variable que está presente en varias líneas del código por un nombre nuevo (quizá como resultado de reusar el código). Aunque esto se puede lograr con un simple buscar / reemplazar (en algunos casos con regex), existe el riesgo de cambiar el nombre de otras variables (por ejemplo al actualizar dt a ventasMes terminar cambiando dt1 a ventasMes1).</description>
     </item>
     
     <item>
       <title>Alguien tiene que hacerse cargo de lo técnico</title>
-      <link>/blog/alguien-tiene-que-hacerse-cargo-de-lo-t%C3%A9cnico/</link>
+      <link>https://gpavolini.netlify.com/blog/alguien-tiene-que-hacerse-cargo-de-lo-t%C3%A9cnico/</link>
       <pubDate>Wed, 10 Jul 2019 00:00:00 +0000</pubDate>
       
-      <guid>/blog/alguien-tiene-que-hacerse-cargo-de-lo-t%C3%A9cnico/</guid>
+      <guid>https://gpavolini.netlify.com/blog/alguien-tiene-que-hacerse-cargo-de-lo-t%C3%A9cnico/</guid>
       <description>Faltan sólo 10 días para celebrar 50 años de uno de los acontecimientos tecnológicos más relevantes en la historia de la humanidad: el ser humano pisó la luna. Pueden considerarse un sinnúmero de hitos tecnológicos en la historia de la humanidad, pero haber pisado la luna merecerá siempre un lugar destacado.
 La década que vió por televisión ese &amp;ldquo;pequeño paso para el hombre&amp;rdquo; fue también una década que vio grandes desarrollos técnicos y tecnológicos en el mundo, y en particular en nuestros países.</description>
     </item>
     
     <item>
       <title>Wiki data.table en español</title>
-      <link>/blog/wiki-data-table-en-espa%C3%B1ol/</link>
+      <link>https://gpavolini.netlify.com/blog/wiki-data-table-en-espa%C3%B1ol/</link>
       <pubDate>Wed, 10 Jul 2019 00:00:00 +0000</pubDate>
       
-      <guid>/blog/wiki-data-table-en-espa%C3%B1ol/</guid>
+      <guid>https://gpavolini.netlify.com/blog/wiki-data-table-en-espa%C3%B1ol/</guid>
       <description>Versión libre al español, adaptada de https://github.com/Rdatatable/data.table/wiki en 2019-07-10
       
 
@@ -222,10 +233,10 @@ La década que vió por televisión ese &amp;ldquo;pequeño paso para el hombre&
     
     <item>
       <title>Analizando datos con data.table</title>
-      <link>/blog/analizando-datos-con-data-table/</link>
+      <link>https://gpavolini.netlify.com/blog/analizando-datos-con-data-table/</link>
       <pubDate>Tue, 09 Jul 2019 00:00:00 +0000</pubDate>
       
-      <guid>/blog/analizando-datos-con-data-table/</guid>
+      <guid>https://gpavolini.netlify.com/blog/analizando-datos-con-data-table/</guid>
       <description>R es un software muy útil para analizar datos. En R hay varios paquetes o librerías que se utilizan para sacarle aún más provecho a las muchas funcionalidades de R.
 Uno de esos paquetes es data.table. Éste brinda unas extensiones a la sintaxis natural de R y mucha velocidad y flexibilidad, especialmente en procesos en los que se requiere agrupar por variables y hacer análisis segmentados.
 Instalando data.table Para instalar data.</description>
@@ -233,10 +244,10 @@ Instalando data.table Para instalar data.</description>
     
     <item>
       <title>Configurando un Sitio con blogdown, RStudio, github y netlify</title>
-      <link>/blog/configurando-un-sitio-con-blogdown-rstudio-github-y-netlify/</link>
+      <link>https://gpavolini.netlify.com/blog/configurando-un-sitio-con-blogdown-rstudio-github-y-netlify/</link>
       <pubDate>Tue, 09 Jul 2019 00:00:00 +0000</pubDate>
       
-      <guid>/blog/configurando-un-sitio-con-blogdown-rstudio-github-y-netlify/</guid>
+      <guid>https://gpavolini.netlify.com/blog/configurando-un-sitio-con-blogdown-rstudio-github-y-netlify/</guid>
       <description>Tener un sitio web es una experiencia interesante. El paquete blogdown lo hace mucho más fácil, especialmente para quienes comparten en sus blogs información sobre análisis de datos, sobre programación o sobre cualquier ciencia que requiera uso de código o de fórmulas matemáticas.
 Esta entrada (¡nuesta primera entrada!) te muestra como configurar tu sitio web utilizando las herramientas de R, RStudio, blogdown, github y netlify.
 Descargá lo que necesitás Para poder hacer esto vas a necesitar:</description>
@@ -244,10 +255,10 @@ Descargá lo que necesitás Para poder hacer esto vas a necesitar:</description>
     
     <item>
       <title>Logística</title>
-      <link>/servicios/logistica/</link>
+      <link>https://gpavolini.netlify.com/servicios/logistica/</link>
       <pubDate>Wed, 28 Nov 2018 20:49:00 -0500</pubDate>
       
-      <guid>/servicios/logistica/</guid>
+      <guid>https://gpavolini.netlify.com/servicios/logistica/</guid>
       <description>Mejorar la logística significa mejorar la relación con el cliente y mejorar la utilidad y la liquidez de la compañía.
 Optimización logística Apoyados en un adecuado procesamiento de datos podemos liderar proyectos que van desde la optimización de rutas hasta el análisis de localización óptima de centros de distribución. Estos mejoramientos resultan en un menor tiempo de llegada al mercado y en un menor gasto logístico.
 Gestión de Inventarios En muchas empresas los inventarios atrapan una cantidad significativa de recursos, por lo que tener una gestión adecuada de los mismos resulta crucial para un óptimo resultado financiero.</description>
@@ -255,20 +266,20 @@ Gestión de Inventarios En muchas empresas los inventarios atrapan una cantidad 
     
     <item>
       <title>Desarrollo de Competencias</title>
-      <link>/servicios/desarrollo-de-competencias/</link>
+      <link>https://gpavolini.netlify.com/servicios/desarrollo-de-competencias/</link>
       <pubDate>Wed, 28 Nov 2018 15:14:54 -0500</pubDate>
       
-      <guid>/servicios/desarrollo-de-competencias/</guid>
+      <guid>https://gpavolini.netlify.com/servicios/desarrollo-de-competencias/</guid>
       <description>Hacemos coaching uno a uno con supervisores o jefes de planta o mantenimiento, logrando mejorar su desempeño y resultados. Mantener el estilo, aprovechar fortalezas y compensar debilidades es nuestro foco durante este tipo de acompañamientos.
 El coaching uno a uno Los buenos hábitos de trabajo se pueden aprender. Trabajamos uno a uno con sus empleados clave desarrollando las habilidades, comptencias y técnicas de gerencia necesarias para alcanzar el mejor resultado.</description>
     </item>
     
     <item>
       <title>Entrenamientos</title>
-      <link>/servicios/entrenamientos/</link>
+      <link>https://gpavolini.netlify.com/servicios/entrenamientos/</link>
       <pubDate>Wed, 28 Nov 2018 15:15:26 +1000</pubDate>
       
-      <guid>/servicios/entrenamientos/</guid>
+      <guid>https://gpavolini.netlify.com/servicios/entrenamientos/</guid>
       <description>Entrenamos su equipo de trabajo, maximizando su potencial.
 La transferencia de conocimiento es para nosotros un comportamiento clave, y entendemos el gran valor que tiene para el mejoramiento de cualquier empresa fortalecer las destrezas y conocimientos de su grupo humano. Nuestros entrenamientos siempre tienen un elevado componente práctico, con varios de ellos limitados en su formato a talleres de implementación.
 Entrenamientos en herramientas poderosas de mejoramiento Nuestros entrenamientos más requeridos son aquellos en nuestras herramientas de gran impacto:</description>
@@ -276,19 +287,19 @@ Entrenamientos en herramientas poderosas de mejoramiento Nuestros entrenamientos
     
     <item>
       <title>Contacto</title>
-      <link>/contacto/</link>
+      <link>https://gpavolini.netlify.com/contacto/</link>
       <pubDate>Thu, 22 Feb 2018 17:01:34 +0700</pubDate>
       
-      <guid>/contacto/</guid>
+      <guid>https://gpavolini.netlify.com/contacto/</guid>
       <description>Estamos ubicados en Cali, Colombia, pero tenemos disponibilidad de atender su empresa en el lugar que usted esté. Escríbanos un email y agendemos una cita.</description>
     </item>
     
     <item>
       <title>Nosotros</title>
-      <link>/nosotros/</link>
+      <link>https://gpavolini.netlify.com/nosotros/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>/nosotros/</guid>
+      <guid>https://gpavolini.netlify.com/nosotros/</guid>
       <description>Tenemos desde 2008 mejorando los negocios de nuestros clientes como consultores, y desde 1991 acreditando experiencia real de trabajo en empresas de diferentes sectores.
 Formación y Experiencia Relevante Nuestra propuesta de valor está soportada en varios años de experiencia real, pero no sólo en eso. Tenemos la formación técnica necesaria para soportar, conceptualmente, nuestras iniciativas:
  Pregrado en ingeniería mecánica de la Universidad del Valle, Cali - Colombia. Doctorado en optimización de procesos en la Yokohama National University, Yokohama - Japón.</description>

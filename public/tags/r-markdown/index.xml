@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>R Markdown on Giovanni Pavolini - Consultor</title>
-    <link>/tags/r-markdown/</link>
+    <link>https://gpavolini.netlify.com/tags/r-markdown/</link>
     <description>Recent content in R Markdown on Giovanni Pavolini - Consultor</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 09 Jul 2019 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/tags/r-markdown/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://gpavolini.netlify.com/tags/r-markdown/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Configurando un Sitio con blogdown, RStudio, github y netlify</title>
-      <link>/blog/configurando-un-sitio-con-blogdown-rstudio-github-y-netlify/</link>
+      <link>https://gpavolini.netlify.com/blog/configurando-un-sitio-con-blogdown-rstudio-github-y-netlify/</link>
       <pubDate>Tue, 09 Jul 2019 00:00:00 +0000</pubDate>
       
-      <guid>/blog/configurando-un-sitio-con-blogdown-rstudio-github-y-netlify/</guid>
+      <guid>https://gpavolini.netlify.com/blog/configurando-un-sitio-con-blogdown-rstudio-github-y-netlify/</guid>
       <description>Tener un sitio web es una experiencia interesante. El paquete blogdown lo hace mucho más fácil, especialmente para quienes comparten en sus blogs información sobre análisis de datos, sobre programación o sobre cualquier ciencia que requiera uso de código o de fórmulas matemáticas.
 Esta entrada (¡nuesta primera entrada!) te muestra como configurar tu sitio web utilizando las herramientas de R, RStudio, blogdown, github y netlify.
 Descargá lo que necesitás Para poder hacer esto vas a necesitar:</description>

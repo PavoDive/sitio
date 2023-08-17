@@ -2,31 +2,31 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>gerencia on Giovanni Pavolini - Consultor</title>
-    <link>/tags/gerencia/</link>
+    <link>https://gpavolini.netlify.com/tags/gerencia/</link>
     <description>Recent content in gerencia on Giovanni Pavolini - Consultor</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Fri, 10 Apr 2020 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/tags/gerencia/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://gpavolini.netlify.com/tags/gerencia/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Enseñanzas de la Pandemia: ¿Realmente Aprendimos Algo?</title>
-      <link>/blog/ense%C3%B1anzas-de-la-pandemia-realmente-aprendimos-algo/</link>
+      <link>https://gpavolini.netlify.com/blog/ense%C3%B1anzas-de-la-pandemia-realmente-aprendimos-algo/</link>
       <pubDate>Fri, 10 Apr 2020 00:00:00 +0000</pubDate>
       
-      <guid>/blog/ense%C3%B1anzas-de-la-pandemia-realmente-aprendimos-algo/</guid>
+      <guid>https://gpavolini.netlify.com/blog/ense%C3%B1anzas-de-la-pandemia-realmente-aprendimos-algo/</guid>
       <description>He visto en redes sociales un gran número de publicaciones que son del tipo “si durante la cuanrentena no XYZ, entonces no aprendiste nada”. Y de manera similar, un número de publicaciones, algunas de personas muy reconocidas, sobre todas las enseñanzas que nos deja esta pandemia.
 La verdad, no estoy tan optimista respecto de la capacidad de la gente para aprender y verdaderamente cambiar sus hábitos. Creo que una vez esto termine, y lo hará más temprano que tarde, la gente volverá de nuevo a los hábitos que tenía.</description>
     </item>
     
     <item>
       <title>Estimando Errores de Pronóstico</title>
-      <link>/blog/estimando-errores-de-pron%C3%B3stico/</link>
+      <link>https://gpavolini.netlify.com/blog/estimando-errores-de-pron%C3%B3stico/</link>
       <pubDate>Wed, 24 Jul 2019 00:00:00 +0000</pubDate>
       
-      <guid>/blog/estimando-errores-de-pron%C3%B3stico/</guid>
+      <guid>https://gpavolini.netlify.com/blog/estimando-errores-de-pron%C3%B3stico/</guid>
       <description>Hay diferentes formas de medir el error en el pronóstico, y diferentes formas de agregarlo.
 Cálculo del error de pronóstico Consideremos un producto con un valor pronosticado de venta de 60 unidades para marzo, y una venta real de 51 unidades durante el mismo mes.
 MAD: Mean Absolute Deviation La desviación absoluta promedio se calcula así:
@@ -36,10 +36,10 @@ donde \(n\) es el número de observaciones sobre las cuales queremos calcular nu
     
     <item>
       <title>Alguien tiene que hacerse cargo de lo técnico</title>
-      <link>/blog/alguien-tiene-que-hacerse-cargo-de-lo-t%C3%A9cnico/</link>
+      <link>https://gpavolini.netlify.com/blog/alguien-tiene-que-hacerse-cargo-de-lo-t%C3%A9cnico/</link>
       <pubDate>Wed, 10 Jul 2019 00:00:00 +0000</pubDate>
       
-      <guid>/blog/alguien-tiene-que-hacerse-cargo-de-lo-t%C3%A9cnico/</guid>
+      <guid>https://gpavolini.netlify.com/blog/alguien-tiene-que-hacerse-cargo-de-lo-t%C3%A9cnico/</guid>
       <description>Faltan sólo 10 días para celebrar 50 años de uno de los acontecimientos tecnológicos más relevantes en la historia de la humanidad: el ser humano pisó la luna. Pueden considerarse un sinnúmero de hitos tecnológicos en la historia de la humanidad, pero haber pisado la luna merecerá siempre un lugar destacado.
 La década que vió por televisión ese &amp;ldquo;pequeño paso para el hombre&amp;rdquo; fue también una década que vio grandes desarrollos técnicos y tecnológicos en el mundo, y en particular en nuestros países.</description>
     </item>
