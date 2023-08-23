@@ -11,6 +11,8 @@ tags:
 draft: no
 ---
 
+![](https://upload.wikimedia.org/wikipedia/commons/0/03/Croydon%2C_Factory_Lane_waste_disposal_site_-_geograph.org.uk_-_2329284.jpg)
+
 Hay muchas fuentes de desperdicio de materiales en una planta. En este post quiero conversar sobre algunos de ellos y ofrecer algunas ideas para trabajar en la reducción de desperdicio de materiales en la fábrica.
 
 ## Desperdicio de Materiales e Insumos
